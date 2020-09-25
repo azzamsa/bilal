@@ -1,7 +1,7 @@
 mod config;
 mod util;
 
-use clap::{App, Arg, AppSettings};
+use clap::{App, AppSettings, Arg};
 use indexmap::IndexMap;
 use salah::prelude::*;
 
@@ -9,7 +9,7 @@ use util::to_local;
 
 fn main() {
     let matches = App::new("Bilal [A CLI salah time]")
-         .setting(AppSettings::ArgRequiredElseHelp)
+        .setting(AppSettings::ArgRequiredElseHelp)
         .version("0.1.0")
         .arg(
             Arg::new("next")
@@ -90,16 +90,11 @@ fn show_current_salah() {
     match prayers_time {
         Ok(prayer) => {
             let (hours, minutes) = prayer.time_remaining();
-            println!(
-                "{} ({}:{})",
-                prayer.current().name(), hours, minutes
-
-            );
+            println!("{} ({}:{})", prayer.current().name(), hours, minutes);
         }
         Err(error) => println!("Could not calculate prayer times: {}", error),
     }
 }
-
 
 fn show_next_salah() {
     let config = config::get_config();
@@ -110,7 +105,9 @@ fn show_next_salah() {
             println!(
                 "{} ({})",
                 prayer.next().name(),
-                to_local(prayer.time(prayer.next())).format("%-l:%M %p").to_string()
+                to_local(prayer.time(prayer.next()))
+                    .format("%-l:%M %p")
+                    .to_string()
             );
         }
         Err(error) => println!("Could not calculate prayer times: {}", error),
