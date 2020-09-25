@@ -1,14 +1,15 @@
 mod config;
 mod util;
 
-use clap::{App, Arg};
+use clap::{App, Arg, AppSettings};
 use indexmap::IndexMap;
 use salah::prelude::*;
 
 use util::to_local;
 
 fn main() {
-    let matches = App::new("Salah Time")
+    let matches = App::new("Bilal [A CLI salah time]")
+         .setting(AppSettings::ArgRequiredElseHelp)
         .version("0.1.0")
         .arg(
             Arg::new("next")
