@@ -88,10 +88,11 @@ fn show_current_salah() {
 
     match prayers_time {
         Ok(prayer) => {
+            let (hours, minutes) = prayer.time_remaining();
             println!(
-                "Current: {} ({})",
-                prayer.current().name(),
-                to_local(prayer.time(prayer.current())).format("%-l:%M %p").to_string()
+                "{} ({}:{})",
+                prayer.current().name(), hours, minutes
+
             );
         }
         Err(error) => println!("Could not calculate prayer times: {}", error),
