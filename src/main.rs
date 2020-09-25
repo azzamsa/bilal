@@ -33,6 +33,21 @@ fn main() {
     if matches.is_present("all") {
         show_all_salah();
     }
+    if matches.is_present("exact") {
+        show_current_salah();
+    }
+}
+
+fn get_prayers_time(latitude: f64, longitude: f64) -> Result<salah::PrayerTimes, String> {
+    let city = Coordinates::new(latitude, longitude);
+    let date = Utc::today();
+    let params = Configuration::with(Method::Singapore, Madhab::Shafi);
+    let prayers = PrayerSchedule::new()
+        .on(date)
+        .for_location(city)
+        .with_configuration(params)
+        .calculate();
+    return prayers;
 }
 
 fn show_all_salah() {
@@ -64,14 +79,18 @@ fn show_all_salah() {
     }
 }
 
-fn get_prayers_time(latitude: f64, longitude: f64) -> Result<salah::PrayerTimes, String> {
-    let city = Coordinates::new(latitude, longitude);
-    let date = Utc::today();
-    let params = Configuration::with(Method::Singapore, Madhab::Shafi);
-    let prayers = PrayerSchedule::new()
-        .on(date)
-        .for_location(city)
-        .with_configuration(params)
-        .calculate();
-    return prayers;
+fn show_current_salah() {
+    let config = config::get_config();
+    let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
+
+    match prayers_time {
+        Ok(prayer) => {
+            println!(
+                "Current: {} ({})",
+                prayer.current().name(),
+                to_local(prayer.time(prayer.current())).format("%-l:%M %p").to_string()
+            );
+        }
+        Err(error) => println!("Could not calculate prayer times: {}", error),
+    }
 }
