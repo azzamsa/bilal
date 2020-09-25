@@ -57,10 +57,7 @@ fn main() {
 fn show_all_prayers() {
     let prayers = prayer::get_all_prayers();
     for prayer in prayers {
-        println!(
-            "{}",
-            format!("{}: {}", prayer.0, prayer.1.format("%-l:%M %p")),
-        )
+        println!("{}", format!("{}: {}", prayer.0, util::fmt_time(prayer.1)),)
     }
 }
 
@@ -79,13 +76,10 @@ fn show_current_prayer(is_json: bool) {
         if minutes < 30 && hours == 0 {
             println!(
                 "{}",
-                format!(r#"{{state:"Critical", "text": "{}"}}"#, _current_prayer_fmt)
+                util::to_json("critical".to_string(), _current_prayer_fmt)
             );
         } else {
-            println!(
-                "{}",
-                format!(r#"{{state:"info", "text": "{}"}}"#, _current_prayer_fmt),
-            );
+            println!("{}", util::to_json("info".to_string(), _current_prayer_fmt));
         }
     } else {
         if minutes < 30 && hours == 0 {
@@ -99,9 +93,9 @@ fn show_current_prayer(is_json: bool) {
 fn show_next_prayer(is_json: bool) {
     let (prayer_name, time) = prayer::get_next_prayer().unwrap();
     if is_json {
-        let prayer_fmt = format!("{} ({})", prayer_name, time.format("%-l:%M %p").to_string());
-        println!(r#"{{state:"info", "text": "{}"}}"#, prayer_fmt);
+        let prayer_fmt = format!("{} ({})", prayer_name, util::fmt_time(time));
+        println!("{}", util::to_json("info".to_string(), prayer_fmt));
     } else {
-        println!("{} ({})", prayer_name, time.format("%-l:%M %p").to_string());
+        println!("{} ({})", prayer_name, util::fmt_time(time));
     }
 }
