@@ -2,7 +2,7 @@ mod config;
 mod prayer;
 mod util;
 
-use clap::{App, AppSettings, Arg};
+use clap::{crate_version, App, AppSettings, Arg};
 use colored::*;
 
 fn main() {
@@ -10,7 +10,7 @@ fn main() {
     let matches = App::new("Bilal [A CLI salah time]")
         .setting(AppSettings::ArgRequiredElseHelp)
         .setting(AppSettings::ColoredHelp)
-        .version("0.1.0")
+        .version(crate_version!())
         .arg(
             Arg::new("next")
                 .short('n')
