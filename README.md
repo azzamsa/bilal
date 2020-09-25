@@ -5,8 +5,7 @@ A CLI salah time
 ## Demo
 
 ``` bash
-$ bilal --help    
-Bilal [A CLI salah time] 0.1.0
+Bilal [A CLI salah time]
 
 USAGE:
     bilal [FLAGS]
@@ -15,9 +14,9 @@ FLAGS:
     -a, --all        Show all Salah time
     -c, --current    Show current Salah
     -h, --help       Prints help information
+    -j, --json       Display salah in json formatted string
     -n, --next       Show next Salah
     -V, --version    Prints version information
-
 ```
 
 ## Features
@@ -66,9 +65,10 @@ i3status-rs configuration Example:
 ``` bash
 [[block]]
 block = "custom"
-cycle = ["bilal -c", "bilal -n"]
+cycle = ["bilal -c -j", "bilal -n -j"]
 on_click = "<command>"
 interval = 300
+json = true
 ```
 ## Contributing
 
