@@ -4,6 +4,7 @@ use salah::prelude::*;
 use crate::config;
 use crate::util::to_local;
 
+/// Setup a prayer config, and get all its time.
 fn get_prayers_time(latitude: f64, longitude: f64) -> Result<salah::PrayerTimes, String> {
     let city = Coordinates::new(latitude, longitude);
     let date = Utc::today();
@@ -16,6 +17,7 @@ fn get_prayers_time(latitude: f64, longitude: f64) -> Result<salah::PrayerTimes,
     return prayers;
 }
 
+/// Returns all prayers.
 pub fn get_all_prayers() -> IndexMap<String, salah::DateTime<salah::Local>> {
     let config = config::get_config();
     let mut prayers = IndexMap::new();
@@ -43,6 +45,7 @@ pub fn get_all_prayers() -> IndexMap<String, salah::DateTime<salah::Local>> {
     return prayers;
 }
 
+/// Returns current prayer.
 pub fn get_current_prayer() -> Result<salah::PrayerTimes, String> {
     let config = config::get_config();
     let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
@@ -53,6 +56,7 @@ pub fn get_current_prayer() -> Result<salah::PrayerTimes, String> {
     }
 }
 
+/// Returns current prayer.
 pub fn get_next_prayer() -> Result<(String, salah::DateTime<salah::Local>), String> {
     let config = config::get_config();
     let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);

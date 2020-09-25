@@ -4,6 +4,7 @@ use std::path::Path;
 use std::collections::HashMap;
 use toml::Value;
 
+/// Read a config file.
 fn read_config_file() -> String {
     let home = std::env::var("HOME").unwrap();
     let config_path = format!("{}/.config/bilal/config.toml", home).to_string();
@@ -13,6 +14,7 @@ fn read_config_file() -> String {
     fs::read_to_string(config_path).expect("Can't read file")
 }
 
+/// Return a config key, value
 pub fn get_config() -> HashMap<String, f64> {
     let mut configs = HashMap::new();
     let config_content = read_config_file();

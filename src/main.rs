@@ -54,6 +54,7 @@ fn main() {
     }
 }
 
+/// Show all prayers info.
 fn show_all_prayers() {
     let prayers = prayer::get_all_prayers();
     for prayer in prayers {
@@ -61,6 +62,7 @@ fn show_all_prayers() {
     }
 }
 
+/// Show current prayer info.
 fn show_current_prayer(is_json: bool) {
     let current_prayer = prayer::get_current_prayer().unwrap();
     let (hours, minutes) = current_prayer.time_remaining();
@@ -90,6 +92,7 @@ fn show_current_prayer(is_json: bool) {
     }
 }
 
+/// Show next prayer info.
 fn show_next_prayer(is_json: bool) {
     let (prayer_name, time) = prayer::get_next_prayer().unwrap();
     if is_json {
