@@ -10,6 +10,7 @@ use util::to_local;
 fn main() {
     let matches = App::new("Bilal [A CLI salah time]")
         .setting(AppSettings::ArgRequiredElseHelp)
+        .setting(AppSettings::ColoredHelp)
         .version("0.1.0")
         .arg(
             Arg::new("next")
