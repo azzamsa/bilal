@@ -54,7 +54,7 @@ $ cp target/release/bilal /usr/local/bin/
 
 ## From binaries
 
-Download the binary from the [Release]()
+Download the binary from the [Release](https://git.sr.ht/~azzamsa/bilal.rs/refs/)
 
 
 ## Usage with other tools
