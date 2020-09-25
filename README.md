@@ -46,8 +46,8 @@ You can get latitude and longitude value from
 ## With cargo (from source)
 
 ``` bash
-$ git clone https://git.sr.ht/~azzamsa/bilal.rs bilal
-$ cd bilal
+$ git clone https://git.sr.ht/~azzamsa/bilal.rs
+$ cd bilal.rs
 $ cargo build --release
 $ cp target/release/bilal /usr/local/bin/
 ```
