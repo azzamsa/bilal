@@ -108,7 +108,7 @@ fn show_next_salah() {
     match prayers_time {
         Ok(prayer) => {
             println!(
-                "Current: {} ({})",
+                "{} ({})",
                 prayer.next().name(),
                 to_local(prayer.time(prayer.next())).format("%-l:%M %p").to_string()
             );
