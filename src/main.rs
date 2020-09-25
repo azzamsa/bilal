@@ -2,6 +2,7 @@ mod config;
 mod util;
 
 use clap::{App, AppSettings, Arg};
+use colored::*;
 use indexmap::IndexMap;
 use salah::prelude::*;
 
@@ -91,7 +92,14 @@ fn show_current_salah() {
     match prayers_time {
         Ok(prayer) => {
             let (hours, minutes) = prayer.time_remaining();
-            println!("{} ({}:{})", prayer.current().name(), hours, minutes);
+            if minutes < 30 {
+                println!(
+                    "{}",
+                    format!("{} ({}:{})", prayer.current().name(), hours, minutes).red()
+                );
+            } else {
+                println!("{} ({}:{})", prayer.current().name(), hours, minutes);
+            }
         }
         Err(error) => println!("Could not calculate prayer times: {}", error),
     }
