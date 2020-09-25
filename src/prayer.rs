@@ -21,7 +21,7 @@ fn get_prayers_time(latitude: f64, longitude: f64) -> Result<salah::PrayerTimes,
 pub fn get_all_prayers() -> IndexMap<String, salah::DateTime<salah::Local>> {
     let config = config::get_config();
     let mut prayers = IndexMap::new();
-    let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
+    let prayers_time = get_prayers_time(config.latitude, config.longitude);
 
     match prayers_time {
         Ok(prayer) => {
@@ -48,7 +48,7 @@ pub fn get_all_prayers() -> IndexMap<String, salah::DateTime<salah::Local>> {
 /// Returns current prayer.
 pub fn get_current_prayer() -> Result<salah::PrayerTimes, String> {
     let config = config::get_config();
-    let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
+    let prayers_time = get_prayers_time(config.latitude, config.longitude);
 
     match prayers_time {
         Ok(prayer) => Ok(prayer),
@@ -59,7 +59,7 @@ pub fn get_current_prayer() -> Result<salah::PrayerTimes, String> {
 /// Returns current prayer.
 pub fn get_next_prayer() -> Result<(String, salah::DateTime<salah::Local>), String> {
     let config = config::get_config();
-    let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
+    let prayers_time = get_prayers_time(config.latitude, config.longitude);
 
     match prayers_time {
         Ok(prayer) => Ok((prayer.next().name(), to_local(prayer.time(prayer.next())))),
