@@ -11,16 +11,16 @@ fn main() {
     let matches = App::new("Salah Time")
         .version("0.1.0")
         .arg(
-            Arg::new("remaining")
-                .short('r')
-                .long("remaining")
-                .about("Show remaining time of next Salah"),
+            Arg::new("next")
+                .short('n')
+                .long("next")
+                .about("Show next Salah"),
         )
         .arg(
-            Arg::new("exact")
-                .short('e')
-                .long("exact")
-                .about("Show exact time of next Salah"),
+            Arg::new("current")
+                .short('c')
+                .long("current")
+                .about("Show current Salah"),
         )
         .arg(
             Arg::new("all")
@@ -33,8 +33,11 @@ fn main() {
     if matches.is_present("all") {
         show_all_salah();
     }
-    if matches.is_present("exact") {
+    if matches.is_present("current") {
         show_current_salah();
+    }
+    if matches.is_present("next") {
+        show_next_salah();
     }
 }
 
@@ -89,6 +92,23 @@ fn show_current_salah() {
                 "Current: {} ({})",
                 prayer.current().name(),
                 to_local(prayer.time(prayer.current())).format("%-l:%M %p").to_string()
+            );
+        }
+        Err(error) => println!("Could not calculate prayer times: {}", error),
+    }
+}
+
+
+fn show_next_salah() {
+    let config = config::get_config();
+    let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
+
+    match prayers_time {
+        Ok(prayer) => {
+            println!(
+                "Current: {} ({})",
+                prayer.next().name(),
+                to_local(prayer.time(prayer.next())).format("%-l:%M %p").to_string()
             );
         }
         Err(error) => println!("Could not calculate prayer times: {}", error),
