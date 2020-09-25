@@ -1,14 +1,12 @@
 mod config;
+mod prayer;
 mod util;
 
 use clap::{App, AppSettings, Arg};
 use colored::*;
-use indexmap::IndexMap;
-use salah::prelude::*;
-
-use util::to_local;
 
 fn main() {
+    let mut _is_json: bool = false;
     let matches = App::new("Bilal [A CLI salah time]")
         .setting(AppSettings::ArgRequiredElseHelp)
         .setting(AppSettings::ColoredHelp)
@@ -31,94 +29,79 @@ fn main() {
                 .long("all")
                 .about("Show all Salah time"),
         )
+        .arg(
+            Arg::new("json")
+                .short('j')
+                .long("json")
+                .about("Display salah in json formatted string"),
+        )
         .get_matches();
+
+    if matches.is_present("json") {
+        _is_json = true;
+    } else {
+        _is_json = false;
+    }
 
     if matches.is_present("all") {
         show_all_prayers();
     }
     if matches.is_present("current") {
-        show_current_prayer();
+        show_current_prayer(_is_json);
     }
     if matches.is_present("next") {
-        show_next_prayer();
+        show_next_prayer(_is_json);
     }
-}
-
-fn get_prayers_time(latitude: f64, longitude: f64) -> Result<salah::PrayerTimes, String> {
-    let city = Coordinates::new(latitude, longitude);
-    let date = Utc::today();
-    let params = Configuration::with(Method::Singapore, Madhab::Shafi);
-    let prayers = PrayerSchedule::new()
-        .on(date)
-        .for_location(city)
-        .with_configuration(params)
-        .calculate();
-    return prayers;
 }
 
 fn show_all_prayers() {
-    let config = config::get_config();
-    let mut prayers = IndexMap::new();
-    let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
-
-    match prayers_time {
-        Ok(prayer) => {
-            prayers.insert(Prayer::Fajr.name(), to_local(prayer.time(Prayer::Fajr)));
-            prayers.insert(
-                Prayer::Sunrise.name(),
-                to_local(prayer.time(Prayer::Sunrise)),
-            );
-            prayers.insert(Prayer::Dhuhr.name(), to_local(prayer.time(Prayer::Dhuhr)));
-            prayers.insert(Prayer::Asr.name(), to_local(prayer.time(Prayer::Asr)));
-            prayers.insert(
-                Prayer::Maghrib.name(),
-                to_local(prayer.time(Prayer::Maghrib)),
-            );
-            prayers.insert(Prayer::Isha.name(), to_local(prayer.time(Prayer::Isha)));
-            prayers.insert(Prayer::Qiyam.name(), to_local(prayer.time(Prayer::Qiyam)));
-        }
-        Err(error) => println!("Could not calculate prayer times: {}", error),
-    }
-
+    let prayers = prayer::get_all_prayers();
     for prayer in prayers {
-        println!("{}: {}", prayer.0, prayer.1.format("%-l:%M %p"));
+        println!(
+            "{}",
+            format!("{}: {}", prayer.0, prayer.1.format("%-l:%M %p")),
+        )
     }
 }
 
-fn show_current_prayer() {
-    let config = config::get_config();
-    let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
+fn show_current_prayer(is_json: bool) {
+    let current_prayer = prayer::get_current_prayer().unwrap();
+    let (hours, minutes) = current_prayer.time_remaining();
 
-    match prayers_time {
-        Ok(prayer) => {
-            let (hours, minutes) = prayer.time_remaining();
-            if minutes < 30 {
-                println!(
-                    "{}",
-                    format!("{} ({}:{})", prayer.current().name(), hours, minutes).red()
-                );
-            } else {
-                println!("{} ({}:{})", prayer.current().name(), hours, minutes);
-            }
-        }
-        Err(error) => println!("Could not calculate prayer times: {}", error),
-    }
-}
+    let _current_prayer_fmt = format!(
+        "{} ({}:{})",
+        current_prayer.current().name(),
+        hours,
+        minutes
+    );
 
-fn show_next_prayer() {
-    let config = config::get_config();
-    let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
-
-    match prayers_time {
-        Ok(prayer) => {
+    if is_json {
+        if minutes < 30 && hours == 0 {
             println!(
-                "{} ({})",
-                prayer.next().name(),
-                to_local(prayer.time(prayer.next()))
-                    .format("%-l:%M %p")
-                    .to_string()
+                "{}",
+                format!(r#"{{state:"Critical", "text": "{}"}}"#, _current_prayer_fmt)
+            );
+        } else {
+            println!(
+                "{}",
+                format!(r#"{{state:"info", "text": "{}"}}"#, _current_prayer_fmt),
             );
         }
-        Err(error) => println!("Could not calculate prayer times: {}", error),
+    } else {
+        if minutes < 30 && hours == 0 {
+            println!("{}", format!("{}", _current_prayer_fmt.red()));
+        } else {
+            println!("{}", format!("{}", _current_prayer_fmt));
+        }
+    }
+}
+
+fn show_next_prayer(is_json: bool) {
+    let (prayer_name, time) = prayer::get_next_prayer().unwrap();
+    if is_json {
+        let prayer_fmt = format!("{} ({})", prayer_name, time.format("%-l:%M %p").to_string());
+        println!(r#"{{state:"info", "text": "{}"}}"#, prayer_fmt);
+    } else {
+        println!("{} ({})", prayer_name, time.format("%-l:%M %p").to_string());
     }
 }
