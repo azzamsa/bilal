@@ -34,13 +34,13 @@ fn main() {
         .get_matches();
 
     if matches.is_present("all") {
-        show_all_salah();
+        show_all_prayers();
     }
     if matches.is_present("current") {
-        show_current_salah();
+        show_current_prayer();
     }
     if matches.is_present("next") {
-        show_next_salah();
+        show_next_prayer();
     }
 }
 
@@ -56,7 +56,7 @@ fn get_prayers_time(latitude: f64, longitude: f64) -> Result<salah::PrayerTimes,
     return prayers;
 }
 
-fn show_all_salah() {
+fn show_all_prayers() {
     let config = config::get_config();
     let mut prayers = IndexMap::new();
     let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
@@ -85,7 +85,7 @@ fn show_all_salah() {
     }
 }
 
-fn show_current_salah() {
+fn show_current_prayer() {
     let config = config::get_config();
     let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
 
@@ -105,7 +105,7 @@ fn show_current_salah() {
     }
 }
 
-fn show_next_salah() {
+fn show_next_prayer() {
     let config = config::get_config();
     let prayers_time = get_prayers_time(config["latitude"], config["longitude"]);
 
