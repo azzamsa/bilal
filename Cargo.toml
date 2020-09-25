@@ -9,6 +9,11 @@ edition = "2018"
 [dependencies]
 salah = "0.4.2"
 clap = "3.0.0-beta.2"
-chrono = "0.4"
 indexmap = "1.6.0"
 toml = "0.5.6"
+
+[profile.release]
+opt-level = 'z'  # Optimize for size.
+codegen-units = 1
+lto = true
+panic = 'abort'
