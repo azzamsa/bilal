@@ -7,7 +7,11 @@ pub fn to_local(time: salah::DateTime<salah::Utc>) -> salah::DateTime<salah::Loc
 
 /// Wrap a prayer info into JSON representation.
 pub fn to_json(state: String, content: String) -> String {
-    format!(r#"{{state:"{}", "text": "{}"}}"#, state, content)
+    if state == "" {
+        format!(r#"{{"text": "{}"}}"#, content)
+    } else {
+        format!(r#"{{"state":"{}", "text": "{}"}}"#, state, content)
+    }
 }
 
 /// Format prayer time object into string format.

@@ -78,10 +78,10 @@ fn show_current_prayer(is_json: bool) {
         if minutes < 30 && hours == 0 {
             println!(
                 "{}",
-                util::to_json("critical".to_string(), _current_prayer_fmt)
+                util::to_json("Critical".to_string(), _current_prayer_fmt)
             );
         } else {
-            println!("{}", util::to_json("info".to_string(), _current_prayer_fmt));
+            println!("{}", util::to_json("".to_string(), _current_prayer_fmt));
         }
     } else {
         if minutes < 30 && hours == 0 {
@@ -97,7 +97,7 @@ fn show_next_prayer(is_json: bool) {
     let (prayer_name, time) = prayer::get_next_prayer().unwrap();
     if is_json {
         let prayer_fmt = format!("{} ({})", prayer_name, util::fmt_time(time));
-        println!("{}", util::to_json("info".to_string(), prayer_fmt));
+        println!("{}", util::to_json("".to_string(), prayer_fmt));
     } else {
         println!("{} ({})", prayer_name, util::fmt_time(time));
     }
