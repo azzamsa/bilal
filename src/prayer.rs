@@ -1,5 +1,7 @@
 use indexmap::IndexMap;
-use salah::prelude::*;
+use salah::prelude::{
+    Configuration, Coordinates, Madhab, Method, Prayer, PrayerSchedule, PrayerTimes,
+};
 
 use crate::config;
 use crate::util::to_local;
@@ -7,7 +9,7 @@ use crate::util::to_local;
 /// Setup a prayer config, and get all its time.
 fn get_prayers_time(latitude: f64, longitude: f64) -> Result<salah::PrayerTimes, String> {
     let city = Coordinates::new(latitude, longitude);
-    let date = Utc::today();
+    let date = salah::Utc::today();
     let params = Configuration::with(Method::Singapore, Madhab::Shafi);
     let prayers = PrayerSchedule::new()
         .on(date)
@@ -46,7 +48,7 @@ pub fn get_all_prayers() -> IndexMap<String, salah::DateTime<salah::Local>> {
 }
 
 /// Returns current prayer.
-pub fn get_current_prayer() -> Result<salah::PrayerTimes, String> {
+pub fn get_current_prayer() -> Result<PrayerTimes, String> {
     let config = config::get_config();
     let prayers_time = get_prayers_time(config.latitude, config.longitude);
 

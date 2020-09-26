@@ -3,7 +3,7 @@ mod prayer;
 mod util;
 
 use clap::{crate_version, App, AppSettings, Arg};
-use colored::*;
+use colored::*; // using glob is mandatory here.
 
 fn main() {
     let mut _is_json: bool = false;
