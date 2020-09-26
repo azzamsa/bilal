@@ -1,5 +1,5 @@
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use serde::Deserialize;
 use toml::de;
@@ -12,13 +12,25 @@ pub struct Config {
 
 /// Read a config file.
 fn read_config_file() -> String {
-    let home = std::env::var("HOME").unwrap();
-    let config_path = format!("{}/.config/bilal/config.toml", home).to_string();
-    if !Path::new(&config_path).exists() {
+    let _config_path: PathBuf = {
+        if cfg!(windows) {
+            Path::new(&std::env::var("APPDATA").unwrap())
+                .join("Azzamsa")
+                .join("Bilal")
+                .join("config.toml")
+        } else {
+            Path::new(&std::env::var("HOME").unwrap())
+                .join(".config")
+                .join("bilal")
+                .join("config.toml")
+        }
+    };
+
+    if !_config_path.exists() {
         eprintln!("Can't find config file. Please Create one.");
         std::process::exit(1);
     }
-    fs::read_to_string(config_path).expect("Can't read file")
+    fs::read_to_string(_config_path).expect("Can't read file")
 }
 
 // Deserialize config string intro struct.
