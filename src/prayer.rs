@@ -1,21 +1,14 @@
 use indexmap::IndexMap;
-use salah::prelude::{
-    Configuration, Coordinates, Madhab, Method, Prayer, PrayerSchedule, PrayerTimes,
-};
+use salah::prelude::{Configuration, Coordinates, Prayer, PrayerSchedule, PrayerTimes};
 
 use crate::config;
 use crate::util::to_local;
 
 /// Setup a prayer config, and get all its time.
-fn get_prayers_time(
-    latitude: f64,
-    longitude: f64,
-    method: Method,
-    madhab: Madhab,
-) -> Result<salah::PrayerTimes, String> {
-    let city = Coordinates::new(latitude, longitude);
+fn get_prayers_time(config: config::Config) -> Result<salah::PrayerTimes, String> {
+    let city = Coordinates::new(config.latitude, config.longitude);
     let date = salah::Utc::today();
-    let params = Configuration::with(method, madhab);
+    let params = Configuration::with(config.method, config.madhab);
     let prayers = PrayerSchedule::new()
         .on(date)
         .for_location(city)
@@ -26,14 +19,8 @@ fn get_prayers_time(
 
 /// Returns all prayers.
 pub fn get_all_prayers() -> IndexMap<String, salah::DateTime<salah::Local>> {
-    let config = config::get_config();
     let mut prayers = IndexMap::new();
-    let prayers_time = get_prayers_time(
-        config.latitude,
-        config.longitude,
-        config.method,
-        config.madhab,
-    );
+    let prayers_time = get_prayers_time(config::get_config());
 
     match prayers_time {
         Ok(prayer) => {
@@ -59,13 +46,7 @@ pub fn get_all_prayers() -> IndexMap<String, salah::DateTime<salah::Local>> {
 
 /// Returns current prayer.
 pub fn get_current_prayer() -> Result<PrayerTimes, String> {
-    let config = config::get_config();
-    let prayers_time = get_prayers_time(
-        config.latitude,
-        config.longitude,
-        config.method,
-        config.madhab,
-    );
+    let prayers_time = get_prayers_time(config::get_config());
 
     match prayers_time {
         Ok(prayer) => Ok(prayer),
@@ -75,13 +56,7 @@ pub fn get_current_prayer() -> Result<PrayerTimes, String> {
 
 /// Returns current prayer.
 pub fn get_next_prayer() -> Result<(String, salah::DateTime<salah::Local>), String> {
-    let config = config::get_config();
-    let prayers_time = get_prayers_time(
-        config.latitude,
-        config.longitude,
-        config.method,
-        config.madhab,
-    );
+    let prayers_time = get_prayers_time(config::get_config());
 
     match prayers_time {
         Ok(prayer) => Ok((prayer.next().name(), to_local(prayer.time(prayer.next())))),
