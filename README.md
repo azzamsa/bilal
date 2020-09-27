@@ -34,11 +34,11 @@ configuration:
 ``` toml
 latitude = 41.0096334
 longitude = 28.9651646
+madhab = "Shafi"
+method = "Singapore"
 ```
 
-You can get latitude and longitude value from
-[mapcoordinates](https://www.mapcoordinates.net/en)
-
+For a list of available config, see the [config documentation](doc/wiki.md#cofiguration).
 
 ## Installation
 
