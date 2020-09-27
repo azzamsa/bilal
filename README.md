@@ -1,6 +1,6 @@
 # Bilal
 
-A CLI salah time
+**bilal** is a CLI salah time that has configuration feature, small, fast, and just one single binary.
 
 ![demo](https://git.sr.ht/~azzamsa/blobs/blob/master/bilal/bilal.gif)
 
