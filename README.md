@@ -9,10 +9,12 @@
 - Show all salah time in current day
 - Show current salah time and its remaining time
 - Show next salah time
+- Show result in JSON format
+- Cross-platform
 
 ## Usage
 
-Create a file named `bilal.toml` in `~/.config/bilal/`. Then add your
+Create a file named `config.toml` in `~/.config/bilal/`. Then add your
 configuration:
 
 
@@ -23,7 +25,7 @@ madhab = "Shafi"
 method = "Singapore"
 ```
 
-For a list of available config, see the [config documentation](doc/wiki.md#cofiguration).
+To learn more about the config, see the [config documentation](doc/wiki.md#cofiguration).
 
 ## Installation
 
