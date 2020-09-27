@@ -68,7 +68,7 @@ fn show_current_prayer(is_json: bool) {
     let (hours, minutes) = current_prayer.time_remaining();
 
     let _current_prayer_fmt = format!(
-        "{} ({}:{})",
+        "⏺ {} ({}:{})",
         current_prayer.current().name(),
         hours,
         minutes
@@ -96,9 +96,9 @@ fn show_current_prayer(is_json: bool) {
 fn show_next_prayer(is_json: bool) {
     let (prayer_name, time) = prayer::get_next_prayer().unwrap();
     if is_json {
-        let prayer_fmt = format!("{} ({})", prayer_name, util::fmt_time(time));
+        let prayer_fmt = format!("▶ {} ({})", prayer_name, util::fmt_time(time));
         println!("{}", util::to_json("".to_string(), prayer_fmt));
     } else {
-        println!("{} ({})", prayer_name, util::fmt_time(time));
+        println!("▶ {} ({})", prayer_name, util::fmt_time(time));
     }
 }
