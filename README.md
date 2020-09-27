@@ -2,22 +2,7 @@
 
 A CLI salah time
 
-## Demo
-
-``` bash
-Bilal [A CLI salah time]
-
-USAGE:
-    bilal [FLAGS]
-
-FLAGS:
-    -a, --all        Show all Salah time
-    -c, --current    Show current Salah
-    -h, --help       Prints help information
-    -j, --json       Display salah in json formatted string
-    -n, --next       Show next Salah
-    -V, --version    Prints version information
-```
+![demo](https://git.sr.ht/~azzamsa/blobs/blob/master/bilal/bilal.gif)
 
 ## Features
 
@@ -59,6 +44,10 @@ Download the binary from the [Release](https://git.sr.ht/~azzamsa/bilal.rs/refs/
 ## Usage with other tools
 
 You can use Bilal with i3status-rs to show salah time in your status bar.
+
+![i3status-bilal](https://git.sr.ht/~azzamsa/blobs/blob/master/bilal/salah-0.1.3.png)
+
+![i3status-bilal-urgent](https://git.sr.ht/~azzamsa/blobs/blob/master/bilal/salah-0.1.3-urgent.png)
 
 i3status-rs configuration Example:
 
