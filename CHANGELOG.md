@@ -1,6 +1,12 @@
 ## [Unreleased]
 
 
+## [v0.1.2] - 2020-09-27
+
+### Features
+- Add support for Windows PC.
+- Support `madhab` and `method` in configuration.
+
 ## [v0.1.1] - 2020-09-25
 
 ### Features
