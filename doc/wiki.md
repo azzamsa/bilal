@@ -35,3 +35,12 @@ For Hanafi madhab, the Asr is bit later than that of the Shafi madhab.
 | `Shafi` | Earlier Asr time |
 | `Hanafi` | Later Asr time |
 
+## Contribution
+
+### Release
+
+To make a release. Change the `version` in `Cargo.toml` then run:
+
+``` bash
+$ source scripts/relase.sh
+```
