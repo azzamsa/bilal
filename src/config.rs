@@ -4,10 +4,12 @@ use std::path::{Path, PathBuf};
 use serde::Deserialize;
 use toml::de;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct Config {
     pub latitude: f64,
     pub longitude: f64,
+    pub method: salah::Method,
+    pub madhab: salah::Madhab,
 }
 
 /// Read a config file.
