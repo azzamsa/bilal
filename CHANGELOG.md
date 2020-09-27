@@ -1,6 +1,11 @@
 ## [Unreleased]
 
 
+## [v0.1.3] - 2020-09-27
+
+### Features
+- Add icon to make it easier to differentiate
+
 ## [v0.1.2] - 2020-09-27
 
 ### Features
