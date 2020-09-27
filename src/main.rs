@@ -15,25 +15,25 @@ fn main() {
             Arg::new("next")
                 .short('n')
                 .long("next")
-                .about("Show next Salah"),
+                .about("Show next salah and its time."),
         )
         .arg(
             Arg::new("current")
                 .short('c')
                 .long("current")
-                .about("Show current Salah"),
+                .about("Show current salah and its remaining time.")
         )
         .arg(
             Arg::new("all")
                 .short('a')
                 .long("all")
-                .about("Show all Salah time"),
+                .about("Show all salah time"),
         )
         .arg(
             Arg::new("json")
                 .short('j')
                 .long("json")
-                .about("Display salah in json formatted string"),
+                .about("Display salah in JSON formatted string"),
         )
         .get_matches();
 
