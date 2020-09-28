@@ -14,8 +14,8 @@
 
 ## Usage
 
-Create a file named `config.toml` in `~/.config/bilal/`. Then add your
-configuration:
+Create a file named `config.toml` in `~/.config/bilal/` (*nix) or
+`%APPDATA\Azzamsa\Bilal` (Windows). Then add your configuration:
 
 
 ``` toml
