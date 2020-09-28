@@ -1,8 +1,7 @@
 # Bilal
 
 **bilal** is a CLI salah time that has configuration feature, small, fast, and just one single binary.
-
-![demo](https://git.sr.ht/~azzamsa/blobs/blob/master/bilal/bilal.gif)
+![demo](https://git.sr.ht/~azzamsa/bilal.rs/blob/master/media/bilal-demo.gif)
 
 ## Features
 
@@ -41,6 +40,10 @@ $ cp target/release/bilal /usr/local/bin/
 ## From binaries
 
 Download the binary from the [Release](https://git.sr.ht/~azzamsa/bilal.rs/refs/)
+
+Available binaries:
+- *Nix
+- Window PC
 
 
 ## Usage with other tools
