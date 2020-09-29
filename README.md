@@ -48,13 +48,13 @@ Available binaries:
 
 ## Usage with other tools
 
-You can use Bilal with i3status-rs to show salah time in your status bar.
+You can use Bilal in your favourite status bar.
 
 ![i3status-bilal](https://git.sr.ht/~azzamsa/blobs/blob/master/bilal/salah-0.1.3.png)
 
 ![i3status-bilal-urgent](https://git.sr.ht/~azzamsa/blobs/blob/master/bilal/salah-0.1.3-urgent.png)
 
-i3status-rs configuration Example:
+i3status-rs configuration example:
 
 ``` bash
 [[block]]
@@ -64,6 +64,25 @@ on_click = "<command>"
 interval = 300
 json = true
 ```
+
+Py3status configuration example:
+
+``` python
+group echos {
+    button_next = 1
+
+    external_script {
+        format = "{output}"
+        script_path = "bilal -c"
+    }
+    external_script {
+        format = "{output}"
+        script_path = "bilal -n"
+    }
+
+}
+```
+
 ## Contributing
 
 For reporting issues, visit the tracker here: https://todo.sr.ht/~azzamsa/Bilal
