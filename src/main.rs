@@ -21,7 +21,7 @@ fn main() {
             Arg::new("current")
                 .short('c')
                 .long("current")
-                .about("Show current salah and its remaining time.")
+                .about("Show current salah and its remaining time."),
         )
         .arg(
             Arg::new("all")
@@ -64,18 +64,17 @@ fn show_all_prayers() {
 
 /// Show current prayer info.
 fn show_current_prayer(is_json: bool) {
-    let current_prayer = prayer::get_current_prayer().unwrap();
-    let (hours, minutes) = current_prayer.time_remaining();
+    let current_prayer = prayer::get_current_prayer();
+    let remaining = current_prayer.time_remaining();
 
     let _current_prayer_fmt = format!(
-        "⏺ {} ({}:{})",
+        "⏺ {} ({})",
         current_prayer.current().name(),
-        hours,
-        minutes
+        util::fmt_duration(current_prayer.time_remaining())
     );
 
     if is_json {
-        if minutes < 30 && hours == 0 {
+        if remaining.num_minutes() < 30 {
             println!(
                 "{}",
                 util::to_json("Critical".to_string(), _current_prayer_fmt)
@@ -84,17 +83,17 @@ fn show_current_prayer(is_json: bool) {
             println!("{}", util::to_json("".to_string(), _current_prayer_fmt));
         }
     } else {
-        if minutes < 30 && hours == 0 {
+        if remaining.num_minutes() < 30 {
             println!("{}", format!("{}", _current_prayer_fmt.red()));
         } else {
-            println!("{}", format!("{}", _current_prayer_fmt));
+            println!("{}", _current_prayer_fmt);
         }
     }
 }
 
 /// Show next prayer info.
 fn show_next_prayer(is_json: bool) {
-    let (prayer_name, time) = prayer::get_next_prayer().unwrap();
+    let (prayer_name, time) = prayer::get_next_prayer();
     if is_json {
         let prayer_fmt = format!("▶ {} ({})", prayer_name, util::fmt_time(time));
         println!("{}", util::to_json("".to_string(), prayer_fmt));
