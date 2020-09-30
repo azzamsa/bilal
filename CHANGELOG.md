@@ -1,6 +1,11 @@
 ## [Unreleased]
 
 
+## [v0.1.4] - 2020-09-30
+
+### Bug Fixes
+- Fix wrong Fajr and Sunrise time. By `Muhammad Ragib Hasin`
+
 ## [v0.1.3] - 2020-09-27
 
 ### Features
