@@ -1,0 +1,46 @@
+image: alpine/3.12
+
+packages:
+  - rust
+  - cargo
+
+sources:
+  - https://git.sr.ht/~azzamsa/bilal.rs
+
+environment:
+  project: bilal.rs
+
+tasks:
+  - setup: |
+      cd ${project}
+      cargo check
+
+  - lint: |
+      cd bilal.rs
+      find . | grep "\.rs" | xargs touch ; cargo clippy --all-features -- --deny warnings --deny clippy::pedantic --deny clippy::nursery
+
+  - test: |
+      cd bilal.rs
+      mkdir -p ~/.config/bilal
+      cp examples/config.toml ~/.config./bilal/
+      cargo test
+
+  - check_deploy_rules: |
+      cd ${project}
+
+      # is it a master branch?
+      git branch --contains | grep master || echo "Build stopped. Not on master branch"
+      git branch --contains | grep master || complete-build
+
+      # is it a tagged commit?
+      ! git name-rev --name-only --tags HEAD | grep undefined || echo "current commit in not tagged"
+      ! git name-rev --name-only --tags HEAD | grep undefined || complete-build
+
+  - deploy: |
+      cd ${project}
+
+      set +x
+      CRATES_AUTH_TOKEN=$(cat ~/.CRATES_AUTH_TOKEN)
+      cargo login $CRATES_AUTH_TOKEN
+
+      cargo publish

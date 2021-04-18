@@ -1,103 +1,44 @@
-mod config;
-mod prayer;
-mod util;
+#![allow(clippy::wildcard_imports)]
 
-use clap::{crate_version, App, AppSettings, Arg};
-use colored::*; // using glob is mandatory here.
+use std::env;
+use std::process;
 
-fn main() {
-    let mut _is_json: bool = false;
-    let matches = App::new("Bilal [A CLI salah time]")
-        .setting(AppSettings::ArgRequiredElseHelp)
-        .setting(AppSettings::ColoredHelp)
-        .version(crate_version!())
-        .arg(
-            Arg::new("next")
-                .short('n')
-                .long("next")
-                .about("Show next salah and its time."),
-        )
-        .arg(
-            Arg::new("current")
-                .short('c')
-                .long("current")
-                .about("Show current salah and its remaining time."),
-        )
-        .arg(
-            Arg::new("all")
-                .short('a')
-                .long("all")
-                .about("Show all salah time"),
-        )
-        .arg(
-            Arg::new("json")
-                .short('j')
-                .long("json")
-                .about("Display salah in JSON formatted string"),
-        )
-        .get_matches();
+use anyhow::Result;
+use atty::Stream;
 
-    if matches.is_present("json") {
-        _is_json = true;
-    } else {
-        _is_json = false;
-    }
+use bilal::app;
+use bilal::output::Printer;
+use bilal::prayer;
+
+fn run() -> Result<()> {
+    let matches = app::build().get_matches_from(env::args_os());
+
+    let show_color = match matches.value_of("color") {
+        Some("never") => false,
+        Some("auto") => atty::is(Stream::Stdout),
+        _ => true,
+    };
+    let json_format = matches.is_present("json");
+
+    let prayers = prayer::all()?;
+    let printer = Printer::new(prayers, show_color, json_format);
 
     if matches.is_present("all") {
-        show_all_prayers();
-    }
+        printer.all()?;
+    };
     if matches.is_present("current") {
-        show_current_prayer(_is_json);
+        printer.current()?;
     }
     if matches.is_present("next") {
-        show_next_prayer(_is_json);
+        printer.next()?;
     }
+
+    Ok(())
 }
 
-/// Show all prayers info.
-fn show_all_prayers() {
-    let prayers = prayer::get_all_prayers();
-    for prayer in prayers {
-        println!("{}", format!("{}: {}", prayer.0, util::fmt_time(prayer.1)),)
-    }
-}
-
-/// Show current prayer info.
-fn show_current_prayer(is_json: bool) {
-    let current_prayer = prayer::get_current_prayer();
-    let remaining = current_prayer.time_remaining();
-
-    let _current_prayer_fmt = format!(
-        "⏺ {} ({})",
-        current_prayer.current().name(),
-        util::fmt_duration(current_prayer.time_remaining())
-    );
-
-    if is_json {
-        if remaining.num_minutes() < 30 {
-            println!(
-                "{}",
-                util::to_json("Critical".to_string(), _current_prayer_fmt)
-            );
-        } else {
-            println!("{}", util::to_json("".to_string(), _current_prayer_fmt));
-        }
-    } else {
-        if remaining.num_minutes() < 30 {
-            println!("{}", format!("{}", _current_prayer_fmt.red()));
-        } else {
-            println!("{}", _current_prayer_fmt);
-        }
-    }
-}
-
-/// Show next prayer info.
-fn show_next_prayer(is_json: bool) {
-    let (prayer_name, time) = prayer::get_next_prayer();
-    if is_json {
-        let prayer_fmt = format!("▶ {} ({})", prayer_name, util::fmt_time(time));
-        println!("{}", util::to_json("".to_string(), prayer_fmt));
-    } else {
-        println!("▶ {} ({})", prayer_name, util::fmt_time(time));
+fn main() {
+    if let Err(err) = run() {
+        eprintln!("Error: {:?}", err);
+        process::exit(1);
     }
 }

@@ -1,21 +1,35 @@
 [package]
 name = "bilal"
+description = "a CLI salah time"
 version = "0.1.5"
 authors = ["azzamsa <me@azzamsa.com>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-salah = { git = "https://github.com/RagibHasin/salah-rs", branch = "uptosnuff", features = ["serde"] }
-clap = "3.0.0-beta.2"
-indexmap = "1.6.0"
-toml = "0.5.6"
-colored = "2.0.0"
-serde = { version = "1.0.116", features = ["derive"] }
+keywords = ["salah", "pray", "islam"]
+categories = ["date-and-time", "command-line-utilities"]
+readme = "README.md"
+license = "GPL-3.0-only"
+repository = "https://git.sr.ht/~azzamsa/bilal.rs"
 
 [profile.release]
 opt-level = 'z'  # Optimize for size.
 codegen-units = 1
 lto = true
 panic = 'abort'
+
+[dependencies]
+islam = { path =  "../islam" }
+clap = "3.0.0-beta.2"
+thiserror = "1.0.24"
+anyhow = "1.0.40"
+log = "0.4.14"
+pretty_env_logger = "0.4.0"
+toml = "0.5.6"
+colored = "2.0.0"
+chrono = "0.4.19"
+serde = { version = "1.0.125", features = ["derive"] }
+atty = "0.2.14"
+
+[dev-dependencies]
+assert_cmd = "1.0.3"
+predicates = "1.0.7"
+
