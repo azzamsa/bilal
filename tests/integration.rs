@@ -14,8 +14,28 @@ fn help() {
 #[test]
 fn all() {
     let mut cmd = Command::cargo_bin("bilal").unwrap();
-    cmd.arg("--all");
+    cmd.arg("all");
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("Fajr"));
+}
+
+#[test]
+fn current() {
+    let mut cmd = Command::cargo_bin("bilal").unwrap();
+    cmd.arg("current");
+    // \u{23fa} : ⏺
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("\u{23fa}"));
+}
+
+#[test]
+fn next() {
+    let mut cmd = Command::cargo_bin("bilal").unwrap();
+    cmd.arg("next");
+    // \u{25b6} : ▶
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("\u{25b6}"));
 }

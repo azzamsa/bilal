@@ -23,14 +23,17 @@ fn run() -> Result<()> {
     let prayers = prayer::all()?;
     let printer = Printer::new(prayers, show_color, json_format);
 
-    if matches.is_present("all") {
-        printer.all()?;
-    };
-    if matches.is_present("current") {
-        printer.current()?;
-    }
-    if matches.is_present("next") {
-        printer.next()?;
+    match matches.value_of("salah") {
+        Some("all") => {
+            printer.all()?;
+        }
+        Some("current") => {
+            printer.current()?;
+        }
+        Some("next") => {
+            printer.next()?;
+        }
+        Some(&_) | None => (),
     }
 
     Ok(())

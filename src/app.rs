@@ -7,22 +7,11 @@ pub fn build() -> App<'static> {
         .setting(AppSettings::ColoredHelp)
         .version(crate_version!())
         .arg(
-            Arg::new("next")
-                .short('n')
-                .long("next")
-                .about("Show next Salah"),
-        )
-        .arg(
-            Arg::new("current")
-                .short('c')
-                .long("current")
-                .about("Show current Salah"),
-        )
-        .arg(
-            Arg::new("all")
-                .short('a')
-                .long("all")
-                .about("Show all Salah time"),
+            Arg::new("salah")
+                .possible_values(&["all", "next", "current"])
+                .default_value("all")
+                .takes_value(true)
+                .about("A Salah to show"),
         )
         .arg(
             Arg::new("json")
