@@ -68,7 +68,7 @@ impl Printer {
             if minute < 30 {
                 "Critical"
             } else {
-                ""
+                "Info"
             }
         };
 
@@ -96,7 +96,7 @@ impl Printer {
         // default
         let mut prayer_fmt = format!("\u{25b6} {} {}", prayer.name(), time_fmt);
         // JSON
-        let state = "";
+        let state = "Info";
         if self.json_format {
             prayer_fmt = format!(r#"{{"state":"{}", "text": "{}"}}"#, state, prayer_fmt)
         }
