@@ -44,6 +44,25 @@ You can get latitude and longitude value from [mapcoordinates](https://www.mapco
 Other [madhab](https://docs.rs/islam/0.1.1/islam/pray/madhab/enum.Madhab.html#variants)
 and [method](https://docs.rs/islam/0.1.1/islam/pray/method/enum.Method.html#variants) options are available.
 
+## Usage with other tools
+
+You can use Bilal with `i3status-rs` to show salah time in your status.
+
+![i3status-bilal](docs/i3rs.png)
+
+![i3status-bilal-urgent](docs/i3rs-urgent.png)
+
+`i3status-rs` configuration Example:
+
+``` bash
+[[block]]
+block = "custom"
+cycle = ["bilal -c -J", "bilal -n -J"]
+on_click = "<command>"
+interval = 300
+json = true
+```
+
 ## Installation
 
 ### From binaries
@@ -59,19 +78,18 @@ Using Rust's package manager [cargo](https://github.com/rust-lang/cargo):
 cargo install bilal
 ```
 
-## Usage with other tools
 
-You can use Bilal with i3status-rs to show salah time in your status bar.
-
-i3status-rs configuration Example:
+## Development
 
 ``` bash
-[[block]]
-block = "custom"
-cycle = ["bilal -c -J", "bilal -n -J"]
-on_click = "<command>"
-interval = 300
-json = true
+git clone https://git.sr.ht/~azzamsa/bilal.rs
+cd bilal.rs
+
+# Run unit tests and integration tests
+cargo test
+
+# Install
+cargo install --path .
 ```
 
 ## Contributing
@@ -84,7 +102,6 @@ Please send patches to `~azzamsa/public-inbox@lists.sr.ht`
 
 The name Bilal was chosen in reference to the Bilal bin Rabah. The first
 mu'azzin, chosen by Muhammad PBUH himself.
-
 
 ## License
 
