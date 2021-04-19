@@ -41,7 +41,7 @@ method = "Egyptian"
 ```
 
 You can get latitude and longitude value from [mapcoordinates](https://www.mapcoordinates.net/en).
-Other[madhab](https://docs.rs/islam/0.1.1/islam/pray/madhab/enum.Madhab.html#variants)
+Other [madhab](https://docs.rs/islam/0.1.1/islam/pray/madhab/enum.Madhab.html#variants)
 and [method](https://docs.rs/islam/0.1.1/islam/pray/method/enum.Method.html#variants) options are available.
 
 ## Installation
@@ -68,7 +68,7 @@ i3status-rs configuration Example:
 ``` bash
 [[block]]
 block = "custom"
-cycle = ["bilal -c -j", "bilal -n -j"]
+cycle = ["bilal -c -J", "bilal -n -J"]
 on_click = "<command>"
 interval = 300
 json = true

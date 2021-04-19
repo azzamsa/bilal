@@ -1,8 +1,4 @@
-image: alpine/3.12
-
-packages:
-  - rust
-  - cargo
+image: debian/buster
 
 sources:
   - https://git.sr.ht/~azzamsa/bilal.rs
@@ -10,19 +6,35 @@ sources:
 environment:
   project: bilal.rs
 
+secrets:
+  - 3bb6a4a8-8fdd-4035-b288-dab3dd39f95d # crates.io
+
 tasks:
   - setup: |
+      # install rustup
+      curl https://sh.rustup.rs -sSf | sh -s -- -y
+      export PATH="$HOME/.cargo/bin:$PATH"
+
+      # install Rust stable
+      rustup install stable --profile minimal
+      rustc -V
+
+      # components
+      rustup component add clippy
+
+      # make path persistent
+      echo export PATH="$HOME/.cargo/bin:$PATH" >> ~/.buildenv
+
+  - lint: |
       cd ${project}
       cargo check
 
-  - lint: |
-      cd bilal.rs
       find . | grep "\.rs" | xargs touch ; cargo clippy --all-features -- --deny warnings --deny clippy::pedantic --deny clippy::nursery
 
   - test: |
-      cd bilal.rs
+      cd ${project}
       mkdir -p ~/.config/bilal
-      cp examples/config.toml ~/.config./bilal/
+      cp examples/config.toml ~/.config/bilal/
       cargo test
 
   - check_deploy_rules: |
@@ -43,4 +55,4 @@ tasks:
       CRATES_AUTH_TOKEN=$(cat ~/.CRATES_AUTH_TOKEN)
       cargo login $CRATES_AUTH_TOKEN
 
-      cargo publish
+      cargo publish --allow-dirty

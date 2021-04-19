@@ -1,6 +1,11 @@
 ## [Unreleased]
 
 
+## [v0.1.6] - 2021-04-19
+
+### Bug Fixes
+- removed many `panics` issue, by migrating to our own `islam` library.
+
 ## [v0.1.1] - 2020-09-25
 
 ### Features
