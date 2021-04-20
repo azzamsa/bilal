@@ -1,7 +1,7 @@
 use std::io::{self, Write};
 
-use chrono::{DateTime, Local, Timelike};
 use colored::Colorize;
+use islam::chrono::{DateTime, Local, Timelike};
 
 use crate::error::BilalError;
 use islam::pray::PrayerTimes;

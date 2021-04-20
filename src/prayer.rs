@@ -1,4 +1,5 @@
-use chrono::Local;
+use islam::chrono::Local;
+
 use islam::pray::Config;
 use islam::pray::Madhab;
 use islam::pray::Method;
