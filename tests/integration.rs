@@ -23,7 +23,7 @@ fn all() {
 #[test]
 fn current() {
     let mut cmd = Command::cargo_bin("bilal").unwrap();
-    cmd.arg("current");
+    cmd.arg("current").arg("--json");
     // \u{23fa} : ⏺
     cmd.assert()
         .success()
@@ -33,7 +33,7 @@ fn current() {
 #[test]
 fn next() {
     let mut cmd = Command::cargo_bin("bilal").unwrap();
-    cmd.arg("next");
+    cmd.arg("next").arg("--json");
     // \u{25b6} : ▶
     cmd.assert()
         .success()

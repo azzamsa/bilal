@@ -10,6 +10,7 @@ pub fn build() -> App<'static> {
             Arg::new("salah")
                 .possible_values(&["all", "next", "current"])
                 .default_value("all")
+                .hide_possible_values(true)
                 .takes_value(true)
                 .about("A Salah to show"),
         )
@@ -22,10 +23,11 @@ pub fn build() -> App<'static> {
         .arg(
             Arg::new("color")
                 .long("color")
-                .takes_value(true)
                 .value_name("WHEN")
                 .possible_values(&["always", "auto", "never"])
                 .default_value("always")
+                .hide_possible_values(true)
+                .takes_value(true)
                 .about("Display Salah in colored output"),
         );
     app

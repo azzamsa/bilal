@@ -7,40 +7,32 @@ You can get latitude and longitude value from online services, such as
 
 ### Method
 
+The methods in subsection are the similar methods.
 Available methods are:
 
-| Value | Description |
-| ----- | ----------- |
-| `MuslimWorldLeague` | Muslim World League. Fajr angle: 18, Isha angle: 17 |
-| `Egyptian` | Egyptian General Authority of Survey. Fajr angle: 19.5, Isha angle: 17.5 |
-| `Karachi` | University of Islamic Sciences, Karachi. Fajr angle: 18, Isha angle: 18 |
-| `UmmAlQura` | Umm al-Qura University, Makkah. Fajr angle: 18.5, Isha interval: 90.  |
-| `Dubai` | Method used in UAE. Fajr angle: 18.2, Isha angle: 18.2. |
-| `Qatar` | Modified version of Umm al-Qura used in Qatar. Fajr angle: 18, Isha interval: 90. |
-| `Kuwait` | Method used by the country of Kuwait. Fajr angle: 18, Isha angle: 17.5 |
-| `MoonsightingCommittee` | Moonsighting Committee. Fajr angle: 18, Isha angle: 18. |
-| `Singapore` | Method used by Singapore. Fajr angle: 20, Isha angle: 18. |
-| `NorthAmerica` | Referred to as the ISNA method. Fajr angle: 15, Isha angle: 15 |
-| `Other` | Fajr angle: 0, Isha angle: 0. |
+- `Karachi`: University of Islamic Sciences, Karachi (UISK). Fajr angle: 18.0, Isha angle: 18.0
+  - Ministry of Religious Affaires, Tunisia
+  - France - Angle 18°
+- `MuslimWorldLeague`: Muslim World League (MWL). Fajr angle: 18.0, Isha angle: 17.0
+  - Ministry of Religious Affaires and Awqaf, Algeria
+  - Presidency of Religious Affairs, Turkey
+- `Egyptian`: Egyptian General Authority of Survey (EGAS): 19.5, Isha angle: 17.5 
+- `UmmAlQura`:  Umm al-Qura University, Makkah (UMU). Fajr angle: 18.5, Isha interval: 90
+- `NorthAmerica`: Islamic Society of North America (ISNA). Fajr angle: 15.0, Isha angle: 15.0 
+  - France - Angle 15°
+- `French`: French Muslims (ex-UOIF). Fajr angle: 12.0, Isha angle: 12.0
+- `Singapore`: Islamic Religious Council of Signapore (MUIS). Fajr angle: 20.0, Isha angle: 18.0
+  - Department of Islamic Advancements of Malaysia (JAKIM)
+  - Ministry of Religious Affairs of Indonesia (KEMENAG)
+- `Russia`: Spiritual Administration of Muslims of Russia. Fajr angle: 16.0, Isha angle: 15.0
+- `FixedInterval`: Fixed Ishaa Time Interval, 90min. Fajr angle: 19.5, Isha interval: 90 (ramdan: 120)
 
-This docs is adapted from [insha/salah](https://github.com/insha/salah/).
 
 ### Madhab
 
 This settings corresponds to Asr prayer time.
 For Hanafi madhab, the Asr is bit later than that of the Shafi madhab.
 
-| Value | Description |
-| ----- | ----------- |
-| `Shafi` | Earlier Asr time |
-| `Hanafi` | Later Asr time |
+- `Shafi`:  Earlier Asr time
+- `Hanafi`: Later Asr time
 
-## Contribution
-
-### Release
-
-To make a release. Change the `version` in `Cargo.toml` then run:
-
-``` bash
-$ source scripts/relase.sh
-```

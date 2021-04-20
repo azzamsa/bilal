@@ -30,6 +30,14 @@
 
 ## Usage
 
+## Usage Examples
+
+``` bash
+bilal all                            Show all salahs time
+bilal current                        ... current salah time
+bilal current --json                  .... with JSON format
+```
+
 Create a file named `bilal.toml` in `~/.config/bilal/`. If you are on `Windows`, put it under `\AppData\Bilal\`. Then add your configuration:
 
 ``` toml
@@ -40,28 +48,54 @@ madhab = "Shafi"
 method = "Egyptian"
 ```
 
-You can get latitude and longitude value from [mapcoordinates](https://www.mapcoordinates.net/en).
-Other [madhab](https://docs.rs/islam/0.1.1/islam/pray/madhab/enum.Madhab.html#variants)
-and [method](https://docs.rs/islam/0.1.1/islam/pray/method/enum.Method.html#variants) options are available.
+To see more options, please read the [wiki](docs/wiki.md)
 
-## Usage with other tools
+### Command-line options
 
-You can use Bilal with `i3status-rs` to show salah time in your status.
+``` bash
+USAGE:
+    bilal [FLAGS] [OPTIONS] [salah]
 
-![i3status-bilal](docs/i3rs.png)
+ARGS:
+    <salah>    A Salah to show [default: all]
 
-![i3status-bilal-urgent](docs/i3rs-urgent.png)
+FLAGS:
+    -h, --help       Prints help information
+    -J, --json       Display Salah in JSON formatted string
+    -V, --version    Prints version information
 
-`i3status-rs` configuration Example:
+OPTIONS:
+        --color <WHEN>    Display Salah in colored output [default: always]
+```
+
+### Usage with other tools
+
+You can use Bilal with `i3status-rust` to show salah time in your status.
+
+![i3status-rust-bilal](docs/i3status-rust.png)
+
+![i3status-rust-bilal-urgent](docs/i3status-rust-urgent.png)
+
+`i3status-rurts` configuration Example:
 
 ``` bash
 [[block]]
 block = "custom"
-cycle = ["bilal -c -J", "bilal -n -J"]
+cycle = [
+        "bilal current -J",
+        "bilal next -J",
+        ]
 on_click = "<command>"
 interval = 300
 json = true
+
 ```
+
+See [more examples](examples/) to learn other variations.
+
+If you like `bilal` to support your favourite status-bar, please hit me in
+the [mailing-list][mailing-list] with the valid input of your status-bar. In i3status-rust
+the valid input it would be `{"icon": "ICON", "state": "STATE", "text": "YOURTEXT"}`.
 
 ## Installation
 
@@ -97,6 +131,8 @@ cargo install --path .
 For reporting issues, visit the tracker here: https://todo.sr.ht/~azzamsa/Bilal
 
 Please send patches to `~azzamsa/public-inbox@lists.sr.ht`
+
+To learn more read [contributing.md](docs/dev/contributing.md)
 
 ## Origin of the name
 

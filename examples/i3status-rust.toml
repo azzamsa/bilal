@@ -1,0 +1,17 @@
+# tested against
+# i3status-rs 0.14.3 (commit b98c99e 2020-12-10)
+
+[icons]
+name = "awesome5"
+[icons.overrides]
+bilal = "  "
+
+[[block]]
+block = "custom"
+cycle = [
+        "bilal current -J",
+        "bilal next -J",
+        ]
+on_click = "<command>"
+interval = 300
+json = true

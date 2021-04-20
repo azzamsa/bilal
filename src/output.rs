@@ -24,27 +24,25 @@ impl Printer {
     pub fn all(&self) -> Result<(), BilalError> {
         let prayers = self.prayers;
 
-        let print_output = |name: &str, prayer: DateTime<Local>| {
-            writeln!(
-                io::stdout(),
-                "{}: {}:{}:{}",
-                name,
-                prayer.hour(),
-                prayer.minute(),
-                prayer.second()
-            )
-            .ok();
+        let fmt_output = |name: &str, prayer: DateTime<Local>| {
+            format!("{}: {}:{}", name, prayer.hour(), prayer.minute())
         };
 
-        print_output("Fajr", prayers.fajr);
-        print_output("Sherook", prayers.sherook);
-        print_output("Dohr", prayers.dohr);
-        print_output("Asr", prayers.asr);
-        print_output("Mghreb", prayers.maghreb);
-        print_output("Ishaa", prayers.ishaa);
-        print_output("Fist third of night", prayers.first_third_of_night);
-        print_output("Midnight", prayers.midnight);
-        print_output("Last third of night", prayers.last_third_of_night);
+        Self::print(fmt_output("Fajr", prayers.fajr));
+        Self::print(fmt_output("Sherook", prayers.sherook));
+        Self::print(fmt_output("Dohr", prayers.dohr));
+        Self::print(fmt_output("Asr", prayers.asr));
+        Self::print(fmt_output("Mghreb", prayers.maghreb));
+        Self::print(fmt_output("Ishaa", prayers.ishaa));
+        Self::print(fmt_output(
+            "Fist third of night",
+            prayers.first_third_of_night,
+        ));
+        Self::print(fmt_output("Midnight", prayers.midnight));
+        Self::print(fmt_output(
+            "Last third of night",
+            prayers.last_third_of_night,
+        ));
 
         Ok(())
     }
@@ -63,7 +61,7 @@ impl Printer {
         };
 
         // default
-        let mut prayer_fmt = format!("\u{23fa} {} {}", prayer.name(), remaining_fmt);
+        let mut prayer_fmt = format!("{} {}", prayer.name(), remaining_fmt);
         let state = {
             if minute < 30 {
                 "Critical"
@@ -74,15 +72,16 @@ impl Printer {
 
         // JSON
         if self.json_format {
-            prayer_fmt = format!(r#"{{"state":"{}", "text": "{}"}}"#, state, prayer_fmt)
+            prayer_fmt = format!(
+                r#"{{"icon": "{}", "state": "{}", "text": "{} {}"}}"#,
+                "bilal", state, "\u{23fa} ", prayer_fmt
+            )
         }
         // color
-        if self.show_color && state == "Critical" {
+        if self.show_color && state == "Critical" && !self.json_format {
             prayer_fmt = format!("{}", prayer_fmt.red());
         }
-
-        writeln!(io::stdout(), "{}", prayer_fmt).ok();
-
+        Self::print(prayer_fmt);
         Ok(())
     }
     /// Show next prayer info
@@ -91,17 +90,22 @@ impl Printer {
         let prayer = prayers.next();
         let time = prayers.time(prayer);
 
-        let time_fmt = format!("({}:{}:{})", time.hour(), time.minute(), time.second());
+        let time_fmt = format!("({}:{})", time.hour(), time.minute());
 
         // default
-        let mut prayer_fmt = format!("\u{25b6} {} {}", prayer.name(), time_fmt);
+        let mut prayer_fmt = format!("{} {}", prayer.name(), time_fmt);
         // JSON
         let state = "Info";
         if self.json_format {
-            prayer_fmt = format!(r#"{{"state":"{}", "text": "{}"}}"#, state, prayer_fmt)
+            prayer_fmt = format!(
+                r#"{{"icon": "{}", "state": "{}", "text": "{} {}"}}"#,
+                "bilal", state, "\u{25b6}", prayer_fmt
+            )
         }
-        writeln!(io::stdout(), "{}", prayer_fmt).ok();
-
+        Self::print(prayer_fmt);
         Ok(())
+    }
+    fn print(prayer_fmt: String) {
+        writeln!(io::stdout(), "{}", prayer_fmt).ok();
     }
 }
