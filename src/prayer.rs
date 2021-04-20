@@ -1,8 +1,8 @@
 use chrono::prelude::*;
-use islam::pray::config::Config;
-use islam::pray::madhab::Madhab;
-use islam::pray::method::Method;
-use islam::pray::times::{Location, PrayerSchedule, PrayerTimes};
+use islam::pray::Config;
+use islam::pray::Madhab;
+use islam::pray::Method;
+use islam::pray::{Location, PrayerSchedule, PrayerTimes};
 
 use crate::config;
 use crate::error::BilalError;

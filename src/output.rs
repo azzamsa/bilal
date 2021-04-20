@@ -4,7 +4,7 @@ use chrono::prelude::*;
 use colored::Colorize;
 
 use crate::error::BilalError;
-use islam::pray::times::PrayerTimes;
+use islam::pray::PrayerTimes;
 
 pub struct Printer {
     prayers: PrayerTimes,
