@@ -1,7 +1,7 @@
 [package]
 name = "bilal"
 description = "a CLI salah time"
-version = "0.1.6"
+version = "0.1.7"
 authors = ["azzamsa <me@azzamsa.com>"]
 edition = "2018"
 keywords = ["salah", "pray", "islam"]
@@ -17,7 +17,7 @@ lto = true
 panic = 'abort'
 
 [dependencies]
-islam = "0.1.1"
+islam = "0.1.2"
 clap = "3.0.0-beta.2"
 thiserror = "1.0.24"
 anyhow = "1.0.40"

@@ -55,4 +55,4 @@ tasks:
       CRATES_AUTH_TOKEN=$(cat ~/.CRATES_AUTH_TOKEN)
       cargo login $CRATES_AUTH_TOKEN
 
-      cargo publish --allow-dirty
+      cargo publish
