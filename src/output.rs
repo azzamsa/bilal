@@ -28,18 +28,18 @@ impl Printer {
             format!("{}: {}:{}", name, prayer.hour(), prayer.minute())
         };
 
-        Self::print(fmt_output("Fajr", prayers.fajr));
-        Self::print(fmt_output("Sherook", prayers.sherook));
-        Self::print(fmt_output("Dohr", prayers.dohr));
-        Self::print(fmt_output("Asr", prayers.asr));
-        Self::print(fmt_output("Mghreb", prayers.maghreb));
-        Self::print(fmt_output("Ishaa", prayers.ishaa));
-        Self::print(fmt_output(
+        Self::print(&fmt_output("Fajr", prayers.fajr));
+        Self::print(&fmt_output("Sherook", prayers.sherook));
+        Self::print(&fmt_output("Dohr", prayers.dohr));
+        Self::print(&fmt_output("Asr", prayers.asr));
+        Self::print(&fmt_output("Mghreb", prayers.maghreb));
+        Self::print(&fmt_output("Ishaa", prayers.ishaa));
+        Self::print(&fmt_output(
             "Fist third of night",
             prayers.first_third_of_night,
         ));
-        Self::print(fmt_output("Midnight", prayers.midnight));
-        Self::print(fmt_output(
+        Self::print(&fmt_output("Midnight", prayers.midnight));
+        Self::print(&fmt_output(
             "Last third of night",
             prayers.last_third_of_night,
         ));
@@ -81,7 +81,7 @@ impl Printer {
         if self.show_color && state == "Critical" && !self.json_format {
             prayer_fmt = format!("{}", prayer_fmt.red());
         }
-        Self::print(prayer_fmt);
+        Self::print(&prayer_fmt);
         Ok(())
     }
     /// Show next prayer info
@@ -102,10 +102,10 @@ impl Printer {
                 "bilal", state, "\u{25b6}", prayer_fmt
             )
         }
-        Self::print(prayer_fmt);
+        Self::print(&prayer_fmt);
         Ok(())
     }
-    fn print(prayer_fmt: String) {
+    fn print(prayer_fmt: &str) {
         writeln!(io::stdout(), "{}", prayer_fmt).ok();
     }
 }
