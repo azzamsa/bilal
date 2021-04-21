@@ -53,10 +53,10 @@ impl Printer {
         let (hour, minute) = prayers.time_remaining();
 
         let remaining_fmt = {
-            if !hour == 0 {
-                format!("({}:{} hours)", hour, minute)
-            } else {
+            if hour == 0 {
                 format!("({} minutes)", minute)
+            } else {
+                format!("({}:{} hours)", hour, minute)
             }
         };
 
