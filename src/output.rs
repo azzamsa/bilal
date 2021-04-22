@@ -63,7 +63,7 @@ impl Printer {
         // default
         let mut prayer_fmt = format!("{} {}", prayer.name(), remaining_fmt);
         let state = {
-            if minute < 30 {
+            if hour == 0 && minute < 30 {
                 "Critical"
             } else {
                 "Info"
