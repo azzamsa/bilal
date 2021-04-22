@@ -2,7 +2,14 @@
 
 ## [Unreleased]
 
-## [v0.1.7] - 2021-04-10
+## [v0.1.8] - 2021-04-22
+
+### Bug Fixes
+- Fixed wrong remaining time. The hour doesn't shown even if it's `not equal to 0`.
+- Leading zero in minute not shown.
+- Wrong critical state. The app only check for the remaining time. So it will says `critical` even the hour > 0.
+
+## [v0.1.7] - 2021-04-20
 
 ### Bug Fixes
 - Use salah as an argument instead of an option. Now it's `bilal all` instead of `bilal --all`.
