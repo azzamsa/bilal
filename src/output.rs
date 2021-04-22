@@ -1,7 +1,7 @@
 use std::io::{self, Write};
 
 use colored::Colorize;
-use islam::chrono::{DateTime, Local, Timelike};
+use islam::chrono::{DateTime, Local};
 
 use crate::error::BilalError;
 use islam::pray::PrayerTimes;
@@ -25,7 +25,7 @@ impl Printer {
         let prayers = self.prayers;
 
         let fmt_output = |name: &str, prayer: DateTime<Local>| {
-            format!("{}: {}:{}", name, prayer.hour(), prayer.minute())
+            format!("{}: {}", name, prayer.format("%H:%M").to_string())
         };
 
         Self::print(&fmt_output("Fajr", prayers.fajr));
@@ -90,10 +90,10 @@ impl Printer {
         let prayer = prayers.next();
         let time = prayers.time(prayer);
 
-        let time_fmt = format!("({}:{})", time.hour(), time.minute());
+        let time_fmt = time.format("%H:%M").to_string();
 
         // default
-        let mut prayer_fmt = format!("{} {}", prayer.name(), time_fmt);
+        let mut prayer_fmt = format!("{} ({})", prayer.name(), time_fmt);
         // JSON
         let state = "Info";
         if self.json_format {
