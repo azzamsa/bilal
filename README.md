@@ -128,9 +128,9 @@ cargo install --path .
 
 ## Contributing
 
-For reporting issues, visit the tracker here: https://todo.sr.ht/~azzamsa/Bilal
+Please send patches and questions to my [public-inbox][mailing-list] mailing list.
 
-Please send patches to `~azzamsa/public-inbox@lists.sr.ht`
+Bugs and Todo here: https://todo.sr.ht/~azzamsa/Bilal
 
 To learn more read [contributing.md](docs/dev/contributing.md)
 
