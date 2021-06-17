@@ -128,7 +128,7 @@ cargo install --path .
 
 ## Contributing
 
-Please send patches and questions to my [public-inbox][mailing-list] mailing list.
+Please send patches and questions to my [public-inbox][inbox] mailing list.
 
 Bugs and Todo here: https://todo.sr.ht/~azzamsa/Bilal
 
@@ -145,4 +145,4 @@ Copyright (c) 2020 Azzamsa
 
 Bilal is distributed under the terms of [GPL V3 License](LICENSE).
 
-
+[inbox]: https://lists.sr.ht/~azzamsa/public-inbox
