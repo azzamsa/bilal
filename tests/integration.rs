@@ -1,6 +1,6 @@
 use assert_cmd::prelude::*;
 use predicates::prelude::*;
-use std::process::Command;
+use std::{env, process::Command};
 
 #[test]
 fn help() {
@@ -13,6 +13,7 @@ fn help() {
 
 #[test]
 fn all() {
+    env::set_var("HOME", "./tests");
     let mut cmd = Command::cargo_bin("bilal").unwrap();
     cmd.arg("all");
     cmd.assert()
@@ -22,6 +23,7 @@ fn all() {
 
 #[test]
 fn current() {
+    env::set_var("HOME", "./tests");
     let mut cmd = Command::cargo_bin("bilal").unwrap();
     cmd.arg("current").arg("--json");
     // \u{23fa} : ⏺
@@ -32,6 +34,7 @@ fn current() {
 
 #[test]
 fn next() {
+    env::set_var("HOME", "./tests");
     let mut cmd = Command::cargo_bin("bilal").unwrap();
     cmd.arg("next").arg("--json");
     // \u{25b6} : ▶

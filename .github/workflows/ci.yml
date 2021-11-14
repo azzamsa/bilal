@@ -54,7 +54,8 @@ jobs:
           echo "target flag is: ${{ env.TARGET_FLAGS }}"
 
       - name: Lint
-        run:  ${{ env.CARGO }} clippy --all-features -- --deny warnings --deny clippy::pedantic --deny clippy::nursery
+        run:
+          ${{ env.CARGO }} clippy --all-features -- --deny warnings --deny clippy::pedantic --deny clippy::nursery
 
       - name: Build
         run: ${{ env.CARGO }} build --verbose --all ${{ env.TARGET_FLAGS }}
@@ -62,8 +63,8 @@ jobs:
       - name: Test
         if: matrix.target != ''
         run: |
-          mkdir -p ~/.config/bilal
-          cp examples/config.toml ~/.config/bilal/
+          mkdir -p tests/.config/bilal
+          cp examples/config.toml tests/.config/bilal
           ${{ env.CARGO }} test --verbose --all ${{ env.TARGET_FLAGS }}
 
 
