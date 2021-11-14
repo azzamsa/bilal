@@ -1,34 +1,34 @@
 use clap::{crate_version, App, AppSettings, Arg};
 
 /// Build a clap app
-pub fn build() -> App<'static> {
+pub fn build() -> App<'static, 'static> {
     let app = App::new("Bilal [A CLI salah time]")
         .setting(AppSettings::ArgRequiredElseHelp)
         .setting(AppSettings::ColoredHelp)
         .version(crate_version!())
         .arg(
-            Arg::new("salah")
+            Arg::with_name("salah")
                 .possible_values(&["all", "next", "current"])
                 .default_value("all")
                 .hide_possible_values(true)
                 .takes_value(true)
-                .about("A Salah to show"),
+                .help("A Salah to show"),
         )
         .arg(
-            Arg::new("json")
-                .short('J')
+            Arg::with_name("json")
+                .short("J")
                 .long("json")
-                .about("Display Salah in JSON formatted string"),
+                .help("Display Salah in JSON formatted string"),
         )
         .arg(
-            Arg::new("color")
+            Arg::with_name("color")
                 .long("color")
                 .value_name("WHEN")
                 .possible_values(&["always", "auto", "never"])
                 .default_value("always")
                 .hide_possible_values(true)
                 .takes_value(true)
-                .about("Display Salah in colored output"),
+                .help("Display Salah in colored output"),
         );
     app
 }
