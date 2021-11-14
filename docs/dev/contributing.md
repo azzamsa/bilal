@@ -1,9 +1,5 @@
 ## Contributing
 
-### Unsure how to contribute?
-
-- [How to send patches](https://git-send-email.io/#step-3)
-
 ### Running The Demo
 
 The demo is shown using [doitlive](https://github.com/sloria/doitlive).

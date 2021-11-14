@@ -1,8 +1,8 @@
 <div align="center">
 <h1>Bilal</h1>
 
-<a href="https://builds.sr.ht/~azzamsa/bilal?">
-<img src="https://builds.sr.ht/~azzamsa/bilal.svg">
+<a href="https://github.com/azzamsa/bilal/workflows/ci.yml">
+<img src="https://github.com/azzamsa/bilal/workflows/ci/badge.svg">
 </a>
 <a href="https://crates.io/crates/bilal">
 <img src="https://img.shields.io/crates/v/bilal.svg">
@@ -127,10 +127,6 @@ cargo install --path .
 ```
 
 ## Contributing
-
-Please send patches and questions to my [public-inbox][inbox] mailing list.
-
-Bugs and Todo here: https://todo.sr.ht/~azzamsa/Bilal
 
 To learn more read [contributing.md](docs/dev/contributing.md)
 
