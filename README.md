@@ -93,15 +93,15 @@ json = true
 
 See [more examples](examples/) to learn other variations.
 
-If you like `bilal` to support your favourite status-bar, please hit me in
-the [mailing-list][mailing-list] with the valid input of your status-bar. In i3status-rust
+If you like `bilal` to support your favourite status-bar, please open new issue
+with the valid input of your status-bar. In i3status-rust
 the valid input it would be `{"icon": "ICON", "state": "STATE", "text": "YOURTEXT"}`.
 
 ## Installation
 
 ### From binaries
 
-The [release page](https://git.sr.ht/~azzamsa/bilal.rs/refs/) includes
+The [release page](https://github.com/azzamsa/bilal/releases) includes
 pre-compiled binaries for GNU/Linux, macOS and Windows.
 
 ### From source
@@ -116,7 +116,7 @@ cargo install bilal
 ## Development
 
 ``` bash
-git clone https://git.sr.ht/~azzamsa/bilal.rs
+git clone https://github.com/azzamsa/bilal
 cd bilal.rs
 
 # Run unit tests and integration tests
@@ -140,5 +140,3 @@ mu'azzin, chosen by Muhammad PBUH himself.
 Copyright (c) 2020 Azzamsa
 
 Bilal is distributed under the terms of [GPL V3 License](LICENSE).
-
-[inbox]: https://lists.sr.ht/~azzamsa/public-inbox

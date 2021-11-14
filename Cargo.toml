@@ -8,7 +8,7 @@ keywords = ["salah", "pray", "islam"]
 categories = ["date-and-time", "command-line-utilities"]
 readme = "README.md"
 license = "GPL-3.0-only"
-repository = "https://git.sr.ht/~azzamsa/bilal.rs"
+repository = "https://github.com/azzamsa/bilal"
 
 [profile.release]
 opt-level = 'z'  # Optimize for size.
