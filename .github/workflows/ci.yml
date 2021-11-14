@@ -65,6 +65,10 @@ jobs:
         run: |
           mkdir -p tests/.config/bilal
           cp examples/config.toml tests/.config/bilal
+          # for windows
+          mkdir -p tests/Bilal
+          cp examples/config.toml tests/Bilal
+
           ${{ env.CARGO }} test --verbose --all ${{ env.TARGET_FLAGS }}
 
 
