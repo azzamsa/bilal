@@ -75,7 +75,7 @@ impl Printer {
             prayer_fmt = format!(
                 r#"{{"icon": "{}", "state": "{}", "text": "{} {}"}}"#,
                 "bilal", state, "\u{23fa} ", prayer_fmt
-            )
+            );
         }
         // color
         if self.show_color && state == "Critical" && !self.json_format {
@@ -100,7 +100,7 @@ impl Printer {
             prayer_fmt = format!(
                 r#"{{"icon": "{}", "state": "{}", "text": "{} {}"}}"#,
                 "bilal", state, "\u{25b6}", prayer_fmt
-            )
+            );
         }
         Self::print(&prayer_fmt);
         Ok(())
