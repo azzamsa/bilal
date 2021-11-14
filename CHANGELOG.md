@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [v0.1.9] - 2021-11-15
+
+### Development
+- Port to clap v2. The v3 API is always changing.
+
 ## [v0.1.8] - 2021-04-22
 
 ### Bug Fixes
