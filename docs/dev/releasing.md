@@ -1,9 +1,11 @@
 # Release Checklist
 
-- Run `cargo update` and review dependency updates.
-- Run the lint check: `cargo clippy --all-features -- --deny warnings --deny clippy::pedantic --deny clippy::nursery`
-- Update the CHANGELOG.
-- Update version numbers in `Cargo.toml`, then run `cargo update -p bilal` so that the Cargo.lock is updated.
-- Create a commit with a message format: `v[0-9]+.[0-9]+.[0-9]+`, and push.
-- Wait for the checks to pass, tag a commit with a release tag, then push the tag.
-- Create a new GitHub release with the created tag above.
+- Switch to a **master/main** branch locally.
+- Pull the newest change in the upstream. Such a new merged PR.
+- Run the lint check: `make check`.
+- Run the release task: `make release version=v<mayor.minor.path>`. Such `make release version=v0.1.7`.
+- Push the release commit to the **specified feature branch**.
+- Check if [Continuous Integration](https://github.com/azzamsa/azzamsa/actions/workflows/ci.yml) workflow is completed successfully.
+- Push the release tags: `git push --tags`.
+- Wait for [Continuous Deployment](https://github.com/azzamsa/azzamsa/actions/workflows/cd.yml) workflow to finish.
+- Create a new GitHub release with the created tag above, and copy the release news from the CHANGELOG.md.

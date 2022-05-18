@@ -1,67 +1,72 @@
 name: ci
 
+env:
+  MIN_SUPPORTED_RUST_VERSION: "1.60.0"
+
 on:
   pull_request:
   push:
     branches:
     - master
 
+
 jobs:
-  test:
-    name: test
-    env:
-      CARGO: cargo
-      # When CARGO is set to CROSS, this is set to `--target matrix.target`.
-      TARGET_FLAGS:
-      # When CARGO is set to CROSS, TARGET_DIR includes matrix.target.
-      TARGET_DIR: ./target
-      # Emit backtraces on panics.
-      RUST_BACKTRACE: 1
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        build: [linux, linux-musl, macos, win-msvc, win-gnu]
-        include:
-        - { build: linux , os: ubuntu-18.04 , rust: stable, target: x86_64-unknown-linux-gnu }
-        - { build: linux-musl , os: ubuntu-18.04 , rust: stable, target: x86_64-unknown-linux-musl}
-        - { build: macos , os: macos-latest , rust: stable, target: x86_64-apple-darwin}
-        - { build: win-msvc , os: windows-2019 , rust: stable, target: x86_64-pc-windows-msvc}
-        - { build: win-gnu , os: windows-2019 , rust: stable, target: x86_64-pc-windows-gnu}
+  code_quality:
+    name: Code quality
+    runs-on: ubuntu-20.04
     steps:
-      - name: Checkout repository
+      - name: Checkout source code
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
-      - name: Install Rust
+      - name: Install rust toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ matrix.rust }}
+          toolchain: stable
+          default: true
+          profile: minimal # no documentation
+          components: clippy, rustfmt
+
+      - name: Cache
+        uses: Swatinem/rust-cache@v1
+
+      - name: Ensure `cargo fmt` has been run
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: -- --check
+
+      - name: Ensure MSRV is set in `clippy.toml`
+        run: grep "^msrv = \"${{ env.MIN_SUPPORTED_RUST_VERSION }}\"\$" clippy.toml
+
+      - name: Run clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --locked --all-targets --all-features
+
+
+  min_version:
+    name: Minimum supported rust version
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Install rust toolchain (v${{ env.MIN_SUPPORTED_RUST_VERSION }})
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.MIN_SUPPORTED_RUST_VERSION }}
+          default: true
           profile: minimal
-          override: true
 
-      - name: Use Cross
-        if: matrix.target != ''
-        run: |
-          cargo install cross
-          echo "CARGO=cross" >> $GITHUB_ENV
-          echo "TARGET_FLAGS=--target ${{ matrix.target }}" >> $GITHUB_ENV
-          echo "TARGET_DIR=./target/${{ matrix.target }}" >> $GITHUB_ENV
+      - name: Cache
+        uses: Swatinem/rust-cache@v1
 
-      - name: Show command used for Cargo
-        run: |
-          echo "cargo command is: ${{ env.CARGO }}"
-          echo "target flag is: ${{ env.TARGET_FLAGS }}"
-
-      - name: Lint
-        run:
-          ${{ env.CARGO }} clippy --all-features -- --deny warnings --deny clippy::pedantic --deny clippy::nursery
-
-      - name: Build
-        run: ${{ env.CARGO }} build --verbose --all ${{ env.TARGET_FLAGS }}
-
-      - name: Test
-        if: matrix.target != ''
+      - name: Prepare config
         run: |
           mkdir -p tests/.config/bilal
           cp examples/config.toml tests/.config/bilal
@@ -69,27 +74,71 @@ jobs:
           mkdir -p tests/Bilal
           cp examples/config.toml tests/Bilal
 
-          ${{ env.CARGO }} test --verbose --all ${{ env.TARGET_FLAGS }}
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --locked
 
+  build:
+    name: ${{ matrix.job.os }} (${{ matrix.job.target }})
+    runs-on: ${{ matrix.job.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        job:
+          - { os: ubuntu-20.04, target: x86_64-unknown-linux-gnu    }
+          - { os: ubuntu-20.04, target: x86_64-unknown-linux-musl   , use-cross: true }
+          - { os: macos-10.15 , target: x86_64-apple-darwin         }
+          - { os: windows-2019, target: x86_64-pc-windows-gnu       }
+          - { os: windows-2019, target: x86_64-pc-windows-msvc      }
 
-
-  rustfmt:
-    name: rustfmt
-    runs-on: ubuntu-18.04
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
           fetch-depth: 1
 
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
-        profile: minimal
-        components: rustfmt
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.job.target }}
+          override: true
+          profile: minimal
 
-    - name: Check formatting
-      run: |
-        cargo fmt --all -- --check
+      - name: Cache
+        uses: Swatinem/rust-cache@v1
+
+      - name: Show version information (Rust, cargo, GCC)
+        shell: bash
+        run: |
+          gcc --version || true
+          rustup -V
+          rustup toolchain list
+          rustup default
+          cargo -V
+          rustc -V
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: ${{ matrix.job.use-cross }}
+          command: build
+          args: --locked --release --target=${{ matrix.job.target }}
+
+      - name: Prepare config
+        run: |
+          mkdir -p tests/.config/bilal
+          cp examples/config.toml tests/.config/bilal
+          # for windows
+          mkdir -p tests/Bilal
+          cp examples/config.toml tests/Bilal
+
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: ${{ matrix.job.use-cross }}
+          command: test
+          args: --locked --target=${{ matrix.job.target }}
+
