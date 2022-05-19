@@ -24,9 +24,8 @@ impl Printer {
     pub fn all(&self) -> Result<(), BilalError> {
         let prayers = self.prayers;
 
-        let fmt_output = |name: &str, prayer: DateTime<Local>| {
-            format!("{}: {}", name, prayer.format("%H:%M").to_string())
-        };
+        let fmt_output =
+            |name: &str, prayer: DateTime<Local>| format!("{}: {}", name, prayer.format("%H:%M"));
 
         Self::print(&fmt_output("Fajr", prayers.fajr));
         Self::print(&fmt_output("Sherook", prayers.sherook));
