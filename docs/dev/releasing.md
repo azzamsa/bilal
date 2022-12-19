@@ -11,4 +11,5 @@
   push and thus not run the release workflow.)
 - Wait for CI to finish creating the release. If the release build fails, then
   delete the tag from GitHub, make fixes, re-tag, delete the release, and push.
+- Copy the relevant section of the CHANGELOG.md to the tagged release notes.
 - Run `cargo publish`.

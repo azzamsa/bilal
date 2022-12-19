@@ -94,16 +94,9 @@ jobs:
         run: |
           strip "target/${{ matrix.target }}/release/bilal"
 
-      - name: Get CHANGELOG.md entry
-        id: changelog_reader
-        uses: mindsers/changelog-reader-action@v2
-        with:
-          version: ${{ steps.tag.outputs.current_version }}
-          path: ./CHANGELOG.md
-
       - name: Upload binaries to release
         if: matrix.build == 'linux' || matrix.build == 'linux-musl' || matrix.build == 'macos'
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
@@ -113,7 +106,7 @@ jobs:
 
       - name: Upload binaries to release
         if: matrix.build == 'win-msvc' || matrix.build == 'win-gnu'
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/release/${{ matrix.artifact_name }}
