@@ -1,30 +1,30 @@
 [package]
 name = "bilal"
-description = "a CLI salah time"
 version = "0.1.9"
 authors = ["azzamsa <me@azzamsa.com>"]
-edition = "2018"
-keywords = ["salah", "pray", "islam"]
 categories = ["date-and-time", "command-line-utilities"]
-readme = "README.md"
+edition = "2021"
+keywords = ["salah", "pray", "islam"]
 license = "GPL-3.0-only"
+readme = "README.md"
 repository = "https://github.com/azzamsa/bilal"
+description = "a CLI salah time"
 
 [profile.release]
-opt-level = 'z'  # Optimize for size.
+opt-level = 'z' # Optimize for size.
 codegen-units = 1
 lto = true
 panic = 'abort'
 
 [dependencies]
-islam = "0.1.5"
-clap = { version = "3.1.18", features = ["suggestions", "cargo"] }
-thiserror = "1.0.24"
 anyhow = "1.0.40"
-toml = "0.5.6"
-colored = "2.0.0"
-serde = { version = "1.0.125", features = ["derive"] }
 atty = "0.2.14"
+clap = { version = "3.1.18", features = ["suggestions", "cargo"] }
+colored = "2.0.0"
+islam = { path = "../islam" }
+serde = { version = "1.0.125", features = ["derive"] }
+thiserror = "1.0.24"
+toml = "0.5.6"
 
 [dev-dependencies]
 assert_cmd = "2.0.4"

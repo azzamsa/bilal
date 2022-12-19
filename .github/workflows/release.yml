@@ -1,11 +1,9 @@
-# inspired by ripgrep workflow
-
-name: release
+name: Release
 
 on:
   push:
     tags:
-    - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v*'
 
 jobs:
   publish:
@@ -20,18 +18,19 @@ jobs:
       # Emit backtraces on panics.
       RUST_BACKTRACE: 1
     strategy:
+      fail-fast: false
       matrix:
         build: [linux, linux-musl, macos, win-msvc, win-gnu]
         include:
         - build: linux
-          os: ubuntu-18.04
+          os: ubuntu-22.04
           rust: stable
           target: x86_64-unknown-linux-gnu
           artifact_name: bilal
           asset_name: bilal-linux-amd64
 
         - build: linux-musl
-          os: ubuntu-18.04
+          os: ubuntu-22.04
           rust: stable
           target: x86_64-unknown-linux-musl
           artifact_name: bilal
@@ -45,7 +44,7 @@ jobs:
           asset_name: bilal-macos-amd64
 
         - build: win-msvc
-          os: windows-2019
+          os: windows-2022
           rust: stable
           target: x86_64-pc-windows-msvc
           artifact_name: bilal.exe
@@ -54,7 +53,7 @@ jobs:
           asset_name: bilal-windows-amd64-msvc.exe
 
         - build: win-gnu
-          os: windows-2019
+          os: windows-2022
           rust: stable
           target: x86_64-pc-windows-gnu
           artifact_name: bilal.exe
@@ -62,23 +61,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v3
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
-          profile: minimal
-          override: true
           target: ${{ matrix.target }}
+
+      - name: Install cross
+        uses: taiki-e/install-action@cross
 
       - name: Use Cross
         # currently only used for non-windows
         # because they didn't pick up these variables
         run: |
-          cargo install cross
           echo "CARGO=cross" >> $GITHUB_ENV
           echo "TARGET_FLAGS=--target ${{ matrix.target }}" >> $GITHUB_ENV
           echo "TARGET_DIR=./target/${{ matrix.target }}" >> $GITHUB_ENV
@@ -97,7 +94,14 @@ jobs:
         run: |
           strip "target/${{ matrix.target }}/release/bilal"
 
-      - name: Upload binaries to the release page
+      - name: Get CHANGELOG.md entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          version: ${{ steps.tag.outputs.current_version }}
+          path: ./CHANGELOG.md
+
+      - name: Upload binaries to release
         if: matrix.build == 'linux' || matrix.build == 'linux-musl' || matrix.build == 'macos'
         uses: svenstaro/upload-release-action@v1-release
         with:
@@ -107,7 +111,7 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
 
-      - name: Upload binaries to the release page
+      - name: Upload binaries to release
         if: matrix.build == 'win-msvc' || matrix.build == 'win-gnu'
         uses: svenstaro/upload-release-action@v1-release
         with:
@@ -116,10 +120,3 @@ jobs:
           asset_name: ${{ matrix.asset_name }}
           tag: ${{ github.ref }}
           overwrite: true
-
-      - name: Publish to crates.io
-        # do it only once
-        if: matrix.build == 'linux'
-        uses: katyo/publish-crates@v1
-        with:
-          registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}

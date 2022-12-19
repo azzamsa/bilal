@@ -32,7 +32,7 @@
 
 ## Usage Examples
 
-``` bash
+```bash
 bilal all                            Show all salahs time
 bilal current                        ... current salah time
 bilal current --json                  .... with JSON format
@@ -40,7 +40,7 @@ bilal current --json                  .... with JSON format
 
 Create a file named `bilal.toml` in `~/.config/bilal/`. If you are on `Windows`, put it under `\AppData\Bilal\`. Then add your configuration:
 
-``` toml
+```toml
 timezone = 7
 latitude = -6.18233995
 longitude = 106.84287154
@@ -52,7 +52,7 @@ To see more options, please read the [wiki](docs/wiki.md)
 
 ### Command-line options
 
-``` bash
+```bash
 USAGE:
     bilal [FLAGS] [OPTIONS] [salah]
 
@@ -78,7 +78,7 @@ You can use Bilal with `i3status-rust` to show salah time in your status.
 
 `i3status-rurts` configuration Example:
 
-``` bash
+```bash
 [[block]]
 block = "custom"
 cycle = [
@@ -88,7 +88,6 @@ cycle = [
 on_click = "<command>"
 interval = 300
 json = true
-
 ```
 
 See [more examples](examples/) to learn other variations.
@@ -108,14 +107,13 @@ pre-compiled binaries for GNU/Linux, macOS and Windows.
 
 Using Rust's package manager [cargo](https://github.com/rust-lang/cargo):
 
-``` bash
+```bash
 cargo install bilal
 ```
 
-
 ## Development
 
-``` bash
+```bash
 git clone https://github.com/azzamsa/bilal
 cd bilal.rs
 

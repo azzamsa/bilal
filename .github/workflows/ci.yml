@@ -1,70 +1,67 @@
-name: ci
+name: CI
 
 env:
-  MIN_SUPPORTED_RUST_VERSION: "1.60.0"
+  MIN_SUPPORTED_RUST_VERSION: "1.66.0"
 
-on:
-  pull_request:
-  push:
-    branches:
-    - master
-
+on: [push, pull_request]
 
 jobs:
   code_quality:
-    name: Code quality
-    runs-on: ubuntu-20.04
+    name: Code Quality
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v3
 
       - name: Install rust toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
-          default: true
-          profile: minimal # no documentation
           components: clippy, rustfmt
 
-      - name: Cache
-        uses: Swatinem/rust-cache@v1
-
-      - name: Ensure `cargo fmt` has been run
-        uses: actions-rs/cargo@v1
+      - name: Install latest just release
+        uses: taiki-e/install-action@v1
         with:
-          command: fmt
-          args: -- --check
+          tool: just
+
+      - name: Install latest dprint release
+        uses: taiki-e/install-action@v1
+        with:
+          tool: dprint
+
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Ensure `fmt` has been run
+        run:  just fmt-check
 
       - name: Ensure MSRV is set in `clippy.toml`
         run: grep "^msrv = \"${{ env.MIN_SUPPORTED_RUST_VERSION }}\"\$" clippy.toml
 
       - name: Run clippy
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: --locked --all-targets --all-features
+        run: just lint
 
-
-  min_version:
-    name: Minimum supported rust version
-    runs-on: ubuntu-20.04
+  msrv:
+    name: Minimum Supported Rust Version
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v3
 
       - name: Install rust toolchain (v${{ env.MIN_SUPPORTED_RUST_VERSION }})
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ env.MIN_SUPPORTED_RUST_VERSION }}
-          default: true
-          profile: minimal
+
+      - name: Install latest nextest release
+        uses: taiki-e/install-action@nextest
+
+      - name: Install latest just release
+        uses: taiki-e/install-action@v1
+        with:
+          tool: just
 
       - name: Cache
-        uses: Swatinem/rust-cache@v1
+        uses: Swatinem/rust-cache@v2
 
       - name: Prepare config
         run: |
@@ -75,42 +72,33 @@ jobs:
           cp examples/config.toml tests/Bilal
 
       - name: Run tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --locked
+        run: just test
 
   build:
-    name: ${{ matrix.job.os }} (${{ matrix.job.target }})
+    name: Build (${{ matrix.job.os }}, ${{ matrix.job.target }})
     runs-on: ${{ matrix.job.os }}
     strategy:
       fail-fast: false
       matrix:
         job:
-          - { os: ubuntu-20.04, target: x86_64-unknown-linux-gnu    }
-          - { os: ubuntu-20.04, target: x86_64-unknown-linux-musl   , use-cross: true }
-          - { os: macos-10.15 , target: x86_64-apple-darwin         }
-          - { os: windows-2019, target: x86_64-pc-windows-gnu       }
-          - { os: windows-2019, target: x86_64-pc-windows-msvc      }
+          - { os: ubuntu-22.04, target: x86_64-unknown-linux-gnu    }
+          - { os: ubuntu-22.04, target: x86_64-unknown-linux-musl   , use-cross: true }
+          - { os: macos-12    , target: x86_64-apple-darwin         }
+          - { os: windows-2022, target: x86_64-pc-windows-msvc      }
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v3
 
       - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
           target: ${{ matrix.job.target }}
-          override: true
-          profile: minimal
 
       - name: Cache
-        uses: Swatinem/rust-cache@v1
+        uses: Swatinem/rust-cache@v2
 
-      - name: Show version information (Rust, cargo, GCC)
+      - name: Show version information
         shell: bash
         run: |
           gcc --version || true
@@ -120,25 +108,23 @@ jobs:
           cargo -V
           rustc -V
 
+      - name: Set cargo cmd
+        shell: bash
+        run: echo "CARGO_CMD=cargo" >> $GITHUB_ENV
+
+      - name: Set cargo cmd to cross
+        shell: bash
+        if: ${{ matrix.job.use-cross == true }}
+        run: echo "CARGO_CMD=cross" >> $GITHUB_ENV
+
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.job.os }}-${{ matrix.job.target }}
+
+      - name: Install cross
+        if: ${{ matrix.job.use-cross == true }}
+        uses: taiki-e/install-action@cross
+
       - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: ${{ matrix.job.use-cross }}
-          command: build
-          args: --locked --release --target=${{ matrix.job.target }}
-
-      - name: Prepare config
-        run: |
-          mkdir -p tests/.config/bilal
-          cp examples/config.toml tests/.config/bilal
-          # for windows
-          mkdir -p tests/Bilal
-          cp examples/config.toml tests/Bilal
-
-      - name: Run tests
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: ${{ matrix.job.use-cross }}
-          command: test
-          args: --locked --target=${{ matrix.job.target }}
-
+        run: ${{ env.CARGO_CMD }} build --verbose --target=${{ matrix.job.target }}

@@ -9,9 +9,9 @@ bilal = "  "
 [[block]]
 block = "custom"
 cycle = [
-        "bilal current -J",
-        "bilal next -J",
-        ]
+  "bilal current -J",
+  "bilal next -J",
+]
 on_click = "<command>"
 interval = 300
 json = true
