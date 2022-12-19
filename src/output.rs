@@ -1,11 +1,13 @@
 use std::io::{self, Write};
 
 use colored::Colorize;
-use islam::chrono::{DateTime, Local};
+use islam::time::OffsetDateTime;
+use time::format_description;
 
-use crate::error::BilalError;
+use crate::error::Error;
 use islam::pray::PrayerTimes;
 
+#[derive(Debug)]
 pub struct Printer {
     prayers: PrayerTimes,
     show_color: bool,
@@ -21,35 +23,38 @@ impl Printer {
         }
     }
     /// Show all prayers info.
-    pub fn all(&self) -> Result<(), BilalError> {
+    pub fn all(&self) -> Result<(), Error> {
         let prayers = self.prayers;
 
-        let fmt_output =
-            |name: &str, prayer: DateTime<Local>| format!("{}: {}", name, prayer.format("%H:%M"));
+        let format = format_description::parse("[hour]:[minute]")?;
 
-        Self::print(&fmt_output("Fajr", prayers.fajr));
-        Self::print(&fmt_output("Sherook", prayers.sherook));
-        Self::print(&fmt_output("Dohr", prayers.dohr));
-        Self::print(&fmt_output("Asr", prayers.asr));
-        Self::print(&fmt_output("Mghreb", prayers.maghreb));
-        Self::print(&fmt_output("Ishaa", prayers.ishaa));
+        let fmt_output = |name: &str, time: OffsetDateTime| -> Result<String, Error> {
+            Ok(format!("{}: {}", name, time.format(&format)?))
+        };
+
+        Self::print(&fmt_output("Fajr", prayers.fajr)?);
+        Self::print(&fmt_output("Sherook", prayers.sherook)?);
+        Self::print(&fmt_output("Dohr", prayers.dohr)?);
+        Self::print(&fmt_output("Asr", prayers.asr)?);
+        Self::print(&fmt_output("Mghreb", prayers.maghreb)?);
+        Self::print(&fmt_output("Ishaa", prayers.ishaa)?);
         Self::print(&fmt_output(
             "Fist third of night",
             prayers.first_third_of_night,
-        ));
-        Self::print(&fmt_output("Midnight", prayers.midnight));
+        )?);
+        Self::print(&fmt_output("Midnight", prayers.midnight)?);
         Self::print(&fmt_output(
             "Last third of night",
             prayers.last_third_of_night,
-        ));
+        )?);
 
         Ok(())
     }
     /// Show current prayer info
-    pub fn current(&self) -> Result<(), BilalError> {
+    pub fn current(&self) -> Result<(), Error> {
         let prayers = self.prayers;
-        let prayer = prayers.current();
-        let (hour, minute) = prayers.time_remaining();
+        let prayer = prayers.current()?;
+        let (hour, minute) = prayers.time_remaining()?;
 
         let remaining_fmt = {
             if hour == 0 {
@@ -60,7 +65,7 @@ impl Printer {
         };
 
         // default
-        let mut prayer_fmt = format!("{} {}", prayer.name(), remaining_fmt);
+        let mut prayer_fmt = format!("{} {}", prayer.name()?, remaining_fmt);
         let state = {
             if hour == 0 && minute < 30 {
                 "Critical"
@@ -84,15 +89,17 @@ impl Printer {
         Ok(())
     }
     /// Show next prayer info
-    pub fn next(&self) -> Result<(), BilalError> {
+    pub fn next(&self) -> Result<(), Error> {
         let prayers = self.prayers;
-        let prayer = prayers.next();
+        let prayer = prayers.next()?;
         let time = prayers.time(prayer);
 
-        let time_fmt = time.format("%H:%M").to_string();
+        let format = format_description::parse("[hour]:[minute]")?;
+        let time = time.format(&format)?;
 
         // default
-        let mut prayer_fmt = format!("{} ({})", prayer.name(), time_fmt);
+        let mut prayer_fmt = format!("{} ({})", prayer.name()?, time);
+
         // JSON
         let state = "Info";
         if self.json_format {

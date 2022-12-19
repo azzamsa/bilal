@@ -17,15 +17,19 @@ lto = true
 panic = 'abort'
 
 [dependencies]
-anyhow = "1.0.40"
-atty = "0.2.14"
-clap = { version = "3.1.18", features = ["suggestions", "cargo"] }
-colored = "2.0.0"
-islam = { path = "../islam" }
-serde = { version = "1.0.125", features = ["derive"] }
-thiserror = "1.0.24"
-toml = "0.5.6"
+anyhow = "1.0"
+atty = "0.2"
+clap = { version = "3.1", features = ["suggestions", "cargo"] }
+colored = "2.0"
+islam = "0.2.0"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+toml = "0.5"
+
+[dependencies.time]
+version = "0.3"
+features = ["formatting", "local-offset"]
 
 [dev-dependencies]
-assert_cmd = "2.0.4"
-predicates = "2.1.1"
+assert_cmd = "2.0"
+predicates = "2.1"

@@ -3,16 +3,16 @@ use std::path::{Path, PathBuf};
 
 use serde::Deserialize;
 
-use crate::error::BilalError;
+use crate::error::Error;
 
 /// Return configuration path
-fn path() -> Result<PathBuf, BilalError> {
+fn path() -> Result<PathBuf, Error> {
     let path = if cfg!(windows) {
-        Path::new(&std::env::var("APPDATA").unwrap())
+        Path::new(&std::env::var("APPDATA")?)
             .join("Bilal")
             .join("config.toml")
     } else {
-        Path::new(&std::env::var("HOME").unwrap())
+        Path::new(&std::env::var("HOME")?)
             .join(".config")
             .join("bilal")
             .join("config.toml")
@@ -21,7 +21,7 @@ fn path() -> Result<PathBuf, BilalError> {
     if path.exists() {
         Ok(path)
     } else {
-        Err(BilalError::NoFile(path))
+        Err(Error::NoFile(path))
     }
 }
 
@@ -35,12 +35,12 @@ pub struct Config {
 }
 
 /// Convert config string into a struct
-fn deserialize(content: &str) -> Result<Config, BilalError> {
-    toml::from_str(content).map_err(|e| BilalError::InvalidConfig { source: e })
+fn deserialize(content: &str) -> Result<Config, Error> {
+    toml::from_str(content).map_err(|e| Error::InvalidConfig { source: e })
 }
 
 /// Return a configuration struct
-pub fn get() -> Result<Config, BilalError> {
+pub fn get() -> Result<Config, Error> {
     let file_content = fs::read_to_string(path()?)?;
     deserialize(&file_content)
 }

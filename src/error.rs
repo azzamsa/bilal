@@ -1,14 +1,18 @@
-#![allow(clippy::module_name_repetitions)]
-
 use std::path::PathBuf;
 
 use thiserror::Error;
 
 /// all possible errors returned by the app.
 #[derive(Error, Debug)]
-pub enum BilalError {
+pub enum Error {
     #[error("No such file {0:?}")]
     NoFile(PathBuf),
+
+    #[error("{0}")]
+    Internal(String),
+
+    #[error("{0}")]
+    NotFound(String),
 
     #[error("Invalid config")]
     InvalidConfig { source: toml::de::Error },
@@ -22,4 +26,37 @@ pub enum BilalError {
     // All cases of `std::io::Error`.
     #[error(transparent)]
     IoError(#[from] std::io::Error),
+
+    #[error("{0}")]
+    InvalidArgument(String),
+}
+
+impl std::convert::From<std::env::VarError> for Error {
+    fn from(_err: std::env::VarError) -> Self {
+        Self::NotFound("env var not found".into())
+    }
+}
+
+impl std::convert::From<islam::pray::error::Error> for Error {
+    fn from(err: islam::pray::error::Error) -> Self {
+        Self::Internal(err.to_string())
+    }
+}
+
+impl std::convert::From<time::error::IndeterminateOffset> for Error {
+    fn from(err: time::error::IndeterminateOffset) -> Self {
+        Self::InvalidArgument(err.to_string())
+    }
+}
+
+impl std::convert::From<time::error::InvalidFormatDescription> for Error {
+    fn from(err: time::error::InvalidFormatDescription) -> Self {
+        Self::InvalidArgument(err.to_string())
+    }
+}
+
+impl std::convert::From<time::error::Format> for Error {
+    fn from(err: time::error::Format) -> Self {
+        Self::InvalidArgument(err.to_string())
+    }
 }

@@ -1,14 +1,10 @@
-#![allow(clippy::wildcard_imports)]
-
-use std::env;
-use std::process;
+use std::{env, process};
 
 use anyhow::Result;
 use atty::Stream;
 
-use bilal::app;
 use bilal::output::Printer;
-use bilal::prayer;
+use bilal::{app, prayer};
 
 fn run() -> Result<()> {
     let matches = app::build().get_matches_from(env::args_os());

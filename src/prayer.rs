@@ -1,15 +1,13 @@
-use islam::chrono::Local;
+// use islam::chrono::Local;
 
-use islam::pray::Config;
-use islam::pray::Madhab;
-use islam::pray::Method;
-use islam::pray::{Location, PrayerSchedule, PrayerTimes};
+use islam::pray::{Config, Location, Madhab, Method, PrayerSchedule, PrayerTimes};
+use islam::time::OffsetDateTime;
 
 use crate::config;
-use crate::error::BilalError;
+use crate::error::Error;
 
 /// Get a method
-fn method(method: &str) -> Result<Method, BilalError> {
+fn method(method: &str) -> Result<Method, Error> {
     match method {
         "Karachi" => Ok(Method::Karachi),
         "MuslimWorldLeague" => Ok(Method::MuslimWorldLeague),
@@ -20,21 +18,21 @@ fn method(method: &str) -> Result<Method, BilalError> {
         "Singapore" => Ok(Method::Singapore),
         "Russia" => Ok(Method::Russia),
         "FixedInterval" => Ok(Method::FixedInterval),
-        _ => Err(BilalError::InvalidMethod(method.to_string())),
+        _ => Err(Error::InvalidMethod(method.to_string())),
     }
 }
 
 /// Get a madhab
-fn madhab(madhab: &str) -> Result<Madhab, BilalError> {
+fn madhab(madhab: &str) -> Result<Madhab, Error> {
     match madhab {
         "Shafi" => Ok(Madhab::Shafi),
         "Hanafi" => Ok(Madhab::Hanafi),
-        _ => Err(BilalError::InvalidMadhab(madhab.to_string())),
+        _ => Err(Error::InvalidMadhab(madhab.to_string())),
     }
 }
 
 /// Returns all prayers
-pub fn all() -> Result<PrayerTimes, BilalError> {
+pub fn all() -> Result<PrayerTimes, Error> {
     let config = config::get()?;
 
     let timezone = config.timezone;
@@ -44,12 +42,12 @@ pub fn all() -> Result<PrayerTimes, BilalError> {
     let madhab = madhab(&config.madhab)?;
 
     let jakarta_city = Location::new(latitude, longitude, timezone);
-    let date = Local::today();
+    let today = OffsetDateTime::now_local()?.date();
     let conf = Config::new().with(method, madhab);
-    let prayer_times = PrayerSchedule::new(jakarta_city)
-        .on(date)
+    let prayer_times = PrayerSchedule::new(jakarta_city)?
+        .on(today)
         .with_config(conf)
-        .calculate();
+        .calculate()?;
 
     Ok(prayer_times)
 }
