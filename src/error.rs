@@ -1,13 +1,8 @@
-use std::path::PathBuf;
-
 use thiserror::Error;
 
 /// all possible errors returned by the app.
 #[derive(Error, Debug)]
 pub enum Error {
-    #[error("No such file {0:?}")]
-    NoFile(PathBuf),
-
     #[error("{0}")]
     Internal(String),
 
@@ -23,10 +18,6 @@ pub enum Error {
     #[error("No such madhab {0:?}")]
     InvalidMadhab(String),
 
-    // All cases of `std::io::Error`.
-    #[error(transparent)]
-    IoError(#[from] std::io::Error),
-
     #[error("{0}")]
     InvalidArgument(String),
 }
@@ -40,6 +31,12 @@ impl std::convert::From<std::env::VarError> for Error {
 impl std::convert::From<islam::pray::error::Error> for Error {
     fn from(err: islam::pray::error::Error) -> Self {
         Self::Internal(err.to_string())
+    }
+}
+
+impl std::convert::From<std::io::Error> for Error {
+    fn from(err: std::io::Error) -> Self {
+        Error::Internal(err.to_string())
     }
 }
 

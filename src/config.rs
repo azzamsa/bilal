@@ -21,7 +21,7 @@ fn path() -> Result<PathBuf, Error> {
     if path.exists() {
         Ok(path)
     } else {
-        Err(Error::NoFile(path))
+        Err(Error::NotFound("configuration file is not found".into()))
     }
 }
 
