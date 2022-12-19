@@ -35,6 +35,7 @@ jobs:
           target: x86_64-unknown-linux-musl
           artifact_name: bilal
           asset_name: bilal-linux-amd64-musl
+          use-cross: true
 
         - build: macos
           os: macos-latest
@@ -70,6 +71,7 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Install cross
+        if: ${{ matrix.use-cross == true }}
         uses: taiki-e/install-action@cross
 
       - name: Use Cross
