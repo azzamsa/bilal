@@ -1,35 +1,37 @@
-use std::{env, process};
+use std::process;
 
 use anyhow::Result;
 use atty::Stream;
+use clap::Parser;
 
-use bilal::output::Printer;
-use bilal::{app, prayer};
+use bilal::{
+    cli::{Color, Mode, Opts},
+    output::Printer,
+    prayer,
+};
 
 fn run() -> Result<()> {
-    let matches = app::build().get_matches_from(env::args_os());
+    let opts = Opts::parse();
 
-    let show_color = match matches.value_of("color") {
-        Some("never") => false,
-        Some("auto") => atty::is(Stream::Stdout),
-        _ => true,
+    let show_color = match opts.color {
+        Color::Always => true,
+        Color::Never => false,
+        Color::Auto => atty::is(Stream::Stdout),
     };
-    let json_format = matches.is_present("json");
 
     let prayers = prayer::all()?;
-    let printer = Printer::new(prayers, show_color, json_format);
+    let printer = Printer::new(prayers, show_color, opts.json);
 
-    match matches.value_of("salah") {
-        Some("all") => {
+    match opts.mode {
+        Mode::All => {
             printer.all()?;
         }
-        Some("current") => {
+        Mode::Current => {
             printer.current()?;
         }
-        Some("next") => {
+        Mode::Next => {
             printer.next()?;
         }
-        Some(&_) | None => (),
     }
 
     Ok(())

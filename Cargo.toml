@@ -19,12 +19,15 @@ panic = 'abort'
 [dependencies]
 anyhow = "1.0"
 atty = "0.2"
-clap = { version = "3.1", features = ["suggestions", "cargo"] }
 colored = "2.0"
 islam = "0.2.0"
 serde = { version = "1.0", features = ["derive"] }
 thiserror = "1.0"
 toml = "0.5"
+
+[dependencies.clap]
+version = "4.0.29"
+features = ["suggestions", "color", "cargo", "derive"]
 
 [dependencies.time]
 version = "0.3"
