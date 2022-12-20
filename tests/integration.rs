@@ -1,10 +1,9 @@
-use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::*;
-use std::{env, process::Command};
+use std::{env, error::Error, process::Command};
 
 #[test]
-fn help() -> Result<()> {
+fn help() -> Result<(), Box<dyn Error>> {
     let mut cmd = Command::cargo_bin("bilal")?;
     cmd.arg("-h");
     cmd.assert()
@@ -14,7 +13,7 @@ fn help() -> Result<()> {
 }
 
 #[test]
-fn all() -> Result<()> {
+fn all() -> Result<(), Box<dyn Error>> {
     env::set_var("HOME", "./tests");
     env::set_var("APPDATA", "./tests");
 
@@ -27,7 +26,7 @@ fn all() -> Result<()> {
 }
 
 #[test]
-fn current() -> Result<()> {
+fn current() -> Result<(), Box<dyn Error>> {
     env::set_var("HOME", "./tests");
     env::set_var("APPDATA", "./tests");
 
@@ -41,7 +40,7 @@ fn current() -> Result<()> {
 }
 
 #[test]
-fn next() -> Result<()> {
+fn next() -> Result<(), Box<dyn Error>> {
     env::set_var("HOME", "./tests");
     env::set_var("APPDATA", "./tests");
 

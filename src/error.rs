@@ -1,7 +1,10 @@
+use std::path::PathBuf;
+
+use miette::Diagnostic;
 use thiserror::Error;
 
 /// all possible errors returned by the app.
-#[derive(Error, Debug)]
+#[derive(Debug, Error, Diagnostic)]
 pub enum Error {
     #[error("{0}")]
     Internal(String),
@@ -9,8 +12,13 @@ pub enum Error {
     #[error("{0}")]
     NotFound(String),
 
-    #[error("Invalid config")]
-    InvalidConfig { source: toml::de::Error },
+    #[error("Invalid configuration: {message}")]
+    #[diagnostic(
+        code(bilal::invalid_config),
+        url(docsrs),
+        help("see the configuration example https://github.com/azzamsa/bilal#usage-examples")
+    )]
+    InvalidConfig { message: String },
 
     #[error("No such method {0:?}")]
     InvalidMethod(String),
@@ -20,6 +28,14 @@ pub enum Error {
 
     #[error("{0}")]
     InvalidArgument(String),
+
+    #[error("configuration file is not found in `{path}`")]
+    #[diagnostic(
+        code(bilal::no_config),
+        url(docsrs),
+        help("try creating a config file. See https://github.com/azzamsa/bilal#usage-examples")
+    )]
+    ConfigNotFound { path: PathBuf },
 }
 
 impl std::convert::From<std::env::VarError> for Error {

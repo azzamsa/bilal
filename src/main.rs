@@ -1,8 +1,8 @@
 use std::process;
 
-use anyhow::Result;
 use atty::Stream;
 use clap::Parser;
+use miette::Result;
 
 use bilal::{
     cli::{Color, Mode, Opts},

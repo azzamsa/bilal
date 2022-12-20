@@ -17,10 +17,11 @@ lto = true
 panic = 'abort'
 
 [dependencies]
-anyhow = "1.0"
+islam = "0.2.0"
+
 atty = "0.2"
 colored = "2.0"
-islam = "0.2.0"
+miette = { version = "5.5.0", features = ["fancy"] }
 serde = { version = "1.0", features = ["derive"] }
 thiserror = "1.0"
 toml = "0.5"
