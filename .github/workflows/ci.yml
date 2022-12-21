@@ -28,8 +28,8 @@ jobs:
         with:
           tool: dprint
 
-      - name: Cache
-        uses: Swatinem/rust-cache@v2
+      # - name: Cache
+      #   uses: Swatinem/rust-cache@v2
 
       - name: Ensure `fmt` has been run
         run:  just fmt-check
