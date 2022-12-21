@@ -15,7 +15,10 @@ pub struct Config {
 
 /// Return a configuration struct
 pub fn read() -> Result<Config, Error> {
-    let file_content = fs::read_to_string(path()?)?;
+    let config_path = &path()?;
+    let file_content = fs::read_to_string(config_path).map_err(|_| Error::ConfigNotFound {
+        path: config_path.to_path_buf(),
+    })?;
     deserialize(&file_content)
 }
 
@@ -41,10 +44,5 @@ fn path() -> Result<PathBuf, Error> {
             .join("bilal")
             .join("config.toml")
     };
-
-    if path.exists() {
-        Ok(path)
-    } else {
-        Err(Error::ConfigNotFound { path })
-    }
+    Ok(path)
 }
