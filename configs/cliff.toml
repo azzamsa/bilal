@@ -44,7 +44,6 @@ footer = """"""
 conventional_commits = true
 # regex for parsing and grouping commits
 commit_parsers = [
-  { message = "^content*", group = "<!-- 0 -->Content" },
   { message = "^feat*", group = "<!-- 1 -->Features" },
   { message = "^fix*", group = "<!-- 2 -->Bug fixes" },
   { message = "^perf*", group = "<!-- 3 -->Performance" },
