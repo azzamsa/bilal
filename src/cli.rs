@@ -26,14 +26,14 @@ pub struct Opts {
     pub color: Color,
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+#[derive(Clone, ValueEnum)]
 pub enum Mode {
     All,
     Next,
     Current,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+#[derive(Clone, ValueEnum)]
 pub enum Color {
     /// show colors if the output goes to an interactive console (default)
     Auto,
