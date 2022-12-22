@@ -26,29 +26,32 @@ jobs:
           os: ubuntu-22.04
           rust: stable
           target: x86_64-unknown-linux-gnu
-          artifact_name: bilal
+          artifact_name: target/x86_64-unknown-linux-gnu/release/bilal
           asset_name: bilal-linux-amd64
+          strip: true
 
         - build: linux-musl
           os: ubuntu-22.04
           rust: stable
           target: x86_64-unknown-linux-musl
-          artifact_name: bilal
+          artifact_name: target/x86_64-unknown-linux-musl/release/bilal
           asset_name: bilal-linux-amd64-musl
           use-cross: true
+          strip: true
 
         - build: macos
           os: macos-latest
           rust: stable
           target: x86_64-apple-darwin
-          artifact_name: bilal
+          artifact_name: target/x86_64-apple-darwin/release/bilal
           asset_name: bilal-macos-amd64
+          strip: true
 
         - build: win-msvc
           os: windows-2022
           rust: stable
           target: x86_64-pc-windows-msvc
-          artifact_name: bilal.exe
+          artifact_name: target/release/bilal.exe
           # need to append `.exe` as the filename
           # used in relase page is `asset_name`
           asset_name: bilal-windows-amd64-msvc.exe
@@ -57,7 +60,7 @@ jobs:
           os: windows-2022
           rust: stable
           target: x86_64-pc-windows-gnu
-          artifact_name: bilal.exe
+          artifact_name: target/release/bilal.exe
           asset_name: bilal-windows-amd64-gnu.exe
 
     steps:
@@ -71,7 +74,6 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Install cross
-        if: ${{ matrix.use-cross == true }}
         uses: taiki-e/install-action@cross
 
       - name: Use Cross
@@ -92,26 +94,15 @@ jobs:
         run: ${{ env.CARGO }} build --verbose --release ${{ env.TARGET_FLAGS }}
 
       - name: Strip release binary (linux and macos)
-        if: matrix.build == 'linux' || matrix.build == 'linux-musl' || matrix.build == 'macos'
+        if: matrix.strip == true
         run: |
-          strip "target/${{ matrix.target }}/release/bilal"
+          strip "${{ matrix.artifact_name }}"
 
       - name: Upload binaries to release
-        if: matrix.build == 'linux' || matrix.build == 'linux-musl' || matrix.build == 'macos'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.asset_name }}
-          tag: ${{ github.ref }}
-          overwrite: true
-
-      - name: Upload binaries to release
-        if: matrix.build == 'win-msvc' || matrix.build == 'win-gnu'
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/release/${{ matrix.artifact_name }}
+          file: ${{ matrix.artifact_name }}
           asset_name: ${{ matrix.asset_name }}
           tag: ${{ github.ref }}
           overwrite: true
