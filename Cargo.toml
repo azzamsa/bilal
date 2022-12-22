@@ -1,6 +1,6 @@
 [package]
 name = "bilal"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["azzamsa <me@azzamsa.com>"]
 categories = ["date-and-time", "command-line-utilities"]
 edition = "2021"
@@ -27,7 +27,7 @@ thiserror = "1.0"
 toml = "0.5"
 
 [dependencies.clap]
-version = "4.0.29"
+version = "4.0.30"
 features = ["suggestions", "color", "cargo", "derive"]
 
 [dependencies.time]

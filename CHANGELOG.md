@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2022-12-22
+
+### Features
+
+- Improve error message ([d9f0296](d9f0296961bd6aab042f869d59734acde49982bb))
+
+### Bug fixes
+
+- Avoid checking if the config exists ([f931099](f9310994465a985801d0cb1aa3076446f7cac819))
+
 ## [0.2.0] - 2022-12-19
 
 ### Bug fixes
