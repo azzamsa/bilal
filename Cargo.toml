@@ -35,5 +35,7 @@ version = "0.3"
 features = ["formatting", "local-offset"]
 
 [dev-dependencies]
+cargo-husky = { version = "1", features = ["user-hooks"] }
+
 assert_cmd = "2.0"
 predicates = "2.1"
