@@ -1,7 +1,7 @@
 use std::io::{self, Write};
 
-use colored::Colorize;
 use islam::time::OffsetDateTime;
+use owo_colors::OwoColorize;
 use time::format_description;
 
 use crate::error::Error;
