@@ -30,8 +30,6 @@
 
 ## Usage
 
-## Usage Examples
-
 ```bash
 bilal all                            Show all salahs time
 bilal current                        ... current salah time
@@ -50,25 +48,7 @@ method = "Egyptian"
 
 To see more options, please read the [wiki](docs/wiki.md)
 
-### Command-line options
-
-```bash
-USAGE:
-    bilal [FLAGS] [OPTIONS] [salah]
-
-ARGS:
-    <salah>    A Salah to show [default: all]
-
-FLAGS:
-    -h, --help       Prints help information
-    -J, --json       Display Salah in JSON formatted string
-    -V, --version    Prints version information
-
-OPTIONS:
-        --color <WHEN>    Display Salah in colored output [default: always]
-```
-
-### Usage with other tools
+## Integration with other programs
 
 You can use Bilal with `i3status-rust` to show salah time in your status.
 
@@ -115,7 +95,10 @@ cargo install bilal
 
 ```bash
 git clone https://github.com/azzamsa/bilal
-cd bilal.rs
+
+# Build
+cd bilal
+cargo build
 
 # Run unit tests and integration tests
 cargo test
@@ -135,6 +118,6 @@ mu'azzin, chosen by Muhammad PBUH himself.
 
 ## License
 
-Copyright (c) 2020 Azzamsa
+Copyright (c) 2020-2022 azzamsa
 
 Bilal is distributed under the terms of [GPL V3 License](LICENSE).
