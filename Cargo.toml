@@ -1,6 +1,6 @@
 [package]
 name = "bilal"
-version = "0.2.1"
+version = "1.0.0"
 authors = ["azzamsa <me@azzamsa.com>"]
 categories = ["date-and-time", "command-line-utilities"]
 edition = "2021"
@@ -19,19 +19,19 @@ panic = 'abort'
 [dependencies]
 islam = "0.2.0"
 
-atty = "0.2"
-miette = { version = "5.5.0", features = ["fancy"] }
+atty = "0.2.14"
+miette = { version = "5.5", features = ["fancy"] }
 owo-colors = "3"
 serde = { version = "1.0", features = ["derive"] }
 thiserror = "1.0"
 toml = "0.5"
 
 [dependencies.clap]
-version = "4.0.30"
+version = "4.0"
 features = ["suggestions", "color", "cargo", "derive"]
 
 [dependencies.time]
-version = "0.3"
+version = "0.3.17"
 features = ["formatting", "local-offset"]
 
 [dev-dependencies]
