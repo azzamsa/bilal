@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2023-01-03
+
+### Features
+
+- Print config snippets of error location ([734fab4](734fab40a8e43e2e4a41d50e156eeb49a30a5575))
+
 ## [1.0.0] - 2022-12-28
 
 ### Performance
