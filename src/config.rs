@@ -1,8 +1,10 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use crate::error::Error;
+use miette::{NamedSource, Result, SourceOffset};
 use serde::Deserialize;
+
+use crate::error::Error;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
@@ -26,9 +28,14 @@ pub fn read() -> Result<Config, Error> {
 fn deserialize(content: &str) -> Result<Config, Error> {
     match toml::from_str(content) {
         Ok(config) => Ok(config),
-        Err(e) => Err(Error::InvalidConfig {
-            message: e.to_string(),
-        }),
+        Err(e) => {
+            let (line, column) = &e.line_col().unwrap_or((0, 0));
+            Err(Error::InvalidConfig {
+                src: NamedSource::new("bilal.toml", content.to_owned()),
+                bad_bit: SourceOffset::from_location(content, line + 1, column + 1),
+                message: e.to_string(),
+            })?
+        }
     }
 }
 

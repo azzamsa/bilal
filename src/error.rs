@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use miette::Diagnostic;
+use miette::{Diagnostic, NamedSource, SourceOffset};
 use thiserror::Error;
 
 /// all possible errors returned by the app.
@@ -18,7 +18,13 @@ pub enum Error {
         url(docsrs),
         help("See the configuration example https://github.com/azzamsa/bilal#usage-examples")
     )]
-    InvalidConfig { message: String },
+    InvalidConfig {
+        #[source_code]
+        src: NamedSource,
+        #[label("{message}")]
+        bad_bit: SourceOffset,
+        message: String,
+    },
 
     #[error("No such method {0:?}")]
     InvalidMethod(String),
