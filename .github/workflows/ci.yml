@@ -19,17 +19,10 @@ jobs:
           components: clippy, rustfmt
 
       - name: Install latest just release
-        uses: taiki-e/install-action@v1
-        with:
-          tool: just
+        uses: taiki-e/install-action@just
 
       - name: Install latest dprint release
-        uses: taiki-e/install-action@v1
-        with:
-          tool: dprint
-
-      # - name: Cache
-      #   uses: Swatinem/rust-cache@v2
+        uses: taiki-e/install-action@dprint
 
       - name: Ensure `fmt` has been run
         run:  just fmt-check
@@ -56,35 +49,29 @@ jobs:
         uses: taiki-e/install-action@nextest
 
       - name: Install latest just release
-        uses: taiki-e/install-action@v1
-        with:
-          tool: just
-
-      - name: Cache
-        uses: Swatinem/rust-cache@v2
+        uses: taiki-e/install-action@just
 
       - name: Prepare config
         run: |
           mkdir -p tests/.config/bilal
           cp examples/config.toml tests/.config/bilal
-          # for windows
-          mkdir -p tests/Bilal
-          cp examples/config.toml tests/Bilal
 
       - name: Run tests
         run: just test
 
   build:
-    name: Build (${{ matrix.job.os }}, ${{ matrix.job.target }})
-    runs-on: ${{ matrix.job.os }}
+    name: Build for ${{ matrix.build }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        job:
-          - { os: ubuntu-22.04, target: x86_64-unknown-linux-gnu    }
-          - { os: ubuntu-22.04, target: x86_64-unknown-linux-musl   , use-cross: true }
-          - { os: macos-12    , target: x86_64-apple-darwin         }
-          - { os: windows-2022, target: x86_64-pc-windows-msvc      }
+        include:
+          - { build: linux-gnu,  os: ubuntu-22.04, target: x86_64-unknown-linux-gnu    }
+          - { build: linux-musl, os: ubuntu-22.04, target: x86_64-unknown-linux-musl   }
+          - { build: win-gnu,    os: windows-2022, target: x86_64-pc-windows-gnu       }
+          - { build: win-msvc,   os: windows-2022, target: x86_64-pc-windows-msvc      }
+          - { build: win32-msvc, os: windows-2022, target: i686-pc-windows-msvc        }
+          - { build: macos,      os: macos-12    , target: x86_64-apple-darwin         }
 
     steps:
       - name: Checkout source code
@@ -93,10 +80,7 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          target: ${{ matrix.job.target }}
-
-      - name: Cache
-        uses: Swatinem/rust-cache@v2
+          target: ${{ matrix.target }}
 
       - name: Show version information
         shell: bash
@@ -108,23 +92,17 @@ jobs:
           cargo -V
           rustc -V
 
-      - name: Set cargo cmd
-        shell: bash
-        run: echo "CARGO_CMD=cargo" >> $GITHUB_ENV
-
-      - name: Set cargo cmd to cross
-        shell: bash
-        if: ${{ matrix.job.use-cross == true }}
-        run: echo "CARGO_CMD=cross" >> $GITHUB_ENV
+      - name: Install musl-tools
+        if: matrix.target == 'x86_64-unknown-linux-musl'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            --allow-unauthenticated musl-tools
 
       - name: Rust cache
         uses: Swatinem/rust-cache@v2
         with:
-          key: ${{ matrix.job.os }}-${{ matrix.job.target }}
-
-      - name: Install cross
-        if: ${{ matrix.job.use-cross == true }}
-        uses: taiki-e/install-action@cross
+          key: ${{ matrix.os }}-${{ matrix.target }}
 
       - name: Build
-        run: ${{ env.CARGO_CMD }} build --verbose --target=${{ matrix.job.target }}
+        run: cargo build --release --locked --target ${{ matrix.target }}
