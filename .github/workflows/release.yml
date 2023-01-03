@@ -59,12 +59,6 @@ jobs:
         run: |
           ./scripts/compress-assets.sh ${{ matrix.os }} ${{ matrix.target }} ${{ env.RELEASE_VERSION }}
 
-      - name: Show release info
-        shell: bash
-        run: |
-          echo "bilal-${{ env.RELEASE_VERSION }}-${{ matrix.target }}*"
-          ls
-
       - name: Upload the release
         uses: svenstaro/upload-release-action@v2
         with:
