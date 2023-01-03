@@ -16,7 +16,7 @@ pub enum Error {
     #[diagnostic(
         code(bilal::invalid_config),
         url(docsrs),
-        help("see the configuration example https://github.com/azzamsa/bilal#usage-examples")
+        help("See the configuration example https://github.com/azzamsa/bilal#usage-examples")
     )]
     InvalidConfig { message: String },
 
@@ -29,11 +29,11 @@ pub enum Error {
     #[error("{0}")]
     InvalidArgument(String),
 
-    #[error("configuration file is not found in `{path}`")]
+    #[error("Configuration file is not found in `{path}`")]
     #[diagnostic(
         code(bilal::no_config),
         url(docsrs),
-        help("try creating a config file. See https://github.com/azzamsa/bilal#usage-examples")
+        help("Try creating a config file. See https://github.com/azzamsa/bilal#usage-examples")
     )]
     ConfigNotFound { path: PathBuf },
 }
