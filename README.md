@@ -85,6 +85,12 @@ pre-compiled binaries for GNU/Linux, macOS and Windows.
 
 ### From source
 
+Using [cargo-binstall](https://github.com/cargo-bins/cargo-binstall)
+
+```bash
+cargo binstall bilal
+```
+
 Using Rust's package manager [cargo](https://github.com/rust-lang/cargo):
 
 ```bash
