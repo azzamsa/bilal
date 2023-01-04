@@ -124,6 +124,6 @@ mu'azzin, chosen by Muhammad PBUH himself.
 
 ## License
 
-Copyright (c) 2020-2022 azzamsa
+Copyright (c) 2020-2023 azzamsa
 
 Bilal is distributed under the terms of [GPL V3 License](LICENSE).
