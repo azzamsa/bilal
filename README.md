@@ -27,6 +27,7 @@
 - Show all salah time in current day
 - Show current salah time and its remaining time
 - Show next salah time
+- Fancy error message
 
 ## Usage
 
