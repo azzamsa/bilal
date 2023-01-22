@@ -8,7 +8,6 @@ use crate::error::Error;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
-    pub timezone: i32,
     pub latitude: f32,
     pub longitude: f32,
     pub madhab: String,

@@ -40,7 +40,6 @@ bilal current --json                  .... with JSON format
 Create a file named `bilal.toml` in `~/.config/bilal/`. If you are on `Windows`, put it under `\AppData\Bilal\`. Then add your configuration:
 
 ```toml
-timezone = 7
 latitude = -6.18233995
 longitude = 106.84287154
 madhab = "Shafi"

@@ -302,9 +302,9 @@ checksum = "616cde7c720bb2bb5824a224687d8f77bfd38922027f01d825cd7453be5099fb"
 
 [[package]]
 name = "islam"
-version = "0.2.0"
+version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b51fbcc6df5cec990e37c26e62f800a0ead9fd6e3f1f0d7787e5f0cf2dde4562"
+checksum = "8bca2edc6f6ea5ba16f2e63c1bfa48cdedb3daf4905e121359e825a5f080ee0a"
 dependencies = [
  "thiserror",
  "time",

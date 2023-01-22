@@ -17,7 +17,7 @@ lto = true
 panic = 'abort'
 
 [dependencies]
-islam = "0.2.0"
+islam = "1.0.0"
 
 atty = "0.2.14"
 miette = { version = "5.5", features = ["fancy"] }

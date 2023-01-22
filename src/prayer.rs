@@ -8,13 +8,12 @@ use crate::error::Error;
 pub fn all() -> Result<PrayerTimes, Error> {
     let config = config::read()?;
 
-    let timezone = config.timezone;
     let latitude = config.latitude;
     let longitude = config.longitude;
     let method = method(&config.method)?;
     let madhab = madhab(&config.madhab)?;
 
-    let jakarta_city = Location::new(latitude, longitude, timezone);
+    let jakarta_city = Location::new(latitude, longitude);
     let today = OffsetDateTime::now_local()?.date();
     let conf = Config::new().with(method, madhab);
     let prayer_times = PrayerSchedule::new(jakarta_city)?
