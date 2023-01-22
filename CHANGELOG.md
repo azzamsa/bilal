@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2023-01-22
+
+### Bug fixes
+
+- Some API changes in islam v1.0 ([735b442](735b442c616402b7209068315cb1ffd506f81e20))
+
 ## [1.1.0] - 2023-01-03
 
 ### Features
