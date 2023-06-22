@@ -1,5 +1,5 @@
-use islam::pray::{Config, Location, Madhab, Method, PrayerSchedule, PrayerTimes};
-use islam::time::OffsetDateTime;
+use chrono::Local;
+use islam::salah::{Config, Location, Madhab, Method, PrayerSchedule, PrayerTimes};
 
 use crate::config;
 use crate::error::Error;
@@ -14,7 +14,7 @@ pub fn all() -> Result<PrayerTimes, Error> {
     let madhab = madhab(&config.madhab)?;
 
     let jakarta_city = Location::new(latitude, longitude);
-    let today = OffsetDateTime::now_local()?.date();
+    let today = Local::now().date_naive();
     let conf = Config::new().with(method, madhab);
     let prayer_times = PrayerSchedule::new(jakarta_city)?
         .on(today)

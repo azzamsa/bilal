@@ -1,11 +1,10 @@
 use std::io::{self, Write};
 
-use islam::time::OffsetDateTime;
 use owo_colors::OwoColorize;
-use time::format_description;
 
-use crate::error::Error;
-use islam::pray::PrayerTimes;
+use islam::salah::PrayerTimes;
+
+use crate::DateTime;
 
 #[derive(Debug)]
 pub struct Printer {
@@ -23,13 +22,11 @@ impl Printer {
         }
     }
     /// Show all prayers info.
-    pub fn all(&self) -> Result<(), Error> {
+    pub fn all(&self) -> Result<(), crate::Error> {
         let prayers = self.prayers;
 
-        let format = format_description::parse("[hour]:[minute]")?;
-
-        let fmt_output = |name: &str, time: OffsetDateTime| -> Result<String, Error> {
-            Ok(format!("{}: {}", name, time.format(&format)?))
+        let fmt_output = |name: &str, time: DateTime| -> Result<String, crate::Error> {
+            Ok(format!("{}: {}", name, time.format("%H:%M")))
         };
 
         Self::print(&fmt_output("Fajr", prayers.fajr)?);
@@ -51,7 +48,7 @@ impl Printer {
         Ok(())
     }
     /// Show current prayer info
-    pub fn current(&self) -> Result<(), Error> {
+    pub fn current(&self) -> Result<(), crate::Error> {
         let prayers = self.prayers;
         let prayer = prayers.current()?;
         let (hour, minute) = prayers.time_remaining()?;
@@ -89,13 +86,11 @@ impl Printer {
         Ok(())
     }
     /// Show next prayer info
-    pub fn next(&self) -> Result<(), Error> {
+    pub fn next(&self) -> Result<(), crate::Error> {
         let prayers = self.prayers;
         let prayer = prayers.next()?;
         let time = prayers.time(prayer);
-
-        let format = format_description::parse("[hour]:[minute]")?;
-        let time = time.format(&format)?;
+        let time = time.format("%H:%M").to_string();
 
         // default
         let mut prayer_fmt = format!("{} ({})", prayer.name()?, time);
