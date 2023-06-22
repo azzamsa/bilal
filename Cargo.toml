@@ -22,11 +22,11 @@ islam = "2.0.0"
 
 # cli
 atty = "0.2.14"
-clap = { version = "4.1", features = ["suggestions", "color", "cargo", "derive"] }
+clap = { version = "4.3", features = ["suggestions", "color", "cargo", "derive"] }
 owo-colors = "3"
 
 # error
-miette = { version = "5.5", features = ["fancy"] }
+miette = { version = "5.9", features = ["fancy"] }
 thiserror = "1.0"
 
 # config
@@ -35,7 +35,7 @@ toml = { version = "0.7", features = ["parse"] }
 
 [dev-dependencies]
 assert_cmd = "2.0"
-predicates = "2.1"
+predicates = "3.0"
 
 [package.metadata.binstall]
 pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ version}-{ target }.tar.gz"
