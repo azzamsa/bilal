@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2023-06-22
+
+### Bug fixes
+
+- Upgrade to islam v2.0.0 ([eb780eb](eb780eb860525c7896475f74ae28c68f3603d306))
+
 ## [1.2.0] - 2023-01-22
 
 ### Bug fixes
