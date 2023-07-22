@@ -43,6 +43,8 @@ bin-dir = "{ bin }{ binary-ext }"
 pkg-fmt = "tgz"
 
 [package.metadata.release]
-tag-message = "For details, see the CHANGELOG.md"
+sign-commit = true
+sign-tag = true
+tag-message = "v{{version}}"
 pre-release-commit-message = "v{{version}}"
-pre-release-hook = ["just", "_prepare-release", "{{version}}"]
+pre-release-hook = ["just", "_release-prepare", "{{version}}"]

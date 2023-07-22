@@ -1,10 +1,7 @@
-# configuration file for git-cliff (0.1.0)
-
 [changelog]
 # changelog header
 header = """
 # Changelog
-
 All notable changes to this project will be documented in this file.\n
 """
 # template for the changelog body
@@ -19,14 +16,20 @@ body = """
     ### {{ group | striptags | trim | upper_first }}
     {% for commit in commits %}
         {%- if commit.scope -%}
-            - **{{commit.scope}}:** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.id }}))
+            - **{{ commit.scope }}:** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/azzamsa/bilal/commit/{{ commit.id }}))
             {% if commit.breaking -%}
-            {% raw %}  {% endraw %}- **BREAKING!** ⚠️ : {{commit.breaking_description}}
+            {% raw %}  {% endraw %}- **BREAKING!** ⚠️ : {{ commit.breaking_description }}
+            {% endif -%}
+            {% if commit.body -%}
+            {% raw %}\n{% endraw %}{% raw %}  {% endraw %}{{ commit.body | indent(width=4) }}{% raw %}\n{% endraw %}
             {% endif -%}
         {% else -%}
-            - {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.id }}))
+            - {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/azzamsa/bilal/commit/{{ commit.id }}))
             {% if commit.breaking -%}
-            {% raw %}  {% endraw %}- **BREAKING!** ⚠️ : {{commit.breaking_description}}
+            {% raw %}  {% endraw %}- **BREAKING!** ⚠️ : {{ commit.breaking_description }}
+            {% endif -%}
+            {% if commit.body -%}
+            {% raw %}\n{% endraw %}{% raw %}  {% endraw %}{{ commit.body | indent(width=4) }}{% raw %}\n{% endraw %}
             {% endif -%}
         {% endif -%}
     {% endfor -%}
@@ -44,9 +47,9 @@ footer = """"""
 conventional_commits = true
 # regex for parsing and grouping commits
 commit_parsers = [
-  { message = "^feat*", group = "<!-- 1 -->Features" },
-  { message = "^fix*", group = "<!-- 2 -->Bug fixes" },
-  { message = "^perf*", group = "<!-- 3 -->Performance" },
+  { message = "^feat*", group = "<!-- 0 -->Features" },
+  { message = "^fix*", group = "<!-- 1 -->Bug fixes" },
+  { message = "^perf*", group = "<!-- 2 -->Performance" },
 ]
 # filter out the commits that are not matched by commit parsers
 filter_commits = true
