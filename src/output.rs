@@ -50,8 +50,8 @@ impl Printer {
     /// Show current prayer info
     pub fn current(&self) -> Result<(), crate::Error> {
         let prayers = self.prayers;
-        let prayer = prayers.current()?;
-        let (hour, minute) = prayers.time_remaining()?;
+        let prayer = prayers.current();
+        let (hour, minute) = prayers.time_remaining();
 
         let remaining_fmt = {
             if hour == 0 {
@@ -88,7 +88,7 @@ impl Printer {
     /// Show next prayer info
     pub fn next(&self) -> Result<(), crate::Error> {
         let prayers = self.prayers;
-        let prayer = prayers.next()?;
+        let prayer = prayers.next();
         let time = prayers.time(prayer);
         let time = time.format("%H:%M").to_string();
 
