@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.1] - 2023-08-30
+
+### Bug fixes
+
+- Wrong app name in release step ([3a4f2fe](https://github.com/azzamsa/bilal/commit/3a4f2fe832033c8089458656d3c9a872a13336b2))
+
 ## [1.5.0] - 2023-08-30
 
 ### Features
