@@ -17,16 +17,16 @@ lto = true
 panic = 'abort'
 
 [dependencies]
-chrono = "0.4.26"
+chrono = "0.4.27"
 islam = "3.0.0"
 
 # cli
 atty = "0.2.14"
-clap = { version = "4.3", features = ["suggestions", "color", "cargo", "derive"] }
+clap = { version = "4.4", features = ["suggestions", "color", "cargo", "derive"] }
 owo-colors = "3"
 
 # error
-miette = { version = "5.9", features = ["fancy"] }
+miette = { version = "5.10", features = ["fancy"] }
 thiserror = "1.0"
 
 # config
