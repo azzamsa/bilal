@@ -55,9 +55,9 @@ impl Printer {
 
         let remaining_fmt = {
             if hour == 0 {
-                format!("({} minutes)", minute)
+                format!("({} minutes left)", minute)
             } else {
-                format!("({}:{} hours)", hour, minute)
+                format!("({}:{} hours left)", hour, minute)
             }
         };
 
