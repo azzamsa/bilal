@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2023-08-30
+
+### Features
+
+- Use clearer terms to indicate the remaining time ([9ba35c5](https://github.com/azzamsa/bilal/commit/9ba35c552ef1dccc4c0f8ee5cc66289a7633c5ff))
+
 ## [1.4.0] - 2023-08-30
 
 ### Bug fixes
