@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 env:
-  APP_NAME: tin
+  APP_NAME: bilal
 
 jobs:
   create-github-release:
