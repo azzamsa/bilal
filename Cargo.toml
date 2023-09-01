@@ -1,6 +1,6 @@
 [package]
 name = "bilal"
-version = "1.5.1"
+version = "1.6.0"
 authors = ["azzamsa <me@azzamsa.com>"]
 categories = ["date-and-time", "command-line-utilities"]
 edition = "2021"

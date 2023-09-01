@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2023-09-01
+
+### Features
+
+- Upgrade islam to `v3.1` ([ca6665d](https://github.com/azzamsa/bilal/commit/ca6665d8409be28bd1ed2ac025e244dbce363066))
+
 ## [1.5.1] - 2023-08-30
 
 ### Bug fixes
