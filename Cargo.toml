@@ -18,7 +18,7 @@ panic = 'abort'
 
 [dependencies]
 chrono = "0.4.28"
-islam = "3.1.0"
+islam = "3.2.0"
 
 # cli
 atty = "0.2.14"
