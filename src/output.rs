@@ -109,4 +109,42 @@ impl Printer {
     fn print(prayer_fmt: &str) {
         writeln!(io::stdout(), "{}", prayer_fmt).ok();
     }
+    pub fn waybar(&self) -> Result<(), crate::Error> {
+        // next
+        let prayers = self.prayers;
+        let prayer = prayers.next();
+        let time = prayers.time(prayer);
+        let time = time.format("%H:%M").to_string();
+
+        let next_prayer_fmt = format!("{} ({})", prayer.name()?, time);
+        //current
+        let prayers = self.prayers;
+        let prayer = prayers.current();
+        let (hour, minute) = prayers.time_remaining();
+
+        let remaining_fmt = {
+            if hour == 0 {
+                format!("({} minutes left)", minute)
+            } else {
+                format!("({}:{} hours left of: {})", hour, minute, prayer.name()?)
+            }
+        };
+        let icon = match prayer.name()?.trim().to_lowercase().as_str() {
+            "fajr" => "☀️",
+            "dohr" => "☀️",
+            "asr" => "",
+            "mghreb" => "󰖚",
+            "ishaa" => "",
+            _ => "",
+        };
+        let current_prayer_fmt = format!("{icon} {}", prayer.name()?);
+
+        // waybar json
+        let prayer_fmt = format!(
+            r#"{{"text": "{}", "tooltip": "<b>{}</b>\n\n<b>Next prayer:</b>\n{}"}}"#,
+            current_prayer_fmt, remaining_fmt, next_prayer_fmt
+        );
+        Self::print(&prayer_fmt);
+        Ok(())
+    }
 }

@@ -32,6 +32,9 @@ fn run() -> Result<()> {
         Mode::Next => {
             printer.next()?;
         }
+        Mode::Waybar => {
+            printer.waybar()?;
+        }
     }
 
     Ok(())

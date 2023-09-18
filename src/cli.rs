@@ -31,6 +31,7 @@ pub enum Mode {
     All,
     Next,
     Current,
+    Waybar,
 }
 
 #[derive(Clone, ValueEnum)]

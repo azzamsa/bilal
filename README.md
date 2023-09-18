@@ -50,7 +50,7 @@ To see more options, please read the [wiki](docs/wiki.md)
 
 ## Integration with other programs
 
-You can use Bilal with `i3status-rust` to show salah time in your status.
+You can use Bilal with `i3status-rust` and `waybar` to show salah time in your status.
 
 ![i3status-rust-bilal](docs/i3status-rust.png)
 
@@ -68,6 +68,17 @@ cycle = [
 on_click = "<command>"
 interval = 300
 json = true
+```
+`waybar` configuration Example:
+```json
+	"custom/prayer": {
+		"format": "{}",
+		"return-type": "json",
+   	"tooltip": true,
+    "interval": 3600,
+		"exec": "bilal waybar"
+	}
+
 ```
 
 See [more examples](examples/) to learn other variations.
