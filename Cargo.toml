@@ -18,7 +18,7 @@ lto = true
 panic = 'abort'
 
 [dependencies]
-chrono = "0.4.28"
+chrono = "0.4.31"
 islam = "3.2.0"
 
 # cli
@@ -32,7 +32,7 @@ thiserror = "1.0"
 
 # config
 serde = { version = "1.0", features = ["derive"] }
-toml = { version = "0.7", features = ["parse"] }
+toml = { version = "0.8", features = ["parse"] }
 
 [dev-dependencies]
 assert_cmd = "2.0"
