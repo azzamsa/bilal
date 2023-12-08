@@ -1,6 +1,8 @@
 #!/usr/bin/env -S just --justfile
 
 alias d := dev
+alias f := fmt
+alias l := lint
 alias t := test
 
 # List available commands.
@@ -9,7 +11,7 @@ _default:
 
 # Setup the repository.
 setup: _areyousure
-    just _cargo-install 'cargo-edit cargo-nextest cargo-outdated cargo-watch dprint git-cliff spacer'
+    just _cargo-install 'cargo-edit cargo-nextest cargo-outdated cargo-watch dprint git-cliff spacer typos-cli'
 
 # Tasks to make the code-base comply with the rules. Mostly used in git hooks.
 comply: _doc-check fmt lint test
@@ -34,6 +36,7 @@ fmt-check:
 # Lint the codebase.
 lint:
     cargo clippy
+    typos --config configs/typos.toml
 
 # Test the codebase.
 test: test-unit

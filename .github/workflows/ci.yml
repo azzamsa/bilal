@@ -20,11 +20,11 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Install latest just release
-        uses: taiki-e/install-action@just
-
-      - name: Install latest dprint release
-        uses: taiki-e/install-action@dprint
+      - uses: taiki-e/install-action@just
+      - uses: taiki-e/install-action@dprint
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: typos-cli
 
       - name: Ensure `fmt` has been run
         run:  just fmt-check
@@ -49,9 +49,7 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Install latest just release
-        uses: taiki-e/install-action@just
-
+      - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@nextest
 
       - name: Prepare config
