@@ -8,14 +8,11 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: clippy, rustfmt
-
-      - uses: Swatinem/rust-cache@v2
 
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@dprint
@@ -36,12 +33,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Install rust toolchain (v${{ env.MIN_SUPPORTED_RUST_VERSION }})
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ env.MIN_SUPPORTED_RUST_VERSION }}
-
-      - uses: Swatinem/rust-cache@v2
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@nextest
@@ -70,24 +62,17 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           target: ${{ matrix.target }}
-
-      - uses: Swatinem/rust-cache@v2
 
       - name: Show version information
         shell: bash
         run: |
-          gcc --version || true
-          rustup -V
-          rustup toolchain list
-          rustup default
-          cargo -V
-          rustc -V
+          rustc --version
+          cargo --version
 
       - name: Install musl-tools
         if: matrix.target == 'x86_64-unknown-linux-musl'
