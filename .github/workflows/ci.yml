@@ -1,8 +1,5 @@
 name: CI
 
-env:
-  MIN_SUPPORTED_RUST_VERSION: "1.70.0"
-
 on: [push, pull_request]
 
 jobs:
@@ -28,9 +25,6 @@ jobs:
 
       - name: Ensure `fmt` has been run
         run:  just fmt-check
-
-      - name: Ensure MSRV is set in `clippy.toml`
-        run: grep "^msrv = \"${{ env.MIN_SUPPORTED_RUST_VERSION }}\"\$" clippy.toml
 
       - name: Run clippy
         run: just lint
