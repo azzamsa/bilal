@@ -18,12 +18,12 @@ lto = true
 panic = 'abort'
 
 [dependencies]
-chrono = "0.4.31"
+chrono = "0.4.37"
 islam = "3.2.0"
 
 # cli
 atty = "0.2.14"
-clap = { version = "4.4", features = ["suggestions", "color", "cargo", "derive"] }
+clap = { version = "4.5", features = ["suggestions", "color", "cargo", "derive"] }
 owo-colors = "3"
 
 # error
@@ -36,7 +36,7 @@ toml = { version = "0.8", features = ["parse"] }
 
 [dev-dependencies]
 assert_cmd = "2.0"
-predicates = "3.0"
+predicates = "3.1"
 
 [package.metadata.binstall]
 pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ version}-{ target }.tar.gz"
