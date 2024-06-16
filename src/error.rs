@@ -20,7 +20,7 @@ pub enum Error {
     )]
     InvalidConfig {
         #[source_code]
-        src: NamedSource,
+        src: NamedSource<String>,
         #[label("{message}")]
         bad_bit: SourceOffset,
         message: String,

@@ -27,7 +27,7 @@ clap = { version = "4.5", features = ["suggestions", "color", "cargo", "derive"]
 owo-colors = "4"
 
 # error
-miette = { version = "5.10", features = ["fancy"] }
+miette = { version = "7.2", features = ["fancy"] }
 thiserror = "1.0"
 
 # config
