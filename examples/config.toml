@@ -4,3 +4,6 @@ latitude = -6.18233995
 longitude = 106.84287154
 madhab = "Shafi"
 method = "Egyptian"
+
+# Optional
+time_format = "24h" # or "12h"

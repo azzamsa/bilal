@@ -1,19 +1,16 @@
-use islam::salah::{Config, Location, Madhab, Method, PrayerSchedule, PrayerTimes};
+use islam::salah::{Config as SalahConfig, Location, Madhab, Method, PrayerSchedule, PrayerTimes};
 
-use crate::config;
-use crate::error::Error;
+use crate::{config::Config, error::Error};
 
 /// Returns all prayers
-pub fn all() -> Result<PrayerTimes, Error> {
-    let config = config::read()?;
-
+pub fn all(config: Config) -> Result<PrayerTimes, Error> {
     let latitude = config.latitude;
     let longitude = config.longitude;
     let method = method(&config.method)?;
     let madhab = madhab(&config.madhab)?;
 
     let jakarta_city = Location::new(latitude, longitude);
-    let conf = Config::new().with(method, madhab);
+    let conf = SalahConfig::new().with(method, madhab);
     let prayer_times = PrayerSchedule::new(jakarta_city)?
         .with_config(conf)
         .calculate()?;

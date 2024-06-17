@@ -6,12 +6,14 @@ use serde::Deserialize;
 
 use crate::error::Error;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Config {
     pub latitude: f32,
     pub longitude: f32,
     pub madhab: String,
     pub method: String,
+    /// Time format. 24 Hour or 12 Hour format.
+    pub time_format: Option<String>,
 }
 
 /// Return a configuration struct

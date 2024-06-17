@@ -4,21 +4,28 @@ use owo_colors::OwoColorize;
 
 use islam::salah::PrayerTimes;
 
-use crate::DateTime;
+use crate::{config::Config, DateTime};
 
 #[derive(Debug)]
 pub struct Printer {
     prayers: PrayerTimes,
     show_color: bool,
     json_format: bool,
+    config: Config,
 }
 
 impl Printer {
-    pub const fn new(prayers: PrayerTimes, show_color: bool, json_format: bool) -> Self {
+    pub const fn new(
+        prayers: PrayerTimes,
+        show_color: bool,
+        json_format: bool,
+        config: Config,
+    ) -> Self {
         Self {
             prayers,
             show_color,
             json_format,
+            config,
         }
     }
     /// Show all prayers info.
@@ -26,7 +33,7 @@ impl Printer {
         let prayers = self.prayers;
 
         let fmt_output = |name: &str, time: DateTime| -> Result<String, crate::Error> {
-            Ok(format!("{}: {}", name, time.format("%H:%M")))
+            Ok(format!("{}: {}", name, self.format_time(time)))
         };
 
         Self::print(&fmt_output("Fajr", prayers.fajr)?);
@@ -90,7 +97,7 @@ impl Printer {
         let prayers = self.prayers;
         let prayer = prayers.next();
         let time = prayers.time(prayer);
-        let time = time.format("%H:%M").to_string();
+        let time = self.format_time(time);
 
         // default
         let mut prayer_fmt = format!("{} ({})", prayer.name()?, time);
@@ -105,6 +112,19 @@ impl Printer {
         }
         Self::print(&prayer_fmt);
         Ok(())
+    }
+
+    fn format_time(&self, time: DateTime) -> String {
+        match &self.config.time_format {
+            None => time.format("%I:%M %p").to_string(),
+            Some(format) => {
+                if format == "24h" {
+                    time.format("%H:%M").to_string()
+                } else {
+                    time.format("%I:%M %p").to_string()
+                }
+            }
+        }
     }
     fn print(prayer_fmt: &str) {
         writeln!(io::stdout(), "{}", prayer_fmt).ok();
