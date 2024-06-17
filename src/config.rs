@@ -72,10 +72,10 @@ where
 {
     let format: String = Deserialize::deserialize(deserializer)?;
     match format.as_ref() {
-        "24h" => Ok(TimeFormat::H24),
-        "12h" => Ok(TimeFormat::H12),
+        "24H" => Ok(TimeFormat::H24),
+        "12H" => Ok(TimeFormat::H12),
         _ => Err(serde::de::Error::custom(
-            r#"Invalid time format. Expected "24H" or "12H" "#,
+            r#"Invalid time format. Expected "24H" or "12H""#,
         )),
     }
 }
