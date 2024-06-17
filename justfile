@@ -26,12 +26,12 @@ dev:
 # Format the codebase.
 fmt:
     cargo fmt --all
-    dprint fmt --config configs/dprint.json
+    dprint fmt
 
 # Check is the codebase properly formatted.
 fmt-check:
     cargo fmt --all -- --check
-    dprint check --config configs/dprint.json
+    dprint check
 
 # Lint the codebase.
 lint:
