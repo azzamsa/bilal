@@ -4,7 +4,10 @@ use owo_colors::OwoColorize;
 
 use islam::salah::PrayerTimes;
 
-use crate::{config::Config, DateTime};
+use crate::{
+    config::{Config, TimeFormat},
+    DateTime,
+};
 
 #[derive(Debug)]
 pub struct Printer {
@@ -113,17 +116,10 @@ impl Printer {
         Self::print(&prayer_fmt);
         Ok(())
     }
-
     fn format_time(&self, time: DateTime) -> String {
         match &self.config.time_format {
-            None => time.format("%I:%M %p").to_string(),
-            Some(format) => {
-                if format == "24h" {
-                    time.format("%H:%M").to_string()
-                } else {
-                    time.format("%I:%M %p").to_string()
-                }
-            }
+            TimeFormat::H24 => time.format("%H:%M").to_string(),
+            TimeFormat::H12 => time.format("%I:%M %p").to_string(),
         }
     }
     fn print(prayer_fmt: &str) {
