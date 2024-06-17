@@ -74,7 +74,9 @@ where
     match format.as_ref() {
         "24h" => Ok(TimeFormat::H24),
         "12h" => Ok(TimeFormat::H12),
-        _ => Ok(TimeFormat::H24),
+        _ => Err(serde::de::Error::custom(
+            r#"Invalid time format. Expected "24H" or "12H" "#,
+        )),
     }
 }
 
