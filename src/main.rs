@@ -1,6 +1,5 @@
 use std::process;
 
-use atty::Stream;
 use clap::Parser;
 use miette::Result;
 
@@ -13,15 +12,26 @@ use bilal::{
 
 fn run() -> Result<()> {
     let opts = Opts::parse();
-    let show_color = match opts.color {
-        Color::Always => true,
-        Color::Never => false,
-        Color::Auto => atty::is(Stream::Stdout),
+    match opts.color {
+        Color::Always => {
+            owo_colors::set_override(true);
+        }
+        Color::Never => {
+            owo_colors::set_override(false);
+        }
+        Color::Auto => {
+            owo_colors::unset_override();
+        }
     };
+
+    // Never colorize JSON output
+    if opts.json {
+        owo_colors::set_override(false);
+    }
 
     let config = config::read()?;
     let prayers = prayer::all(config.clone())?;
-    let printer = Printer::new(prayers, show_color, opts.json, config);
+    let printer = Printer::new(prayers, opts.json, config);
 
     match opts.mode {
         Mode::All => {

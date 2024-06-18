@@ -1,6 +1,6 @@
 use std::io::{self, Write};
 
-use owo_colors::OwoColorize;
+use owo_colors::{OwoColorize, Stream::Stdout};
 
 use islam::salah::PrayerTimes;
 
@@ -12,21 +12,14 @@ use crate::{
 #[derive(Debug)]
 pub struct Printer {
     prayers: PrayerTimes,
-    show_color: bool,
     json_format: bool,
     config: Config,
 }
 
 impl Printer {
-    pub const fn new(
-        prayers: PrayerTimes,
-        show_color: bool,
-        json_format: bool,
-        config: Config,
-    ) -> Self {
+    pub const fn new(prayers: PrayerTimes, json_format: bool, config: Config) -> Self {
         Self {
             prayers,
-            show_color,
             json_format,
             config,
         }
@@ -88,10 +81,15 @@ impl Printer {
                 "bilal", state, "\u{23fa} ", prayer_fmt
             );
         }
+
         // color
-        if self.show_color && state == "Critical" && !self.json_format {
-            prayer_fmt = format!("{}", prayer_fmt.red());
+        if state == "Critical" {
+            prayer_fmt = format!(
+                "{}",
+                prayer_fmt.if_supports_color(Stdout, |text| text.red())
+            );
         }
+
         Self::print(&prayer_fmt);
         Ok(())
     }
