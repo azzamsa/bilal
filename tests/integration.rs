@@ -19,10 +19,7 @@ fn help() -> Result<(), Box<dyn Error>> {
 fn all() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_base())?;
-    env::set_var(
-        "BILAL_CONFIG",
-        format!("{}/config.toml", temp_dir.path().display()),
-    );
+    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
     cmd.arg("all");
@@ -33,6 +30,8 @@ fn all() -> Result<(), Box<dyn Error>> {
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("AM").not());
+
+    temp_dir.close()?;
     Ok(())
 }
 
@@ -40,10 +39,7 @@ fn all() -> Result<(), Box<dyn Error>> {
 fn current() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_base())?;
-    env::set_var(
-        "BILAL_CONFIG",
-        format!("{}/config.toml", temp_dir.path().display()),
-    );
+    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
     cmd.arg("current").arg("--json");
@@ -51,6 +47,8 @@ fn current() -> Result<(), Box<dyn Error>> {
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("\u{23fa}"));
+
+    temp_dir.close()?;
     Ok(())
 }
 
@@ -58,10 +56,7 @@ fn current() -> Result<(), Box<dyn Error>> {
 fn next() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_base())?;
-    env::set_var(
-        "BILAL_CONFIG",
-        format!("{}/config.toml", temp_dir.path().display()),
-    );
+    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
     cmd.arg("next").arg("--json");
@@ -69,6 +64,8 @@ fn next() -> Result<(), Box<dyn Error>> {
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("\u{25b6}"));
+
+    temp_dir.close()?;
     Ok(())
 }
 
@@ -76,16 +73,15 @@ fn next() -> Result<(), Box<dyn Error>> {
 fn all_12h_format() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_12h())?;
-    env::set_var(
-        "BILAL_CONFIG",
-        format!("{}/config.toml", temp_dir.path().display()),
-    );
+    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
     cmd.arg("all");
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("AM"));
+
+    temp_dir.close()?;
     Ok(())
 }
 
@@ -93,16 +89,15 @@ fn all_12h_format() -> Result<(), Box<dyn Error>> {
 fn next_12h_format() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_12h())?;
-    env::set_var(
-        "BILAL_CONFIG",
-        format!("{}/config.toml", temp_dir.path().display()),
-    );
+    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
     cmd.arg("next");
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("AM").or(predicate::str::contains("PM")));
+
+    temp_dir.close()?;
     Ok(())
 }
 
