@@ -38,9 +38,9 @@ bilal current                        ... current salah time
 bilal current --json                  .... with JSON format
 ```
 
-To configure Bilal, first create a file named `bilal.toml` in `~/.config/bilal/` on Unix-like systems. On Windows, place it under `\AppData\Bilal\`. If you prefer a custom location, simply set the `BILAL_CONFIG` environment variable.
+To configure Bilal, first create a file named `config.toml` in `~/.config/bilal/` on Unix-like systems. On Windows, place it under `\AppData\Bilal\`. If you prefer a custom location, simply set the `BILAL_CONFIG` environment variable.
 
-Next, add your configuration details to the `bilal.toml` file:
+Next, add your configuration details to the `config.toml` file:
 
 ```toml
 latitude = -6.18233995
