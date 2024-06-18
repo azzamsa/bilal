@@ -1,7 +1,8 @@
 use std::{env, error::Error, process::Command};
 
 use assert_cmd::{crate_name, prelude::*};
-use assert_fs::{prelude::*, TempDir};
+use assert_fs::fixture::FileWriteStr;
+use assert_fs::{fixture::ChildPath, prelude::*, TempDir};
 use predicates::prelude::*;
 
 #[test]
@@ -16,7 +17,8 @@ fn help() -> Result<(), Box<dyn Error>> {
 
 #[test]
 fn all() -> Result<(), Box<dyn Error>> {
-    let temp_dir = setup_config()?;
+    let (temp_dir, config) = setup_config()?;
+    config.write_str(&config_base())?;
     env::set_var(
         "BILAL_CONFIG",
         format!("{}/config.toml", temp_dir.path().display()),
@@ -27,12 +29,17 @@ fn all() -> Result<(), Box<dyn Error>> {
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("Fajr"));
+    // Make sure it is not 12H format
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("AM").not());
     Ok(())
 }
 
 #[test]
 fn current() -> Result<(), Box<dyn Error>> {
-    let temp_dir = setup_config()?;
+    let (temp_dir, config) = setup_config()?;
+    config.write_str(&config_base())?;
     env::set_var(
         "BILAL_CONFIG",
         format!("{}/config.toml", temp_dir.path().display()),
@@ -49,7 +56,8 @@ fn current() -> Result<(), Box<dyn Error>> {
 
 #[test]
 fn next() -> Result<(), Box<dyn Error>> {
-    let temp_dir = setup_config()?;
+    let (temp_dir, config) = setup_config()?;
+    config.write_str(&config_base())?;
     env::set_var(
         "BILAL_CONFIG",
         format!("{}/config.toml", temp_dir.path().display()),
@@ -64,11 +72,44 @@ fn next() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn setup_config() -> Result<TempDir, Box<dyn Error>> {
-    let temp_dir = assert_fs::TempDir::new()?;
+#[test]
+fn all_12h_format() -> Result<(), Box<dyn Error>> {
+    let (temp_dir, config) = setup_config()?;
+    config.write_str(&config_12h())?;
+    env::set_var(
+        "BILAL_CONFIG",
+        format!("{}/config.toml", temp_dir.path().display()),
+    );
+
+    let mut cmd = Command::cargo_bin(crate_name!())?;
+    cmd.arg("all");
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("AM"));
+    Ok(())
+}
+
+#[test]
+fn next_12h_format() -> Result<(), Box<dyn Error>> {
+    let (temp_dir, config) = setup_config()?;
+    config.write_str(&config_12h())?;
+    env::set_var(
+        "BILAL_CONFIG",
+        format!("{}/config.toml", temp_dir.path().display()),
+    );
+
+    let mut cmd = Command::cargo_bin(crate_name!())?;
+    cmd.arg("next");
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("AM").or(predicate::str::contains("PM")));
+    Ok(())
+}
+
+fn setup_config() -> Result<(TempDir, ChildPath), Box<dyn Error>> {
+    let temp_dir = TempDir::new()?;
     let config = temp_dir.child("config.toml");
-    config.write_str(&config_base())?;
-    Ok(temp_dir)
+    Ok((temp_dir, config))
 }
 
 fn config_base() -> String {
@@ -77,6 +118,17 @@ latitude = -6.18233995
 longitude = 106.84287154
 madhab = "Shafi"
 method = "Egyptian"
+"#;
+    content.to_string()
+}
+
+fn config_12h() -> String {
+    let content = r#"
+latitude = -6.18233995
+longitude = 106.84287154
+madhab = "Shafi"
+method = "Egyptian"
+time_format = "12H"
 "#;
     content.to_string()
 }
