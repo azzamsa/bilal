@@ -7,6 +7,7 @@ use clap::{Parser, ValueEnum};
     about = "Bilal [A CLI salah time]",
     after_long_help = "Bugs can be reported on GitHub: https://github.com/azzamsa/bilal/issues"
 )]
+#[derive(Debug)]
 pub struct Opts {
     /// A Salah mode to show
     #[arg(value_enum)]
@@ -26,14 +27,14 @@ pub struct Opts {
     pub color: Color,
 }
 
-#[derive(Clone, ValueEnum)]
+#[derive(Debug, Clone, ValueEnum)]
 pub enum Mode {
     All,
     Next,
     Current,
 }
 
-#[derive(Clone, ValueEnum)]
+#[derive(Debug, Clone, ValueEnum)]
 pub enum Color {
     /// show colors if the output goes to an interactive console (default)
     Auto,

@@ -6,7 +6,7 @@ use serde::Deserialize;
 
 use crate::error::Error;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Config {
     pub latitude: f32,
     pub longitude: f32,
@@ -19,7 +19,7 @@ pub struct Config {
     pub time_format: TimeFormat,
 }
 
-#[derive(Debug, Clone, PartialEq, Deserialize)]
+#[derive(Debug, PartialEq, Deserialize)]
 pub enum TimeFormat {
     #[serde(rename = "24H")]
     H24,

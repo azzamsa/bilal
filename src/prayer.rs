@@ -1,9 +1,11 @@
+use std::sync::Arc;
+
 use islam::salah::{Config as SalahConfig, Location, Madhab, Method, PrayerSchedule, PrayerTimes};
 
 use crate::{config::Config, error::Error};
 
 /// Returns all prayers
-pub fn all(config: Config) -> Result<PrayerTimes, Error> {
+pub fn all(config: Arc<Config>) -> Result<PrayerTimes, Error> {
     let latitude = config.latitude;
     let longitude = config.longitude;
     let method = method(&config.method)?;

@@ -1,4 +1,4 @@
-use std::process;
+use std::{process, sync::Arc};
 
 use clap::Parser;
 use miette::Result;
@@ -11,7 +11,8 @@ use bilal::{
 };
 
 fn run() -> Result<()> {
-    let opts = Opts::parse();
+    let opts = Arc::new(Opts::parse());
+
     match opts.color {
         Color::Always => {
             owo_colors::set_override(true);
@@ -29,9 +30,9 @@ fn run() -> Result<()> {
         owo_colors::set_override(false);
     }
 
-    let config = config::read()?;
-    let prayers = prayer::all(config.clone())?;
-    let printer = Printer::new(prayers, opts.json, config);
+    let config = Arc::new(config::read()?);
+    let prayers = prayer::all(Arc::clone(&config))?;
+    let printer = Printer::new(prayers, Arc::clone(&opts), config);
 
     match opts.mode {
         Mode::All => {

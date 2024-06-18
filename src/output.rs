@@ -1,10 +1,14 @@
-use std::io::{self, Write};
+use std::{
+    io::{self, Write},
+    sync::Arc,
+};
 
 use owo_colors::{OwoColorize, Stream::Stdout};
 
 use islam::salah::PrayerTimes;
 
 use crate::{
+    cli::Opts,
     config::{Config, TimeFormat},
     DateTime,
 };
@@ -12,15 +16,15 @@ use crate::{
 #[derive(Debug)]
 pub struct Printer {
     prayers: PrayerTimes,
-    json_format: bool,
-    config: Config,
+    opts: Arc<Opts>,
+    config: Arc<Config>,
 }
 
 impl Printer {
-    pub const fn new(prayers: PrayerTimes, json_format: bool, config: Config) -> Self {
+    pub const fn new(prayers: PrayerTimes, opts: Arc<Opts>, config: Arc<Config>) -> Self {
         Self {
             prayers,
-            json_format,
+            opts,
             config,
         }
     }
@@ -75,7 +79,7 @@ impl Printer {
         };
 
         // JSON
-        if self.json_format {
+        if self.opts.json {
             prayer_fmt = format!(
                 r#"{{"icon": "{}", "state": "{}", "text": "{} {}"}}"#,
                 "bilal", state, "\u{23fa} ", prayer_fmt
@@ -105,7 +109,7 @@ impl Printer {
 
         // JSON
         let state = "Info";
-        if self.json_format {
+        if self.opts.json {
             prayer_fmt = format!(
                 r#"{{"icon": "{}", "state": "{}", "text": "{} {}"}}"#,
                 "bilal", state, "\u{25b6}", prayer_fmt
