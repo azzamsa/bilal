@@ -1,6 +1,7 @@
 use std::{env, error::Error, process::Command};
 
 use assert_cmd::{crate_name, prelude::*};
+use assert_fs::{prelude::*, TempDir};
 use predicates::prelude::*;
 
 #[test]
@@ -15,8 +16,11 @@ fn help() -> Result<(), Box<dyn Error>> {
 
 #[test]
 fn all() -> Result<(), Box<dyn Error>> {
-    env::set_var("HOME", "./tests");
-    env::set_var("APPDATA", "./tests");
+    let temp_dir = setup_config()?;
+    env::set_var(
+        "BILAL_CONFIG",
+        format!("{}/config.toml", temp_dir.path().display()),
+    );
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
     cmd.arg("all");
@@ -28,8 +32,11 @@ fn all() -> Result<(), Box<dyn Error>> {
 
 #[test]
 fn current() -> Result<(), Box<dyn Error>> {
-    env::set_var("HOME", "./tests");
-    env::set_var("APPDATA", "./tests");
+    let temp_dir = setup_config()?;
+    env::set_var(
+        "BILAL_CONFIG",
+        format!("{}/config.toml", temp_dir.path().display()),
+    );
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
     cmd.arg("current").arg("--json");
@@ -42,8 +49,11 @@ fn current() -> Result<(), Box<dyn Error>> {
 
 #[test]
 fn next() -> Result<(), Box<dyn Error>> {
-    env::set_var("HOME", "./tests");
-    env::set_var("APPDATA", "./tests");
+    let temp_dir = setup_config()?;
+    env::set_var(
+        "BILAL_CONFIG",
+        format!("{}/config.toml", temp_dir.path().display()),
+    );
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
     cmd.arg("next").arg("--json");
@@ -52,4 +62,21 @@ fn next() -> Result<(), Box<dyn Error>> {
         .success()
         .stdout(predicate::str::contains("\u{25b6}"));
     Ok(())
+}
+
+fn setup_config() -> Result<TempDir, Box<dyn Error>> {
+    let temp_dir = assert_fs::TempDir::new()?;
+    let config = temp_dir.child("config.toml");
+    config.write_str(&config_base())?;
+    Ok(temp_dir)
+}
+
+fn config_base() -> String {
+    let content = r#"
+latitude = -6.18233995
+longitude = 106.84287154
+madhab = "Shafi"
+method = "Egyptian"
+"#;
+    content.to_string()
 }

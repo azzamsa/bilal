@@ -53,17 +53,21 @@ fn parse(content: &str) -> Result<Config, Error> {
 
 /// Return configuration path
 fn path() -> Result<PathBuf, Error> {
-    let path = if cfg!(windows) {
-        Path::new(&std::env::var("APPDATA")?)
-            .join("Bilal")
-            .join("config.toml")
-    } else {
-        Path::new(&std::env::var("HOME")?)
-            .join(".config")
-            .join("bilal")
-            .join("config.toml")
-    };
-    Ok(path)
+    match &std::env::var("BILAL_CONFIG") {
+        Err(_) => {
+            if cfg!(windows) {
+                Ok(Path::new(&std::env::var("APPDATA")?)
+                    .join("Bilal")
+                    .join("config.toml"))
+            } else {
+                Ok(Path::new(&std::env::var("HOME")?)
+                    .join(".config")
+                    .join("bilal")
+                    .join("config.toml"))
+            }
+        }
+        Ok(path) => Ok(PathBuf::from(path)),
+    }
 }
 
 fn deserialize_time_format<'de, D>(deserializer: D) -> Result<TimeFormat, D::Error>

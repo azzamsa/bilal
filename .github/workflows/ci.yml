@@ -38,11 +38,6 @@ jobs:
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@nextest
 
-      - name: Prepare config
-        run: |
-          mkdir -p tests/.config/bilal
-          cp examples/config.toml tests/.config/bilal
-
       - name: Run tests
         run: just test
 

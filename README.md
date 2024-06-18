@@ -37,7 +37,9 @@ bilal current                        ... current salah time
 bilal current --json                  .... with JSON format
 ```
 
-Create a file named `bilal.toml` in `~/.config/bilal/`. If you are on `Windows`, put it under `\AppData\Bilal\`. Then add your configuration:
+To configure Bilal, first create a file named `bilal.toml` in `~/.config/bilal/` on Unix-like systems. On Windows, place it under `\AppData\Bilal\`. If you prefer a custom location, simply set the `BILAL_CONFIG` environment variable.
+
+Next, add your configuration details to the `bilal.toml` file:
 
 ```toml
 latitude = -6.18233995
@@ -56,7 +58,7 @@ You can use Bilal with `i3status-rust` to show salah time in your status.
 
 ![i3status-rust-bilal-urgent](docs/i3status-rust-urgent.png)
 
-`i3status-rurts` configuration Example:
+`i3status-rust` configuration Example:
 
 ```bash
 [[block]]
@@ -124,6 +126,6 @@ mu'azzin, chosen by Muhammad PBUH himself.
 
 ## License
 
-Copyright (c) 2020-2023 azzamsa
+Copyright (c) 2020-2024 azzamsa
 
 Bilal is distributed under the terms of [GPL V3 License](LICENSE).
