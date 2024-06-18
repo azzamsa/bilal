@@ -24,10 +24,11 @@
 
 ## Features
 
-- Show all salah time in current day
-- Show current salah time and its remaining time
-- Show next salah time
-- Time Format (12/24-Hour)
+- Everything works completely offline.
+- Display all salah times for the current day.
+- Show the current salah time and its remaining time.
+- Display the next salah time.
+- Use both 12-hour and 24-hour formats.
 - Fancy error message
 
 ## Usage
