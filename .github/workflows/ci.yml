@@ -76,10 +76,5 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             --allow-unauthenticated musl-tools
 
-      - name: Rust cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          key: ${{ matrix.os }}-${{ matrix.target }}
-
       - name: Build
         run: cargo build --release --locked --target ${{ matrix.target }}
