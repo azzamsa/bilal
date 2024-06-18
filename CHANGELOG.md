@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.0] - 2024-06-18
+
+### Features
+
+- Support custom config location ([46428b4](https://github.com/azzamsa/bilal/commit/46428b4ce63b61b3bd2031e5b9ce008bb781f69c))
+
+  Don't use real fixture file in integration tests.
+
+- Reject invalid time format ([eafe9d9](https://github.com/azzamsa/bilal/commit/eafe9d941866249d141a383a54769ec7ad06b6ca))
+
+  To avoid confusion.
+
+- Time format feature ([9e151c3](https://github.com/azzamsa/bilal/commit/9e151c38f70c0256c92ae4e9a1d92a90f2683241))
+
+  Add a setting to choose between 24 Hour of 12 Hour format.
+
+### Bug fixes
+
+- Capitalize the time format ([33458bb](https://github.com/azzamsa/bilal/commit/33458bbd9b48353c08b8780f6705a700c93105ce))
+
 ## [1.7.0] - 2023-09-03
 
 ### Features
