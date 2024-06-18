@@ -1,4 +1,4 @@
 ## Release Checklist
 
-- Run `just _release-check <level>`. Such as `just _release-check minor`.
+- Run `just release-check <level>`. Such as `just release-check minor`.
 - If everything is okay, Run `just release <level>`.
