@@ -1,7 +1,6 @@
 use std::{env, error::Error, process::Command};
 
 use assert_cmd::{crate_name, prelude::*};
-use assert_fs::fixture::FileWriteStr;
 use assert_fs::{fixture::ChildPath, prelude::*, TempDir};
 use predicates::prelude::*;
 
