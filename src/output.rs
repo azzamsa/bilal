@@ -5,12 +5,12 @@ use std::{
 
 use owo_colors::{OwoColorize, Stream::Stdout};
 
+use islam::jiff::civil;
 use islam::salah::PrayerTimes;
 
 use crate::{
     cli::Opts,
     config::{Config, TimeFormat},
-    DateTime,
 };
 
 #[derive(Debug)]
@@ -32,7 +32,7 @@ impl Printer {
     pub fn all(&self) -> Result<(), crate::Error> {
         let prayers = self.prayers;
 
-        let fmt_output = |name: &str, time: DateTime| -> Result<String, crate::Error> {
+        let fmt_output = |name: &str, time: civil::DateTime| -> Result<String, crate::Error> {
             Ok(format!("{}: {}", name, self.format_time(time)))
         };
 
@@ -69,7 +69,7 @@ impl Printer {
         };
 
         // default
-        let mut prayer_fmt = format!("{} {}", prayer.name()?, remaining_fmt);
+        let mut prayer_fmt = format!("{} {}", prayer.name(), remaining_fmt);
         let state = {
             if hour == 0 && minute < 30 {
                 "Critical"
@@ -105,7 +105,7 @@ impl Printer {
         let time = self.format_time(time);
 
         // default
-        let mut prayer_fmt = format!("{} ({})", prayer.name()?, time);
+        let mut prayer_fmt = format!("{} ({})", prayer.name(), time);
 
         // JSON
         let state = "Info";
@@ -118,10 +118,10 @@ impl Printer {
         Self::print(&prayer_fmt);
         Ok(())
     }
-    fn format_time(&self, time: DateTime) -> String {
+    fn format_time(&self, time: civil::DateTime) -> String {
         match &self.config.time_format {
-            TimeFormat::H24 => time.format("%H:%M").to_string(),
-            TimeFormat::H12 => time.format("%I:%M %p").to_string(),
+            TimeFormat::H24 => time.strftime("%H:%M").to_string(),
+            TimeFormat::H12 => time.strftime("%I:%M %p").to_string(),
         }
     }
     fn print(prayer_fmt: &str) {

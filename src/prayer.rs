@@ -11,11 +11,9 @@ pub fn all(config: Arc<Config>) -> Result<PrayerTimes, Error> {
     let method = method(&config.method)?;
     let madhab = madhab(&config.madhab)?;
 
-    let jakarta_city = Location::new(latitude, longitude);
+    let city = Location::new(latitude, longitude);
     let conf = SalahConfig::new().with(method, madhab);
-    let prayer_times = PrayerSchedule::new(jakarta_city)?
-        .with_config(conf)
-        .calculate()?;
+    let prayer_times = PrayerSchedule::new(city).with_config(conf).calculate()?;
 
     Ok(prayer_times)
 }
