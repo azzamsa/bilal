@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.0] - 2024-08-07
+
+### Features
+
+- Upgrade to islam v4 ([67af05b](https://github.com/azzamsa/bilal/commit/67af05b4170ad2bea094926f0dc93b610d66ca99))
+
 ## [1.8.0] - 2024-06-18
 
 ### Features
