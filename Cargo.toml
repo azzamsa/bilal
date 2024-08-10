@@ -19,7 +19,7 @@ panic = 'abort'
 
 [dependencies]
 # islam = { path = "../islam" }
-islam = "4.0.0"
+islam = "4.0.2"
 
 # cli
 clap = { version = "4.5", features = ["suggestions", "color", "cargo", "derive"] }
