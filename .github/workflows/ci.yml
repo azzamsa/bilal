@@ -38,6 +38,11 @@ jobs:
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@nextest
 
+      - name: Change Timezone
+        run: |
+          sudo timedatectl set-timezone Asia/Jakarta
+          timedatectl status
+
       - name: Run tests
         run: just test
 
