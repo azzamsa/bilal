@@ -56,6 +56,12 @@ impl std::convert::From<islam::error::Error> for Error {
     }
 }
 
+impl std::convert::From<islam::jiff::Error> for Error {
+    fn from(err: islam::jiff::Error) -> Self {
+        Self::Internal(err.to_string())
+    }
+}
+
 impl std::convert::From<std::io::Error> for Error {
     fn from(err: std::io::Error) -> Self {
         Error::Internal(err.to_string())
