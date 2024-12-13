@@ -8,7 +8,7 @@ keywords = ["salah", "pray", "islam"]
 license = "GPL-3.0-only"
 readme = "README.md"
 repository = "https://github.com/azzamsa/bilal"
-rust-version = "1.80.0"
+rust-version = "1.83.0"
 description = "a CLI salah time"
 
 [profile.release]
