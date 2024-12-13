@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.2] - 2024-12-13
+
+### Bug fixes
+
+- Round the prayer times to the nearest minute ([024d628](https://github.com/azzamsa/bilal/commit/024d62804d565abbaeaa64339f7703fb98581ce6))
+
 ## [1.9.0] - 2024-08-07
 
 ### Features
