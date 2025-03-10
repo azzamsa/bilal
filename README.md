@@ -87,6 +87,14 @@ the valid input it would be `{"icon": "ICON", "state": "STATE", "text": "YOURTEX
 The [release page](https://github.com/azzamsa/bilal/releases) includes
 pre-compiled binaries for GNU/Linux, macOS and Windows.
 
+#### macOS Security Notice
+
+If you encounter a security warning on macOS stating "Apple could not verify 'bilal' is free of malware...", you can resolve this by:
+
+```bash
+xattr -d com.apple.quarantine /path/to/bilal
+```
+
 ### From source
 
 Using [cargo-binstall](https://github.com/cargo-bins/cargo-binstall)
