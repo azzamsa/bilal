@@ -5,7 +5,7 @@ use std::{
 
 use owo_colors::{OwoColorize, Stream::Stdout};
 
-use islam::jiff::{civil, Unit};
+use islam::jiff::civil;
 use islam::salah::PrayerTimes;
 
 use crate::{
@@ -33,7 +33,7 @@ impl Printer {
         let prayers = self.prayers;
 
         let fmt_output = |name: &str, time: civil::DateTime| -> Result<String, crate::Error> {
-            Ok(format!("{}: {}", name, self.format_time(time)?))
+            Ok(format!("{}: {}", name, self.format_time(time)))
         };
 
         Self::print(&fmt_output("Fajr", prayers.fajr)?);
@@ -102,7 +102,7 @@ impl Printer {
         let prayers = self.prayers;
         let prayer = prayers.next();
         let time = prayers.time(prayer);
-        let time = self.format_time(time)?;
+        let time = self.format_time(time);
 
         // default
         let mut prayer_fmt = format!("{} ({})", prayer.name(), time);
@@ -118,12 +118,11 @@ impl Printer {
         Self::print(&prayer_fmt);
         Ok(())
     }
-    fn format_time(&self, time: civil::DateTime) -> Result<String, crate::Error> {
-        let time = time.round(Unit::Minute)?;
-        Ok(match &self.config.time_format {
+    fn format_time(&self, time: civil::DateTime) -> String {
+        match &self.config.time_format {
             TimeFormat::H24 => time.strftime("%H:%M").to_string(),
             TimeFormat::H12 => time.strftime("%I:%M %p").to_string(),
-        })
+        }
     }
     fn print(prayer_fmt: &str) {
         writeln!(io::stdout(), "{}", prayer_fmt).ok();
