@@ -1,7 +1,7 @@
 use std::{env, error::Error, process::Command};
 
 use assert_cmd::{crate_name, prelude::*};
-use assert_fs::{fixture::ChildPath, prelude::*, TempDir};
+use assert_fs::{TempDir, fixture::ChildPath, prelude::*};
 use predicates::prelude::*;
 
 #[test]
@@ -18,10 +18,9 @@ fn help() -> Result<(), Box<dyn Error>> {
 fn all() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_base())?;
-    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
-    cmd.arg("all");
+    cmd.arg("all").arg("--config").arg(config.to_path_buf());
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("Fajr"));
@@ -38,10 +37,12 @@ fn all() -> Result<(), Box<dyn Error>> {
 fn current() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_base())?;
-    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
-    cmd.arg("current").arg("--json");
+    cmd.arg("current")
+        .arg("--json")
+        .arg("--config")
+        .arg(config.to_path_buf());
     // \u{23fa} : ⏺
     cmd.assert()
         .success()
@@ -55,10 +56,12 @@ fn current() -> Result<(), Box<dyn Error>> {
 fn next() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_base())?;
-    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
-    cmd.arg("next").arg("--json");
+    cmd.arg("next")
+        .arg("--json")
+        .arg("--config")
+        .arg(config.to_path_buf());
     // \u{25b6} : ▶
     cmd.assert()
         .success()
@@ -72,10 +75,9 @@ fn next() -> Result<(), Box<dyn Error>> {
 fn all_12h_format() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_12h())?;
-    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
-    cmd.arg("all");
+    cmd.arg("all").arg("--config").arg(config.to_path_buf());
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("AM"));
@@ -88,10 +90,9 @@ fn all_12h_format() -> Result<(), Box<dyn Error>> {
 fn next_12h_format() -> Result<(), Box<dyn Error>> {
     let (temp_dir, config) = setup_config()?;
     config.write_str(&config_12h())?;
-    env::set_var("BILAL_CONFIG", config.to_path_buf());
 
     let mut cmd = Command::cargo_bin(crate_name!())?;
-    cmd.arg("next");
+    cmd.arg("next").arg("--config").arg(config.to_path_buf());
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("AM").or(predicate::str::contains("PM")));

@@ -28,10 +28,10 @@ pub enum TimeFormat {
 }
 
 /// Return a configuration struct
-pub fn read() -> Result<Config, Error> {
-    let config_path = &path()?;
+pub fn read(custom_path: Option<PathBuf>) -> Result<Config, Error> {
+    let config_path = &path(custom_path)?;
     let file_content = fs::read_to_string(config_path).map_err(|_| Error::ConfigNotFound {
-        path: config_path.to_path_buf(),
+        path: config_path.clone(),
     })?;
     parse(&file_content)
 }
@@ -52,7 +52,11 @@ fn parse(content: &str) -> Result<Config, Error> {
 }
 
 /// Return configuration path
-fn path() -> Result<PathBuf, Error> {
+fn path(custom_path: Option<PathBuf>) -> Result<PathBuf, Error> {
+    if let Some(path) = custom_path {
+        return Ok(path);
+    }
+
     match &std::env::var("BILAL_CONFIG") {
         Err(_) => {
             if cfg!(windows) {

@@ -21,6 +21,7 @@ pub struct Printer {
 }
 
 impl Printer {
+    #[must_use]
     pub const fn new(prayers: PrayerTimes, opts: Arc<Opts>, config: Arc<Config>) -> Self {
         Self {
             prayers,
@@ -62,9 +63,9 @@ impl Printer {
 
         let remaining_fmt = {
             if hour == 0 {
-                format!("({} minutes left)", minute)
+                format!("({minute} minutes left)")
             } else {
-                format!("({}:{} hours left)", hour, minute)
+                format!("({hour}:{minute} hours left)")
             }
         };
 
@@ -125,6 +126,6 @@ impl Printer {
         }
     }
     fn print(prayer_fmt: &str) {
-        writeln!(io::stdout(), "{}", prayer_fmt).ok();
+        writeln!(io::stdout(), "{prayer_fmt}").ok();
     }
 }

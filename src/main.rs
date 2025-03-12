@@ -30,7 +30,7 @@ fn run() -> Result<()> {
         owo_colors::set_override(false);
     }
 
-    let config = Arc::new(config::read()?);
+    let config = Arc::new(config::read(opts.config.clone())?);
     let prayers = prayer::all(Arc::clone(&config))?;
     let printer = Printer::new(prayers, Arc::clone(&opts), config);
 
@@ -51,7 +51,7 @@ fn run() -> Result<()> {
 
 fn main() {
     if let Err(err) = run() {
-        eprintln!("Error: {:?}", err);
+        eprintln!("Error: {err:?}");
         process::exit(1);
     }
 }

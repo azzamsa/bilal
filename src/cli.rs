@@ -1,4 +1,5 @@
 use clap::{Parser, ValueEnum};
+use std::path::PathBuf;
 
 #[derive(Parser)]
 #[command(
@@ -25,6 +26,10 @@ pub struct Opts {
         default_value_t = Color::Auto,
     )]
     pub color: Color,
+
+    /// Specify an alternate configuration file
+    #[arg(long)]
+    pub config: Option<PathBuf>,
 }
 
 #[derive(Debug, Clone, ValueEnum)]
@@ -45,6 +50,7 @@ pub enum Color {
 }
 
 impl Color {
+    #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
             Color::Auto => "auto",
