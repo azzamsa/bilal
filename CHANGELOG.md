@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.10.0] - 2025-03-12
+
+### Features
+
+- New custom config argument ([21aaccd](https://github.com/azzamsa/bilal/commit/21aaccdfa967489da69124f38db78802dfec8fe0))
+
 ## [1.9.2] - 2024-12-13
 
 ### Bug fixes
