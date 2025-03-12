@@ -11,7 +11,7 @@ env:
 jobs:
   create-github-release:
     name: Create GitHub Release
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,12 +60,12 @@ jobs:
         include:
           - {
               build: linux-gnu,
-              os: ubuntu-22.04,
+              os: ubuntu-24.04,
               target: x86_64-unknown-linux-gnu,
             }
           - {
               build: linux-musl,
-              os: ubuntu-22.04,
+              os: ubuntu-24.04,
               target: x86_64-unknown-linux-musl,
             }
           - { build: win-gnu, os: windows-2022, target: x86_64-pc-windows-gnu }
