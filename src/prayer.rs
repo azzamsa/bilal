@@ -1,6 +1,8 @@
 use std::sync::Arc;
 
-use islam::salah::{Config as SalahConfig, Location, Madhab, Method, PrayerSchedule, PrayerTimes};
+use misykat::salah::{
+    Config as SalahConfig, Location, Madhab, Method, PrayerSchedule, PrayerTimes,
+};
 
 use crate::{config::Config, error::Error};
 

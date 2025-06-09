@@ -50,8 +50,8 @@ impl std::convert::From<std::env::VarError> for Error {
     }
 }
 
-impl std::convert::From<islam::error::Error> for Error {
-    fn from(err: islam::error::Error) -> Self {
+impl std::convert::From<misykat::error::Error> for Error {
+    fn from(err: misykat::error::Error) -> Self {
         Self::Internal(err.to_string())
     }
 }

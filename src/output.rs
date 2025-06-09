@@ -5,8 +5,7 @@ use std::{
 
 use owo_colors::{OwoColorize, Stream::Stdout};
 
-use islam::jiff::civil;
-use islam::salah::PrayerTimes;
+use misykat::{jiff::civil, salah::PrayerTimes};
 
 use crate::{
     cli::Opts,
