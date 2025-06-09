@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.10.1] - 2025-06-09
+
+### Bug fixes
+
+- Upstream `islam` renamed to `misykat` ([cf5357d](https://github.com/azzamsa/bilal/commit/cf5357d9dc4d5e5ef1652db6f7c72092f1be83af))
+
 ## [1.10.0] - 2025-03-12
 
 ### Features
