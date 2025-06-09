@@ -66,12 +66,12 @@ jobs:
           - { build: win-gnu, os: windows-2022, target: x86_64-pc-windows-gnu }
           - {
               build: win-msvc,
-              os: windows-2022,
+              os: windows-2025,
               target: x86_64-pc-windows-msvc,
             }
           - {
               build: win32-msvc,
-              os: windows-2022,
+              os: windows-2025,
               target: i686-pc-windows-msvc,
             }
           - { build: macos, os: macos-14, target: x86_64-apple-darwin }

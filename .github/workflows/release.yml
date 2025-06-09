@@ -31,7 +31,7 @@ jobs:
           git checkout v${{ env.RELEASE_VERSION }}
 
       - name: Generate a changelog
-        uses: orhun/git-cliff-action@v3
+        uses: orhun/git-cliff-action@v4
         id: git-cliff
         with:
           config: configs/cliff.toml
@@ -71,15 +71,15 @@ jobs:
           - { build: win-gnu, os: windows-2022, target: x86_64-pc-windows-gnu }
           - {
               build: win-msvc,
-              os: windows-2022,
+              os: windows-2025,
               target: x86_64-pc-windows-msvc,
             }
           - {
               build: win32-msvc,
-              os: windows-2022,
+              os: windows-2025,
               target: i686-pc-windows-msvc,
             }
-          - { build: macos, os: macos-14, target: x86_64-apple-darwin }
+          - { build: macos, os: macos-15, target: x86_64-apple-darwin }
 
     steps:
       - name: Checkout
