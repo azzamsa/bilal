@@ -34,7 +34,7 @@ jobs:
         uses: orhun/git-cliff-action@v4
         id: git-cliff
         with:
-          config: configs/cliff.toml
+          config: .cliff.toml
           args: -vv --strip header --current
         env:
           OUTPUT: CHANGELOG.md.tmp
