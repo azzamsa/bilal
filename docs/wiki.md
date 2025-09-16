@@ -3,7 +3,9 @@
 ## Configuration
 
 You can get latitude and longitude value from online services, such as
-[mapcoordinates](https://www.mapcoordinates.net/en).
+[OpenStreetMap](https://www.openstreetmap.org), or Google Maps.
+
+In OSM, click the area, then select "show address".
 
 ### Method
 
