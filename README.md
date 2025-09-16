@@ -1,22 +1,24 @@
+<!-- dprint-ignore-start -->
 <div align="center">
-<h1>Bilal</h1>
+    <h1>Bilal</h1>
 
-<a href="https://github.com/azzamsa/bilal/actions/workflows/ci.yml">
-<img src="https://github.com/azzamsa/bilal/actions/workflows/ci.yml/badge.svg">
-</a>
-<a href="https://crates.io/crates/bilal">
-<img src="https://img.shields.io/crates/v/bilal.svg">
-</a>
-<a href="https://docs.rs/bilal/">
-<img src="https://docs.rs/bilal/badge.svg">
-</a>
-<a href="https://azzamsa.com/support/"><img alt="Sponsor me" src="https://img.shields.io/badge/Sponsor%20Me-%F0%9F%92%96-ff69b4">
-</a>
-<p></p>
+    <a href="https://github.com/azzamsa/bilal/actions/workflows/ci.yml">
+        <img src="https://github.com/azzamsa/bilal/actions/workflows/ci.yml/badge.svg">
+    </a>
+    <a href="https://crates.io/crates/bilal">
+        <img src="https://img.shields.io/crates/v/bilal.svg">
+    </a>
+    <a href="https://docs.rs/bilal/">
+        <img src="https://docs.rs/bilal/badge.svg">
+    </a>
+    <a href="https://azzamsa.com/support/"><img alt="Sponsor me" src="https://img.shields.io/badge/Sponsor%20Me-%F0%9F%92%96-ff69b4">
+    </a>
+    <p></p>
 
-![demo](docs/demo.gif)
+    <img src="docs/demo.gif">
 
 </div>
+<!-- dprint-ignore-end -->
 
 ---
 
