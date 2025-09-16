@@ -1,28 +1,31 @@
-<!-- dprint-ignore-start -->
-<div align="center">
-    <h1>Bilal</h1>
+<h1>
+<p align="center">
+  <br>Bilal
+</h1>
 
-    <a href="https://github.com/azzamsa/bilal/actions/workflows/ci.yml">
-        <img src="https://github.com/azzamsa/bilal/actions/workflows/ci.yml/badge.svg">
-    </a>
-    <a href="https://crates.io/crates/bilal">
-        <img src="https://img.shields.io/crates/v/bilal.svg">
-    </a>
-    <a href="https://docs.rs/bilal/">
-        <img src="https://docs.rs/bilal/badge.svg">
-    </a>
-    <a href="https://azzamsa.com/support/"><img alt="Sponsor me" src="https://img.shields.io/badge/Sponsor%20Me-%F0%9F%92%96-ff69b4">
-    </a>
-    <p></p>
+<p align="center">
+  a CLI salah time.
+</p>
 
-    <img src="docs/demo.gif">
+<p align="center">
+  <a href="https://github.com/azzamsa/bilal/actions/workflows/ci.yml">
+    <img src="https://github.com/azzamsa/bilal/actions/workflows/ci.yml/badge.svg" />
+  </a>
+  ·
+  <a href="https://crates.io/crates/bilal">
+    <img src="https://img.shields.io/crates/v/bilal.svg" />
+  </a>
+  ·
+  <a href="https://azzamsa.com/support/">
+    <img alt="Sponsor me" src="https://img.shields.io/badge/Sponsor%20Me-%F0%9F%92%96-ff69b4" />
+  </a>
+</p>
 
-</div>
-<!-- dprint-ignore-end -->
+<p align="center">
+  <img src="docs/demo.gif" alt="Demo" width="450"/>
+</p>
 
 ---
-
-**bilal** is a CLI salah time.
 
 ## Features
 
@@ -31,7 +34,8 @@
 - Show the current salah time and its remaining time.
 - Display the next salah time.
 - Use both 12-hour and 24-hour formats.
-- Fancy error message
+- Available in multiple languages.
+- Fancy error message.
 
 ## Usage
 
@@ -52,7 +56,7 @@ madhab = "Shafi"
 method = "Egyptian"
 ```
 
-To see more options, please read the [wiki](docs/wiki.md)
+To see more options, please read the [wiki](docs/wiki.md) or [examples/config.toml](examples/config.toml).
 
 ## Integration with other programs
 
