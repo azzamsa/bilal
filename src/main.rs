@@ -31,6 +31,9 @@ fn run() -> Result<()> {
     }
 
     let config = Arc::new(config::read(opts.config.clone())?);
+    // Set locale
+    rust_i18n::set_locale(&config.locale);
+
     let prayers = prayer::all(Arc::clone(&config))?;
     let printer = Printer::new(prayers, Arc::clone(&opts), config);
 

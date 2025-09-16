@@ -17,6 +17,9 @@ pub struct Config {
     #[serde(default = "default_time_format")]
     #[serde(deserialize_with = "deserialize_time_format")]
     pub time_format: TimeFormat,
+    /// Available languages: en, id
+    #[serde(default = "default_locale")]
+    pub locale: String,
 }
 
 #[derive(Debug, PartialEq, Deserialize)]
@@ -90,4 +93,8 @@ where
 
 fn default_time_format() -> TimeFormat {
     TimeFormat::H24
+}
+
+fn default_locale() -> String {
+    "en".to_string()
 }

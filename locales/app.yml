@@ -1,0 +1,29 @@
+_version: 2
+
+fajr:
+  en: Fajr
+  id: Subuh
+sherook:
+  en: Sherook
+  id: Dhuha
+dohr:
+  en: Dohr
+  id: Dzuhur
+asr:
+  en: Asr
+  id: Ashar
+maghreb:
+  en: Maghreb
+  id: Maghrib
+ishaa:
+  en: Ishaa
+  id: Isya
+first_third:
+  en: First third of night
+  id: Sepertiga awal malam
+midnight:
+  en: Midnight
+  id: Tengah malam
+last_third:
+  en: Last third of night
+  id: Sepertiga akhir malam

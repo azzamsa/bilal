@@ -3,9 +3,8 @@ use std::{
     sync::Arc,
 };
 
-use owo_colors::{OwoColorize, Stream::Stdout};
-
 use misykat::{jiff::civil, salah::PrayerTimes};
+use owo_colors::{OwoColorize, Stream::Stdout};
 
 use crate::{
     cli::Opts,
@@ -36,19 +35,22 @@ impl Printer {
             Ok(format!("{}: {}", name, self.format_time(time)))
         };
 
-        Self::print(&fmt_output("Fajr", prayers.fajr)?);
-        Self::print(&fmt_output("Sherook", prayers.sherook)?);
-        Self::print(&fmt_output("Dohr", prayers.dohr)?);
-        Self::print(&fmt_output("Asr", prayers.asr)?);
-        Self::print(&fmt_output("Mghreb", prayers.maghreb)?);
-        Self::print(&fmt_output("Ishaa", prayers.ishaa)?);
+        Self::print(&fmt_output(&format!("{}", t!("fajr")), prayers.fajr)?);
+        Self::print(&fmt_output(&format!("{}", t!("sherook")), prayers.sherook)?);
+        Self::print(&fmt_output(&format!("{}", t!("dohr")), prayers.dohr)?);
+        Self::print(&fmt_output(&format!("{}", t!("asr")), prayers.asr)?);
+        Self::print(&fmt_output(&format!("{}", t!("maghreb")), prayers.maghreb)?);
+        Self::print(&fmt_output(&format!("{}", t!("ishaa")), prayers.ishaa)?);
         Self::print(&fmt_output(
-            "Fist third of night",
+            &format!("{}", t!("first_third")),
             prayers.first_third_of_night,
         )?);
-        Self::print(&fmt_output("Midnight", prayers.midnight)?);
         Self::print(&fmt_output(
-            "Last third of night",
+            &format!("{}", t!("midnight")),
+            prayers.midnight,
+        )?);
+        Self::print(&fmt_output(
+            &format!("{}", t!("last_third")),
             prayers.last_third_of_night,
         )?);
 
